@@ -98,7 +98,7 @@ function Section({
  */
 export default function DesignSystemPage() {
   return (
-    <main>
+    <>
       <Container>
         <header className="pt-section pb-section-sm">
           <Eyebrow>Internal reference</Eyebrow>
@@ -276,6 +276,6 @@ export default function DesignSystemPage() {
           </div>
         </Container>
       </section>
-    </main>
+    </>
   )
 }
