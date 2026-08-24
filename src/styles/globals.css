@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+/*
+ * Phase 0 foundation only.
+ *
+ * This file intentionally contains just enough to render legible, accessible text:
+ * the two font families, the two neutrals the body needs, one accent for focus, and
+ * the reduced-motion baseline.
+ *
+ * The full design system — the sky and dusk scales, the fluid type scale, spacing
+ * and section rhythm, and the motion tokens — is Phase 1 and belongs in @theme here.
+ * See docs/DESIGN-SYSTEM.md and docs/MOTION-SYSTEM.md.
+ */
+
+@theme {
+  /* Wired to the next/font variables declared in src/app/layout.tsx. */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+
+  /*
+   * Provisional. These are the real Morning Light values for paper and ink, plus
+   * the dawn accent used for focus, so Phase 1 extends this palette rather than
+   * replacing it.
+   */
+  --color-paper: #faf7f2;
+  --color-ink: #14181a;
+  --color-dawn: #c08a3e;
+}
+
+@layer base {
+  html {
+    /*
+     * No `scroll-behavior: smooth`. Native scrolling is never overridden on this
+     * site — it fights keyboard paging and jump-link expectations. See
+     * docs/MOTION-SYSTEM.md.
+     */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Focus is always visible and never removed. Phase 1 refines this per surface. */
+  :focus-visible {
+    outline: 2px solid var(--color-dawn);
+    outline-offset: 2px;
+  }
+
+  /* Headings default to the editorial serif; sizes arrive with the Phase 1 scale. */
+  :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-serif);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/*
+ * Reduced-motion baseline, layer one of three (see docs/MOTION-SYSTEM.md).
+ * The React and composition layers arrive with the motion system in Phase 3.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
