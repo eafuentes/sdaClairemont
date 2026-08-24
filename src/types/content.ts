@@ -117,7 +117,14 @@ export interface ChurchEvent {
   registrationUrl?: string
 }
 
-export type MinistryTone = 'dawn' | 'sage' | 'sky'
+/**
+ * The tonal wash behind a ministry row.
+ *
+ * Named for the temperature rather than for a colour token, because the palette carries
+ * only two hues and an editor choosing "sage" would be choosing something that no longer
+ * exists. Temperature survives a repalette; a hue name does not.
+ */
+export type MinistryTone = 'warm' | 'cool' | 'neutral'
 
 export interface Ministry {
   name: string
@@ -160,6 +167,12 @@ export interface Testimonial {
 export interface MediaSlot {
   description: string
   caption?: string
+  /**
+   * The real photograph, once it exists. Slots without one render the written brief in
+   * place, so the site can be photographed a frame at a time instead of all at once —
+   * and so an unfilled slot is visibly unfinished rather than quietly shipping grey.
+   */
+  image?: ContentImage
 }
 
 export interface HomePageContent {

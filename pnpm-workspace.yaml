@@ -1,3 +1,14 @@
+# pnpm 10 blocks dependency install scripts by default. Each package here is an explicit
+# decision, not a blanket allowance.
+
+# esbuild is part of Sanity Studio's toolchain and needs its postinstall to fetch the
+# platform binary. Without it the Studio fails to start.
+onlyBuiltDependencies:
+  - esbuild
+
+# sharp ships prebuilt binaries that work as-is, and Next resolves its own copy for image
+# optimisation. unrs-resolver is an eslint-plugin-import-x dependency that likewise falls
+# back to a portable build. Neither needs to compile locally.
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver

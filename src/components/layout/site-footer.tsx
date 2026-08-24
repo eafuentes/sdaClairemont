@@ -103,7 +103,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-paper-on-dusk/15 py-8 font-sans text-body-sm text-paper-on-dusk/50 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-paper-on-dusk/15 py-8 font-sans text-body-sm text-paper-on-dusk/60 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {settings.name}
           </p>

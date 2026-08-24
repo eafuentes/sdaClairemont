@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { Container } from '@/components/layout/container'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
+import { Reveal } from '@/components/motion/reveal'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { cn } from '@/lib/utils'
 import type { Ministry, MinistryTone } from '@/types/content'
@@ -11,15 +12,15 @@ interface MinistriesProps {
 }
 
 const toneClasses: Record<MinistryTone, string> = {
-  dawn: 'bg-gradient-to-b from-paper-warm to-paper-deep',
-  sage: 'bg-gradient-to-b from-sage/25 to-paper-deep',
-  sky: 'bg-gradient-to-b from-sky-100 to-paper-deep',
+  warm: 'bg-gradient-to-b from-paper-warm to-paper-deep',
+  cool: 'bg-gradient-to-b from-dusk/[0.07] to-paper-deep',
+  neutral: 'bg-gradient-to-b from-paper-deep to-paper',
 }
 
-const placeholderTone: Record<MinistryTone, 'paper' | 'sage' | 'sky'> = {
-  dawn: 'paper',
-  sage: 'sage',
-  sky: 'sky',
+const placeholderTone: Record<MinistryTone, 'warm' | 'cool' | 'neutral'> = {
+  warm: 'warm',
+  cool: 'cool',
+  neutral: 'neutral',
 }
 
 /**
@@ -37,16 +38,21 @@ export function Ministries({ ministries }: MinistriesProps) {
   return (
     <section aria-labelledby="ministries-title" className="bg-paper py-section-lg" id="ministries">
       <Container>
-        <Eyebrow index="04">Ministries</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id="ministries-title">
-          There is somewhere here for your whole family.
-        </h2>
+        <Reveal>
+          <Eyebrow index="04">Ministries</Eyebrow>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id="ministries-title">
+            There is somewhere here for your whole family.
+          </h2>
+        </Reveal>
       </Container>
 
       <ul className="mt-16">
         {ordered.map((ministry) => (
-          <li
+          <Reveal
             key={ministry.slug}
+            as="li"
             className={cn('border-t border-rule', toneClasses[ministry.tone])}
           >
             <Link
@@ -59,10 +65,10 @@ export function Ministries({ ministries }: MinistriesProps) {
                     <h3 className="font-serif text-display-2 text-ink underline decoration-transparent decoration-1 underline-offset-[0.15em] transition-colors duration-[var(--dur-quick)] ease-out group-hover:decoration-dawn">
                       {ministry.name}
                     </h3>
-                    <p className="mt-5 max-w-measure font-sans text-body text-ink-70">
+                    <p className="mt-5 max-w-measure font-sans text-body text-ink-soft">
                       {ministry.shortDescription}
                     </p>
-                    <p className="mt-5 font-sans text-eyebrow text-ink-45 uppercase">
+                    <p className="mt-5 font-sans text-eyebrow text-ink-muted uppercase">
                       {ministry.ageRange}
                       <span aria-hidden="true"> · </span>
                       {ministry.meetingSchedule}
@@ -77,7 +83,7 @@ export function Ministries({ ministries }: MinistriesProps) {
                 </div>
               </Container>
             </Link>
-          </li>
+          </Reveal>
         ))}
       </ul>
 

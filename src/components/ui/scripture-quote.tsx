@@ -25,9 +25,9 @@ export function ScriptureQuote({
   return (
     <figure className={cn('max-w-measure', className)}>
       <blockquote className="font-serif text-quote text-balance italic">{children}</blockquote>
-      <figcaption className="mt-4 font-sans text-eyebrow text-ink-45 uppercase">
+      <figcaption className="mt-4 font-sans text-eyebrow text-ink-muted uppercase">
         {reference}
-        {translation ? <span className="text-ink-45"> · {translation}</span> : null}
+        {translation ? <span className="text-ink-muted"> · {translation}</span> : null}
       </figcaption>
     </figure>
   )

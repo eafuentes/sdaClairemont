@@ -101,13 +101,33 @@ Building on the Phase 0 typography foundation, define every color, type, space, 
 
 _Exit:_ the full homepage renders, statically and motionlessly, and looks like a finished editorial page. This is the most important review gate in the project — if the still page is not beautiful, no amount of motion will save it, and we would rather learn that in week two.
 
-**As built.** Three deviations, all deliberate:
+**As built.** The palette was re-derived and the hero is no longer motionless. Both changes came from the church supplying a photograph of the building at golden hour, part-way through the phase.
+
+- **The palette is sampled from that photograph rather than specified from imagination.** Measured off the image, the building is warm cream and terracotta with deep olive shadow, and its only cool note is a desaturated slate at the top of the sky. The originally specified five-step `sky` scale of clean blues and the `sage` accent were both more saturated and more numerous than the place actually is. The system now carries warm neutrals plus two hues — `dawn` from the sun and tile roof, `dusk` from the shadow side of that sky — down from six hue families. Tonal variety comes from opacity over paper.
+- **Chapter 01 ships with its scroll transformation rather than deferring all motion to Phase 3.** The transformation walks golden hour down into dusk, which is a literal reference — Sabbath begins at sunset — rather than decoration. It is built so contrast can only improve as it runs: the static base scrim alone guarantees the floor, and the scroll-driven layer only ever adds density, so no scroll position and no interrupted spring can make the type unreadable.
+- **Durations were lengthened and easing re-cut for weight.** From 120/200/320/560/1200 to 140/240/420/700/1400, with softer curves. Things settle as though they have mass. Nothing overshoots.
+- **The hero gained a choreographed entrance, and `Reveal` was pulled forward from Phase 3 and applied to the nine chapters below it.** This was a second request from the church, after seeing the scroll-only version: they wanted the arrival itself to feel composed, not only the response to scrolling. The camera settles out of a push-in, the headline rises a word at a time out of a mask, and the practical details follow. Everything lands by 1.45s.
+
+  This does spend the phase's "motionless" exit gate, and the gate should be read as spent rather than met. What it was protecting still holds and is worth restating: the resting composition is designed, the reduced-motion page is the finished page, and no chapter depends on motion to be legible or usable. What is genuinely lost is the clean week-two checkpoint where the still page could be judged on its own — so the review below has to look at both states deliberately, because we can no longer see the still one by default.
+
+A heavy-grotesk-and-monospace type pairing was proposed, built out completely across every token, component and chapter, and then reverted to Newsreader and Instrument Sans. The reasoning is recorded in `DESIGN-SYSTEM.md` so it is not proposed again: the craft was fine, the tone was wrong for a church's front door. The three-colour discipline from that same proposal was kept and improved the system.
+
+Three further deviations, all deliberate:
 
 - **The `--color-*`, `--text-*` and `--radius-*` theme namespaces are reset, not extended.** Tailwind's defaults do not exist alongside the bespoke scale, so `bg-red-500`, `text-3xl` and `rounded-xl` emit no rule at all. The design system is upheld by the build rather than by review discipline. `rounded-full` survives, since it is a static utility rather than a scale value, and genuinely circular elements need it.
 - **Photographic slots render `MediaPlaceholder` rather than AI-generated imagery.** A tonal surface printing the brief for the shot it awaits. This keeps the homepage readable as a live shot list and makes it impossible for a placeholder to be mistaken for finished work. Generating placeholder imagery to evaluate composition remains available and is unblocked.
 - **The ministries chapter ships its stacked composition at every width.** The pointer-driven desktop switcher is motion and belongs to Phase 3. The stacked version is the reduced-motion state, the no-JavaScript state, and the final mobile design, so Phase 3 layers the switcher over something that already works rather than being the only thing that does.
 
-Two contrast defects in the specified palette were found by measurement and corrected at the token level: `dawn` failed the 3:1 non-text floor while serving as the focus ring colour, and `ink-45` was below 4.5:1 for the 12–14px text it carries. The focus ring is now two-tone, so it holds against photographs and sky gradients where no single colour can be guaranteed. `pnpm check:contrast` reads the palette out of `globals.css` and runs in CI, so this class of defect cannot return silently.
+Contrast defects were found by measurement rather than by eye, in both the originally specified palette and the re-derived one, and corrected at the token level each time. The subordinate ink tiers now clear 4.5:1 on all three paper surfaces rather than only on the page ground, and `dawn` is dark enough to carry text rather than being an accent that always needs `ink` beside it. The focus ring is two-tone, so it holds against photographs where no single colour can be guaranteed. `pnpm check:contrast` reads the palette out of `globals.css` and runs in CI, so this class of defect cannot return silently.
+
+Two gates were added during this phase, both prompted by real defects:
+
+- **`check:classes`** compiles the site and asserts every colour utility resolves to a rule. During the repalette, classes naming deleted tokens (`text-sage-deep`, `to-paper`) and one interpolated class name (`` `bg-${name}` ``) were introduced. None of them is an error: Tailwind resolves utilities by scanning source text, so a class naming a token that does not exist simply produces no rule. They typecheck, lint, build, and render as inherited colour. The compiled stylesheet is the only place the failure is visible. The gate was verified by seeding both defect types and confirming it fails.
+- **`check:bundle`** measures what a browser actually downloads. It also corrected the record: the 120KB homepage JavaScript budget in `MOTION-SYSTEM.md` was written before anything was built and is unreachable — Next 16 with React 19 costs 140.8KB gzipped on a page with no client components at all. The budget is now a measured 190KB, currently reading 187.0KB, with the breakdown recorded. The measurement excludes Next's `nomodule` polyfill chunk, which modern browsers never request and which was inflating the figure by a third.
+
+  The gate then earned its keep immediately by making a design decision costable. When the hero entrance was added, the build went over, and the useful question was which part cost what. Measured by stubbing each out: the entrance sequence is **7.1KB**, and the reveals across nine chapters are **0.7KB**. Scroll-linked and keyframed motion are separate engines, so the scroll-only hero had never loaded the second one — the entrance pays for the whole engine and everything animated afterwards is close to free. That turns "should we trim the animation" into a question with an answer: trimming individual reveals saves nothing, and dropping the entrance saves 7KB and is a design call, not a performance one.
+
+Finally, a reduced-motion defect was found while extending the hero and is worth recording because the class of bug is invisible in normal use. The blanket `[data-motion]` rule resolves animated elements to `opacity: 1`, which is correct for content and backwards for a scrim: it turned the hero's sunset wash into a solid sheet of dusk over the photograph. Anyone browsing with reduced motion on was getting a blacked-out hero, and nothing in the build could see it. Overlays animated from JavaScript now carry a distinct attribute and resolve to a partial resting value.
 
 ### Phase 2 — Sanity Studio and content wiring
 
@@ -119,13 +139,19 @@ _Exit:_ every public route renders from Sanity; a staff member has published a c
 
 Build the primitives in `components/motion/`, in order of leverage: `Reveal`, then `ParallaxMedia`, then `ChapterAtmosphere`, then `CloudParallax` and `PointerParallax`, then `RevealText`. Wire `LazyMotion` with `domAnimation` and the `m` component. Apply motion chapter by chapter following `HOMEPAGE-EXPERIENCE.md`. Build the ministry switcher and its mobile counterpart. Verify each primitive in four modes — full motion, reduced motion, keyboard-only, touch — before moving to the next. Add Lighthouse CI with the budgets from `MOTION-SYSTEM.md`.
 
-_Exit:_ the homepage motion matches the specification; the reduced-motion homepage is identical to the Phase 1 static page; homepage client JavaScript is under 120KB gzipped; Lighthouse mobile performance is 90+.
+**Already done in Phase 1**, at the church's request: `LazyMotion` is wired in the site layout, `Reveal` is built and applied across all nine chapters below the hero, and the hero carries both its scroll transformation and a full entrance sequence. What remains for this phase is the parallax and atmosphere work, the ministry switcher, `RevealText` as a general component, and Lighthouse CI.
 
-### Phase 4 — Pathfinders and the gallery system
+_Exit:_ the homepage motion matches the specification; the reduced-motion homepage is identical to the Phase 1 static page; homepage client JavaScript stays within the measured budget enforced by `pnpm check:bundle`; Lighthouse mobile performance is 90+.
+
+### Phase 4 — Flagship pages: Pathfinders, the gallery system, and the prophecy timeline
 
 Build the reusable gallery system — masonry, horizontal scroll-snap sequences, and the lightbox — then the flagship Pathfinders page and the Adventurers page on top of it. Backfill the same gallery system into `/gallery` and event detail pages.
 
-_Exit:_ the Pathfinders page is the page a parent would send to another parent; the gallery is fully keyboard-navigable and works with motion disabled.
+Then build the **prophecy timeline**, specified in full in `PROPHECY-TIMELINE.md`. A scroll-driven presentation of the prophetic chain from the decree of Artaxerxes to 1844, with the parallel prophecies of Daniel and Revelation as lanes that can be opened alongside it. Written for a visitor who has never heard of the 2300 days, with the complete parallel chart available as depth rather than as a second page.
+
+Two decisions from that document are load-bearing and easy to lose: it is **DOM and SVG, not WebGL** — the reference the church brought states in its own banner that it is inaccessible to screen readers and ships a separate plain version, which is disqualifying for a page about scripture. And **any compression of the time axis is shown, never hidden**, because the page's whole claim is that the dates are exact, and a visualization that quietly distorts scale while arguing for arithmetic precision undermines itself.
+
+_Exit:_ the Pathfinders page is the page a parent would send to another parent; the gallery is fully keyboard-navigable and works with motion disabled; the prophecy timeline reads as a complete document with JavaScript disabled and as a static infographic with motion disabled.
 
 ### Phase 5 — Supabase, forms, and authentication
 

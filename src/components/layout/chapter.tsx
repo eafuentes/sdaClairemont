@@ -1,4 +1,5 @@
 import { Container } from '@/components/layout/container'
+import { Reveal } from '@/components/motion/reveal'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { cn } from '@/lib/utils'
 
@@ -43,15 +44,29 @@ export function Chapter({
   bleed = false,
   className,
 }: ChapterProps) {
+  /*
+   * Every chapter opens the same way, so the reveal belongs here rather than being
+   * repeated ten times with ten slightly different delays. The title trails the eyebrow
+   * by a beat, which is the same lag the hero uses and the reason a chapter reads as
+   * arriving rather than appearing.
+   *
+   * Only the header is wrapped. Chapter bodies opt in individually, because `transform`
+   * establishes a containing block and wrapping arbitrary content would silently change
+   * how any sticky or absolutely positioned descendant resolves.
+   */
   const header = (
     <div className={cn(bleed && 'mb-12')}>
-      <Eyebrow className={register === 'dusk' ? 'text-dawn-soft' : undefined} index={index}>
-        {eyebrow}
-      </Eyebrow>
+      <Reveal>
+        <Eyebrow className={register === 'dusk' ? 'text-dawn-soft' : undefined} index={index}>
+          {eyebrow}
+        </Eyebrow>
+      </Reveal>
       {title ? (
-        <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id={`${id}-title`}>
-          {title}
-        </h2>
+        <Reveal delay={0.1}>
+          <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id={`${id}-title`}>
+            {title}
+          </h2>
+        </Reveal>
       ) : null}
     </div>
   )

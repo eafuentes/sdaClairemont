@@ -1,6 +1,7 @@
 import { SiteFooter } from '@/components/layout/site-footer'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SkipToContent } from '@/components/layout/skip-to-content'
+import { MotionProvider } from '@/components/motion/motion-provider'
 import { siteSettings } from '@/content/site-settings'
 
 /**
@@ -15,11 +16,11 @@ import { siteSettings } from '@/content/site-settings'
  */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <MotionProvider>
       <SkipToContent />
       <SiteHeader settings={siteSettings} />
       <main id="main">{children}</main>
       <SiteFooter settings={siteSettings} />
-    </>
+    </MotionProvider>
   )
 }

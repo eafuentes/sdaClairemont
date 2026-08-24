@@ -41,7 +41,7 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
             <h2 className="font-serif text-heading-1 text-ink" id="sabbath-title">
               {program.sermonTitle}
             </h2>
-            <p className="mt-4 font-sans text-body-sm text-ink-70">
+            <p className="mt-4 font-sans text-body-sm text-ink-soft">
               {program.speakerName}
               {program.speakerRole ? ` · ${program.speakerRole}` : ''}
             </p>
@@ -67,13 +67,13 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
                 night wants the time before the picture. */}
             <dl className="divide-y divide-rule border-y border-rule lg:order-2">
               <div className="flex items-baseline justify-between gap-4 py-4">
-                <dt className="font-sans text-body-sm text-ink-70">Sabbath School</dt>
+                <dt className="font-sans text-body-sm text-ink-soft">Sabbath School</dt>
                 <dd className="tabular font-sans text-body-sm text-ink">
                   {program.sabbathSchoolTime}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-4 py-4">
-                <dt className="font-sans text-body-sm text-ink-70">Divine Worship</dt>
+                <dt className="font-sans text-body-sm text-ink-soft">Divine Worship</dt>
                 <dd className="tabular font-sans text-body-sm text-ink">{program.worshipTime}</dd>
               </div>
             </dl>
@@ -81,7 +81,7 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
             <MediaPlaceholder
               className="mt-8 aspect-[4/5] w-full"
               description="Portrait crop of this week's speaker, or the sanctuary in morning light."
-              tone="paper"
+              tone="neutral"
             />
           </div>
         </div>
@@ -101,7 +101,7 @@ function ThisSabbathFallback({ settings }: { settings: SiteSettings }) {
         <dl className="mt-10 max-w-measure divide-y divide-rule border-y border-rule">
           {settings.serviceTimes.map((service) => (
             <div key={service.label} className="flex items-baseline justify-between gap-4 py-4">
-              <dt className="font-sans text-body-sm text-ink-70">{service.label}</dt>
+              <dt className="font-sans text-body-sm text-ink-soft">{service.label}</dt>
               <dd className="tabular font-sans text-body-sm text-ink">
                 {service.day} {service.startTime}
               </dd>

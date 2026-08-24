@@ -26,7 +26,7 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
         <div className="flex min-h-16 items-center justify-between gap-8 lg:min-h-20">
           <Link className="flex flex-col justify-center py-2" href="/">
             <span className="font-serif text-heading-3 leading-none">Clairemont</span>
-            <span className="mt-1 font-sans text-eyebrow text-ink-45 uppercase">
+            <span className="mt-1 font-sans text-eyebrow text-ink-muted uppercase">
               Seventh-day Adventist Church
             </span>
           </Link>
@@ -37,7 +37,7 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
                 <li key={item.href}>
                   <NavLink
                     activeClassName="text-ink decoration-dawn decoration-2"
-                    className="font-sans text-body-sm text-ink-70 underline decoration-transparent decoration-1 underline-offset-8 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+                    className="font-sans text-body-sm text-ink-soft underline decoration-transparent decoration-1 underline-offset-8 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
                     href={item.href}
                   >
                     {item.label}
@@ -50,17 +50,17 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
           <div className="hidden items-center gap-6 lg:flex">
             {settings.isLive && settings.livestreamUrl ? (
               <a
-                className="inline-flex items-center gap-2 font-sans text-eyebrow text-ember uppercase"
+                className="inline-flex items-center gap-2 font-sans text-eyebrow text-dawn uppercase"
                 href={settings.livestreamUrl}
                 rel="noreferrer noopener"
                 target="_blank"
               >
-                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ember" />
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-dawn" />
                 Live now
               </a>
             ) : null}
             <a
-              className="font-sans text-body-sm text-ink-70 underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+              className="font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
               href={settings.givingUrl}
               rel="noreferrer noopener"
               target="_blank"
@@ -68,7 +68,7 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
               Give
             </a>
             <Link
-              className="inline-flex min-h-11 items-center rounded-xs bg-ink px-5 font-sans text-body-sm font-medium text-paper transition-colors duration-[var(--dur-instant)] ease-out hover:bg-ink-70"
+              className="inline-flex min-h-11 items-center rounded-xs bg-ink px-5 font-sans text-body-sm font-medium text-paper transition-colors duration-[var(--dur-instant)] ease-out hover:bg-ink-soft"
               href="/visit"
             >
               Plan Your Visit

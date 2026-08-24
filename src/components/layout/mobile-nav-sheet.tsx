@@ -113,7 +113,7 @@ export function MobileNavSheet({ navItems, settings }: MobileNavSheetProps) {
             >
               Plan Your Visit
             </Link>
-            <div className="mt-6 flex flex-col gap-1 font-sans text-body-sm text-ink-70">
+            <div className="mt-6 flex flex-col gap-1 font-sans text-body-sm text-ink-soft">
               <a
                 className="underline decoration-rule underline-offset-4"
                 href={`tel:${settings.phone}`}

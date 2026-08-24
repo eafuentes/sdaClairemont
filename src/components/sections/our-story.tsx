@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { Container } from '@/components/layout/container'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
+import { Reveal } from '@/components/motion/reveal'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import type { HomePageContent, SiteSettings } from '@/types/content'
 
@@ -25,7 +26,7 @@ export function OurStory({ content, settings }: OurStoryProps) {
         <MediaPlaceholder
           className="h-[50vh] w-full lg:h-[70vh]"
           description={content.plate.description}
-          tone="paper"
+          tone="neutral"
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden lg:block">
           <Container>
@@ -42,7 +43,7 @@ export function OurStory({ content, settings }: OurStoryProps) {
         </p>
 
         <div className="mt-16 grid grid-cols-1 gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-6 lg:col-start-2">
+          <Reveal className="lg:col-span-6 lg:col-start-2">
             <Eyebrow index="06">Our story</Eyebrow>
             <h2 className="sr-only" id="story-title">
               Our story
@@ -51,7 +52,7 @@ export function OurStory({ content, settings }: OurStoryProps) {
               {content.paragraphs.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 40)}
-                  className="max-w-measure font-sans text-body text-ink-70"
+                  className="max-w-measure font-sans text-body text-ink-soft"
                 >
                   {paragraph}
                 </p>
@@ -63,21 +64,21 @@ export function OurStory({ content, settings }: OurStoryProps) {
             >
               More about us
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-3 lg:col-start-9">
+          <Reveal className="lg:col-span-3 lg:col-start-9" delay={0.12}>
             <Link className="group block" href="/about/leadership">
               <MediaPlaceholder
                 className="aspect-[4/5]"
                 description={content.pastorPortrait.description}
-                tone="paper"
+                tone="neutral"
               />
               <p className="mt-4 font-serif text-heading-3 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
                 {content.pastor.name}
               </p>
-              <p className="font-sans text-body-sm text-ink-45">{content.pastor.role}</p>
+              <p className="font-sans text-body-sm text-ink-muted">{content.pastor.role}</p>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

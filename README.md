@@ -78,20 +78,33 @@ Then open http://localhost:3000.
 
 ## Scripts
 
-| Script                | Purpose                                                       |
-| --------------------- | ------------------------------------------------------------- |
-| `pnpm dev`            | Start the development server                                  |
-| `pnpm build`          | Production build                                              |
-| `pnpm start`          | Serve a production build locally                              |
-| `pnpm lint`           | ESLint (flat config; `next lint` no longer exists in Next 16) |
-| `pnpm lint:fix`       | ESLint with autofix                                           |
-| `pnpm typecheck`      | Regenerates route types, then `tsc --noEmit`                  |
-| `pnpm format`         | Write Prettier formatting                                     |
-| `pnpm format:check`   | Verify formatting without writing                             |
-| `pnpm check:contrast` | Check the palette against WCAG contrast floors                |
-| `pnpm sanity:ping`    | Verify the configured Sanity project is reachable             |
+| Script                | Purpose                                                        |
+| --------------------- | -------------------------------------------------------------- |
+| `pnpm dev`            | Start the development server                                   |
+| `pnpm build`          | Production build                                               |
+| `pnpm start`          | Serve a production build locally                               |
+| `pnpm lint`           | ESLint (flat config; `next lint` no longer exists in Next 16)  |
+| `pnpm lint:fix`       | ESLint with autofix                                            |
+| `pnpm typecheck`      | Regenerates route types, then `tsc --noEmit`                   |
+| `pnpm format`         | Write Prettier formatting                                      |
+| `pnpm format:check`   | Verify formatting without writing                              |
+| `pnpm check:contrast` | Check the palette against WCAG contrast floors                 |
+| `pnpm check:classes`  | Check every colour utility compiles to a rule (needs a build)  |
+| `pnpm check:bundle`   | Check the homepage JavaScript budget (needs a build)           |
+| `pnpm check:schema`   | Compile and validate the Sanity schema graph                   |
+| `pnpm check:types`    | Check the committed Sanity types match the schemas and queries |
+| `pnpm typegen`        | Regenerate `schema.json` and `sanity.types.ts`                 |
+| `pnpm sanity:ping`    | Verify the configured Sanity project is reachable              |
 
-Before opening a pull request, run `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm check:contrast` and `pnpm build`. CI runs exactly these five.
+Before opening a pull request, run `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm check:contrast`, `pnpm check:schema`, `pnpm check:types`, `pnpm build`, `pnpm check:classes` and `pnpm check:bundle`. CI runs exactly these nine, in that order — the last two read the build output, so they have to follow the build.
+
+`check:schema` catches what type checking cannot see. A reference to a document type that does not exist, or a field type that was never registered, compiles and builds without complaint and then fails when the Studio loads — which for an editor means a blank screen and no explanation. It needs no credentials, so it runs in CI like everything else.
+
+`check:types` exists because `sanity.types.ts` is generated and committed, and generated files that are committed drift. If a GROQ projection stops selecting a field and nobody reruns typegen, nothing complains — the stale types still describe a valid shape. That is worse than an ordinary type error, because the compiler goes on confirming that `program.speakerRole` is a string while the query stopped returning it and it is `undefined` at runtime. Typegen's whole value is that the compiler knows what the API returns; a stale file inverts that into a falsehood the compiler now enforces. The check regenerates into a scratch copy and compares rather than rewriting, so the diff reaches review instead of a CI job silently fixing what it was meant to measure. Fix a failure with `pnpm typegen`.
+
+Both generated artefacts are committed so that a clean checkout type-checks without Sanity credentials.
+
+`check:classes` exists because of a failure mode that nothing else catches. Tailwind resolves utilities by scanning source text, so a class naming a token that no longer exists is not an error — it simply produces no rule. `text-sage-deep` after `sage` is deleted looks completely normal in the JSX, typechecks, lints, and builds, and silently renders as inherited colour. The compiled stylesheet is the only place that failure is visible. The same check rejects interpolated class names such as `` `bg-${name}` ``, which cannot resolve for the same reason.
 
 `pnpm typecheck` runs `next typegen` first. Without it, generated route types left over from a previous file layout fail a tree that is actually clean.
 
@@ -149,7 +162,11 @@ The documents in `docs/` are the architectural source of truth. Code that contra
 
 ### A note on placeholder imagery
 
-Real church photography does not exist yet. Every photographic slot currently renders a `MediaPlaceholder`: a tonal surface printing the brief for the shot it is waiting for. This means the homepage doubles as a live shot list — the photography the site needs can be read off the page itself — and a placeholder can never be mistaken for finished work or quietly survive into production as a photograph.
+Real church photography does not exist yet, with one exception. Every photographic slot except the hero renders a `MediaPlaceholder`: a tonal surface printing the brief for the shot it is waiting for. This means the homepage doubles as a live shot list — the photography the site needs can be read off the page itself — and a placeholder can never be mistaken for finished work or quietly survive into production as a photograph.
+
+The hero uses `public/images/church-exterior-golden-hour.png` — the building at golden hour, supplied and confirmed by the church on 2026-08-23, and carrying `provenance: 'church-photo'`.
+
+**The site's palette is sampled from this frame**, so it is not an interchangeable asset. Replacing it is a design decision, and a replacement shot in different light will pull the page out of tune with its own colours. See `docs/DESIGN-SYSTEM.md` for the measured values and where each one comes from.
 
 When AI-generated placeholders are used to evaluate composition, they fall under a firm policy: atmosphere, interiors, hands, backs and distance only, with **no generated identifiable faces and no generated children**. Every image carries a required `provenance` field, and a build-time check fails production if any published page still references non-`church-photo` media. See `docs/MEDIA-STRATEGY.md`.
 

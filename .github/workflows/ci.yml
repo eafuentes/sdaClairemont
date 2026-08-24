@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Typecheck, lint, format, contrast and build
+    name: Typecheck, lint, format, contrast, schema, types, build, classes and budget
     runs-on: ubuntu-latest
 
     steps:
@@ -46,8 +46,37 @@ jobs:
       - name: Check colour contrast
         run: pnpm check:contrast
 
+      # Compiles the schema graph and checks it end to end. Type checking cannot see a
+      # reference to a document type that does not exist, or a field type that was never
+      # registered — those surface when the Studio loads, which for an editor means a
+      # blank screen. Runs without credentials.
+      - name: Validate the Sanity schema
+        env:
+          SANITY_TELEMETRY_DISABLED: '1'
+        run: pnpm check:schema
+
+      # sanity.types.ts is generated and committed, so it can go stale. A query that
+      # stops selecting a field still type-checks against yesterday's types, which means
+      # the compiler confirms a field is a string while it is undefined at runtime.
+      # Regenerates and compares rather than rewriting, so the diff reaches review.
+      - name: Check generated types are current
+        env:
+          SANITY_TELEMETRY_DISABLED: '1'
+        run: pnpm check:types
+
       # No environment variables are configured here, deliberately. Environment
       # validation is lazy and grouped (src/env.ts), so a build with no credentials
       # is a meaningful signal rather than a missing-secret failure.
       - name: Build
         run: pnpm build
+
+      # Must follow the build: it reads the compiled stylesheet. A utility naming a
+      # token that no longer exists produces no rule and no error, so the build output
+      # is the only place that failure is visible.
+      - name: Check colour classes resolve
+        run: pnpm check:classes
+
+      # Also reads the build output. Measures what a modern browser actually downloads,
+      # so a dependency added without thinking shows up here rather than in field data.
+      - name: Check JavaScript budget
+        run: pnpm check:bundle

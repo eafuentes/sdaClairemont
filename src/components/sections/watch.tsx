@@ -36,7 +36,7 @@ export function Watch({ content }: WatchProps) {
                 <MediaPlaceholder
                   className="aspect-video"
                   description="Poster frame for the featured message: the speaker mid-sentence, or the sanctuary from the balcony."
-                  tone="paper"
+                  tone="neutral"
                 />
                 <span
                   aria-hidden="true"
@@ -49,7 +49,7 @@ export function Watch({ content }: WatchProps) {
                 {content.featured.title}
               </h3>
             </Link>
-            <p className="mt-3 font-sans text-body-sm text-ink-70">
+            <p className="mt-3 font-sans text-body-sm text-ink-soft">
               {content.featured.speakerName}
               <span aria-hidden="true"> · </span>
               <time className="tabular" dateTime={content.featured.date}>
@@ -63,7 +63,7 @@ export function Watch({ content }: WatchProps) {
               ) : null}
             </p>
             {featuredScripture ? (
-              <p className="mt-2 font-sans text-eyebrow text-ink-45 uppercase">
+              <p className="mt-2 font-sans text-eyebrow text-ink-muted uppercase">
                 {featuredScripture.reference}
               </p>
             ) : null}
@@ -81,7 +81,7 @@ export function Watch({ content }: WatchProps) {
                     <h3 className="font-serif text-heading-3 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
                       {sermon.title}
                     </h3>
-                    <p className="mt-1 font-sans text-body-sm text-ink-45">
+                    <p className="mt-1 font-sans text-body-sm text-ink-muted">
                       {sermon.speakerName}
                       <span aria-hidden="true"> · </span>
                       <time className="tabular" dateTime={sermon.date}>

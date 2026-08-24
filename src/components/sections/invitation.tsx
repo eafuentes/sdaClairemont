@@ -23,7 +23,7 @@ export function Invitation({ content, settings }: InvitationProps) {
   return (
     <section
       aria-labelledby="invitation-title"
-      className="bg-gradient-to-b from-sky-100 to-paper py-section-lg"
+      className="bg-gradient-to-b from-dawn/12 to-paper py-section-lg"
       id="visit"
     >
       <Container>
@@ -36,7 +36,7 @@ export function Invitation({ content, settings }: InvitationProps) {
           <div className="lg:col-span-6 lg:col-start-1">
             <dl className="border-t border-rule">
               <div className="border-b border-rule py-6">
-                <dt className="font-sans text-eyebrow text-ink-45 uppercase">Saturdays</dt>
+                <dt className="font-sans text-eyebrow text-ink-muted uppercase">Saturdays</dt>
                 <dd className="mt-3 space-y-1">
                   {settings.serviceTimes
                     .filter((service) => service.isPrimary)
@@ -51,7 +51,7 @@ export function Invitation({ content, settings }: InvitationProps) {
               </div>
 
               <div className="border-b border-rule py-6">
-                <dt className="font-sans text-eyebrow text-ink-45 uppercase">Where</dt>
+                <dt className="font-sans text-eyebrow text-ink-muted uppercase">Where</dt>
                 <dd className="mt-3">
                   <a
                     className="font-sans text-body text-ink underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:decoration-dawn"
@@ -62,23 +62,23 @@ export function Invitation({ content, settings }: InvitationProps) {
                     {settings.address.street}, {settings.address.city}, {settings.address.state}{' '}
                     {settings.address.postalCode}
                   </a>
-                  <p className="mt-3 max-w-measure font-sans text-body-sm text-ink-70">
+                  <p className="mt-3 max-w-measure font-sans text-body-sm text-ink-soft">
                     {settings.address.directions}
                   </p>
-                  <p className="mt-3 max-w-measure font-sans text-body-sm text-ink-70">
+                  <p className="mt-3 max-w-measure font-sans text-body-sm text-ink-soft">
                     {content.parking}
                   </p>
                 </dd>
               </div>
 
               <div className="border-b border-rule py-6">
-                <dt className="font-sans text-eyebrow text-ink-45 uppercase">What to expect</dt>
+                <dt className="font-sans text-eyebrow text-ink-muted uppercase">What to expect</dt>
                 <dd className="mt-3">
                   <ul className="space-y-2">
                     {content.whatToExpect.map((item) => (
                       <li
                         key={item.slice(0, 30)}
-                        className="max-w-measure font-sans text-body text-ink-70"
+                        className="max-w-measure font-sans text-body text-ink-soft"
                       >
                         {item}
                       </li>
@@ -91,13 +91,13 @@ export function Invitation({ content, settings }: InvitationProps) {
             <div className="mt-10 flex flex-wrap items-center gap-6">
               <Button href="/visit">Plan Your Visit</Button>
               <a
-                className="font-sans text-body-sm text-ink-70 underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+                className="font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
                 href={`tel:${settings.phone}`}
               >
                 {settings.phone}
               </a>
               <a
-                className="font-sans text-body-sm text-ink-70 underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+                className="font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
                 href={`mailto:${settings.email}`}
               >
                 {settings.email}
@@ -109,7 +109,7 @@ export function Invitation({ content, settings }: InvitationProps) {
             <MediaPlaceholder
               className="aspect-[4/3]"
               description={content.entrance.description}
-              tone="sky"
+              tone="cool"
             />
             {/* A static map image linking out, never an embedded interactive map:
                 nobody pans a map on a phone, and an embed costs several hundred
@@ -123,7 +123,7 @@ export function Invitation({ content, settings }: InvitationProps) {
               <MediaPlaceholder
                 className="aspect-[16/9]"
                 description="Static map image of 4125 Hathaway Street, generated at build time and linking to Google Maps."
-                tone="sage"
+                tone="warm"
               />
               <span className="mt-3 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4">
                 Get directions

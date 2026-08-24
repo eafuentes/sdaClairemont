@@ -20,7 +20,7 @@ interface EyebrowProps {
  */
 export function Eyebrow({ children, index, className }: EyebrowProps) {
   return (
-    <p className={cn('font-sans text-eyebrow text-ink-45 uppercase', className)}>
+    <p className={cn('font-sans text-eyebrow text-ink-muted uppercase', className)}>
       {index ? (
         <>
           <span className="tabular">{index}</span>

@@ -20,7 +20,7 @@ export function Hope({ content }: HopeProps) {
     <section className="relative isolate overflow-hidden register-dusk py-section-xl" id="hope">
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-ember/20 to-transparent"
+        className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-dawn/35 to-transparent"
       />
 
       <Container>

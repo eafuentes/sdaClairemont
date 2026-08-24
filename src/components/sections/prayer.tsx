@@ -53,11 +53,7 @@ export function Prayer({ content }: PrayerProps) {
           </div>
 
           <div className="mt-12">
-            <Button
-              className="border-dawn-soft/40 text-paper-on-dusk hover:border-dawn-soft hover:bg-paper-on-dusk/5"
-              href="/prayer"
-              variant="secondary"
-            >
+            <Button href="/prayer" variant="on-dusk-quiet">
               Share a prayer request
             </Button>
           </div>

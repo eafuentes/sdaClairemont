@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+
 import type { Metadata } from 'next'
 
 import { Container } from '@/components/layout/container'
@@ -11,39 +13,48 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
+/*
+ * Swatch values are read out of the stylesheet at build time rather than retyped here.
+ * A review surface that can disagree with the thing it is reviewing is worse than no
+ * review surface, and hand-copied hex values are the most reliable way to get there.
+ * Safe as a Server Component: this runs once during the build, never in the browser.
+ */
+const themeSource = readFileSync('src/styles/globals.css', 'utf8')
+
+/*
+ * The class name is spelled out rather than built as `bg-${name}`. Tailwind resolves
+ * utilities by scanning source text, so an interpolated class produces no rule at all and
+ * the swatch renders as a blank box — the exact failure this page exists to catch. Only
+ * the value is derived.
+ */
+function swatch(name: string, className: string) {
+  const declared = themeSource.match(new RegExp(`--color-${name}:\\s*(#[0-9a-fA-F]{3,8})`))?.[1]
+
+  return { name, value: declared?.toUpperCase() ?? 'NOT DECLARED', className }
+}
+
 const paperTokens = [
-  { name: 'paper', value: '#FAF7F2', className: 'bg-paper' },
-  { name: 'paper-deep', value: '#F2EDE4', className: 'bg-paper-deep' },
-  { name: 'paper-warm', value: '#EDE3D4', className: 'bg-paper-warm' },
+  swatch('paper', 'bg-paper'),
+  swatch('paper-deep', 'bg-paper-deep'),
+  swatch('paper-warm', 'bg-paper-warm'),
 ]
 
 const inkTokens = [
-  { name: 'ink', value: '#14181A', className: 'bg-ink' },
-  { name: 'ink-70', value: '#4A5154', className: 'bg-ink-70' },
-  { name: 'ink-45', value: '#626769', className: 'bg-ink-45' },
-]
-
-const skyTokens = [
-  { name: 'sky-100', value: '#E8EFF4', className: 'bg-sky-100' },
-  { name: 'sky-300', value: '#C3D6E3', className: 'bg-sky-300' },
-  { name: 'sky-500', value: '#8FB0C7', className: 'bg-sky-500' },
-  { name: 'sky-700', value: '#4A6A85', className: 'bg-sky-700' },
-  { name: 'sky-900', value: '#2A3F52', className: 'bg-sky-900' },
+  swatch('ink', 'bg-ink'),
+  swatch('ink-soft', 'bg-ink-soft'),
+  swatch('ink-muted', 'bg-ink-muted'),
 ]
 
 const accentTokens = [
-  { name: 'dawn', value: '#A97937', className: 'bg-dawn' },
-  { name: 'dawn-soft', value: '#E2C08A', className: 'bg-dawn-soft' },
-  { name: 'dawn-deep', value: '#8E6224', className: 'bg-dawn-deep' },
-  { name: 'sage', value: '#7F8C77', className: 'bg-sage' },
-  { name: 'sage-deep', value: '#4E5A49', className: 'bg-sage-deep' },
+  swatch('dawn', 'bg-dawn'),
+  swatch('dawn-soft', 'bg-dawn-soft'),
+  swatch('dawn-glow', 'bg-dawn-glow'),
 ]
 
 const duskTokens = [
-  { name: 'dusk', value: '#161D2B', className: 'bg-dusk' },
-  { name: 'dusk-raised', value: '#1F2739', className: 'bg-dusk-raised' },
-  { name: 'ember', value: '#BA715E', className: 'bg-ember' },
-  { name: 'paper-on-dusk', value: '#F0EBE3', className: 'bg-paper-on-dusk' },
+  swatch('dusk', 'bg-dusk'),
+  swatch('dusk-raised', 'bg-dusk-raised'),
+  swatch('paper-on-dusk', 'bg-paper-on-dusk'),
 ]
 
 const sectionSpacing = [
@@ -64,7 +75,7 @@ function Swatches({
         <li key={token.name}>
           <div className={`h-20 w-full border border-rule ${token.className}`} />
           <p className="mt-2 font-sans text-body-sm text-ink">{token.name}</p>
-          <p className="tabular font-sans text-body-sm text-ink-45">{token.value}</p>
+          <p className="tabular font-sans text-body-sm text-ink-muted">{token.value}</p>
         </li>
       ))}
     </ul>
@@ -103,9 +114,14 @@ export default function DesignSystemPage() {
         <header className="pt-section pb-section-sm">
           <Eyebrow>Internal reference</Eyebrow>
           <h1 className="mt-6 font-serif text-display-2">Morning Light</h1>
-          <p className="mt-6 max-w-measure-lead font-sans text-body-lg text-ink-70">
+          <p className="mt-6 max-w-measure-lead font-sans text-body-lg text-ink-soft">
             The design system for San Diego Clairemont Seventh-day Adventist Church. Warm paper,
             editorial serif, hairline structure, photography carrying the emotion.
+          </p>
+          <p className="mt-4 max-w-measure font-sans text-body-sm text-ink-soft">
+            The palette is sampled from the church&rsquo;s own exterior at golden hour: warm
+            neutrals, the sun and tile roof as <code>dawn</code>, the cool top of that same sky as{' '}
+            <code>dusk</code>. Two hues, and everything else is a tint of them over paper.
           </p>
         </header>
 
@@ -124,16 +140,16 @@ export default function DesignSystemPage() {
               </div>
             </div>
             <div>
-              <h2 className="font-sans text-heading-3">Sky</h2>
-              <div className="mt-4">
-                <Swatches tokens={skyTokens} />
-              </div>
-            </div>
-            <div>
-              <h2 className="font-sans text-heading-3">Dawn and sage</h2>
+              <h2 className="font-sans text-heading-3">Dawn</h2>
               <div className="mt-4">
                 <Swatches tokens={accentTokens} />
               </div>
+              <p className="mt-4 max-w-measure font-sans text-body-sm text-ink-soft">
+                Three weights of one hue, not three hues. <code>dawn</code> is dark enough to carry
+                links and small text on any paper surface; <code>dawn-soft</code> is the
+                dusk-register equivalent; <code>dawn-glow</code> exists for type set over
+                photography, where the accent has to survive a blown-out highlight behind it.
+              </p>
             </div>
             <div>
               <h2 className="font-sans text-heading-3">Dusk</h2>
@@ -154,10 +170,10 @@ export default function DesignSystemPage() {
               { token: 'heading-3', className: 'font-sans text-heading-3' },
               { token: 'body-lg', className: 'font-sans text-body-lg' },
               { token: 'body', className: 'font-sans text-body' },
-              { token: 'body-sm', className: 'font-sans text-body-sm text-ink-70' },
+              { token: 'body-sm', className: 'font-sans text-body-sm text-ink-soft' },
             ].map((entry) => (
               <div key={entry.token}>
-                <p className="font-sans text-eyebrow text-ink-45 uppercase">{entry.token}</p>
+                <p className="font-sans text-eyebrow text-ink-muted uppercase">{entry.token}</p>
                 <p className={`mt-2 max-w-page ${entry.className}`}>
                   There&rsquo;s a place for you here
                 </p>
@@ -165,7 +181,7 @@ export default function DesignSystemPage() {
             ))}
 
             <div>
-              <p className="font-sans text-eyebrow text-ink-45 uppercase">eyebrow</p>
+              <p className="font-sans text-eyebrow text-ink-muted uppercase">eyebrow</p>
               <div className="mt-2">
                 <Eyebrow index="04">Ministries</Eyebrow>
               </div>
@@ -183,7 +199,7 @@ export default function DesignSystemPage() {
           <div className="space-y-8">
             <div>
               <Eyebrow>Lead, ~60 characters</Eyebrow>
-              <p className="mt-3 max-w-measure-lead font-sans text-body-lg text-ink-70">
+              <p className="mt-3 max-w-measure-lead font-sans text-body-lg text-ink-soft">
                 Join us Saturdays for Bible study at half past nine and worship at a quarter to
                 eleven, at 4125 Hathaway Street in Clairemont.
               </p>
@@ -209,7 +225,15 @@ export default function DesignSystemPage() {
               See all events
             </Button>
           </div>
-          <p className="mt-6 max-w-measure font-sans text-body-sm text-ink-70">
+          <div className="mt-8 flex flex-wrap items-center gap-6 register-dusk p-8">
+            <Button href="/visit" variant="on-dusk">
+              Plan Your Visit
+            </Button>
+            <Button href="/watch" variant="on-dusk-quiet">
+              Watch Online
+            </Button>
+          </div>
+          <p className="mt-6 max-w-measure font-sans text-body-sm text-ink-soft">
             Tab through these. Focus is a 2px dawn ring at 2px offset, never removed and never
             replaced by a colour change alone. No variant lifts, scales, or gains a shadow on hover.
           </p>
@@ -222,7 +246,7 @@ export default function DesignSystemPage() {
                 <div className={`w-16 bg-dawn-soft ${step.className}`} />
                 <div className="pb-1">
                   <p className="font-sans text-body-sm text-ink">{step.name}</p>
-                  <p className="tabular font-sans text-body-sm text-ink-45">{step.value}</p>
+                  <p className="tabular font-sans text-body-sm text-ink-muted">{step.value}</p>
                 </div>
               </li>
             ))}
@@ -233,18 +257,24 @@ export default function DesignSystemPage() {
           <div className="flex flex-wrap items-end gap-8">
             <div>
               <div className="h-20 w-20 rounded-xs bg-ink" />
-              <p className="mt-2 font-sans text-body-sm text-ink-70">rounded-xs · 2px · controls</p>
+              <p className="mt-2 font-sans text-body-sm text-ink-soft">
+                rounded-xs · 2px · controls
+              </p>
             </div>
             <div>
               <div className="h-20 w-20 rounded-sm bg-ink" />
-              <p className="mt-2 font-sans text-body-sm text-ink-70">rounded-sm · 4px · maximum</p>
+              <p className="mt-2 font-sans text-body-sm text-ink-soft">
+                rounded-sm · 4px · maximum
+              </p>
             </div>
             <div>
               <div className="h-20 w-20 bg-ink" />
-              <p className="mt-2 font-sans text-body-sm text-ink-70">none · photographic plates</p>
+              <p className="mt-2 font-sans text-body-sm text-ink-soft">
+                none · photographic plates
+              </p>
             </div>
           </div>
-          <p className="mt-6 max-w-measure font-sans text-body-sm text-ink-70">
+          <p className="mt-6 max-w-measure font-sans text-body-sm text-ink-soft">
             The radius scale is reset in the theme, so larger radii do not exist as utilities. There
             are no rounded cards because there are almost no cards.
           </p>
@@ -266,11 +296,7 @@ export default function DesignSystemPage() {
             available.
           </p>
           <div className="mt-10">
-            <Button
-              href="/prayer"
-              variant="secondary"
-              className="border-dawn-soft/40 text-paper-on-dusk hover:border-dawn-soft hover:bg-paper-on-dusk/5"
-            >
+            <Button href="/prayer" variant="on-dusk-quiet">
               Share a prayer request
             </Button>
           </div>

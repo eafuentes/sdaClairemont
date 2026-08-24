@@ -18,18 +18,27 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "check:classes": "node scripts/check-classes.mjs",
+    "check:bundle": "node scripts/check-bundle.mjs",
+    "check:schema": "sanity schema validate",
+    "check:types": "node scripts/check-generated-types.mjs",
+    "typegen": "sanity schema extract --enforce-required-fields --force && sanity typegen generate",
     "sanity:ping": "node --env-file-if-exists=.env.local scripts/sanity-ping.mjs"
   },
   "dependencies": {
     "@sanity/client": "^7.26.2",
     "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^6.10.1",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.3",
     "motion": "^13.1.1",
     "next": "16.3.2",
+    "next-sanity": "^13.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "sanity": "^6.10.1",
     "server-only": "^0.0.1",
+    "styled-components": "^6.5.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {

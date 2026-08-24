@@ -37,7 +37,7 @@ export const ministries: Ministry[] = [
       'Camping, hiking, service and skill-building for grades 5 through 12, run by trained and background-checked volunteers.',
     ageRange: 'Grades 5–12',
     meetingSchedule: 'Sundays during the school year',
-    tone: 'dawn',
+    tone: 'warm',
     order: 1,
   },
   {
@@ -47,7 +47,7 @@ export const ministries: Ministry[] = [
       'Younger children and their families learning together, twice a month, with plenty of room to be four years old.',
     ageRange: 'Pre-K–Grade 4, with families',
     meetingSchedule: 'Twice monthly on Sundays',
-    tone: 'sage',
+    tone: 'cool',
     order: 2,
   },
   {
@@ -57,7 +57,7 @@ export const ministries: Ministry[] = [
       'Bible study in small classes for every age, from the beginner room through adult discussion. Come with questions.',
     ageRange: 'All ages',
     meetingSchedule: 'Saturdays, 9:30–10:35 AM',
-    tone: 'dawn',
+    tone: 'neutral',
     order: 3,
   },
   {
@@ -67,7 +67,7 @@ export const ministries: Ministry[] = [
       'A non-denominational young adult Bible study and friendship group. Free to join, and genuinely open to anyone.',
     ageRange: 'Young adults',
     meetingSchedule: 'Weekly',
-    tone: 'sky',
+    tone: 'warm',
     order: 4,
   },
   {
@@ -77,7 +77,7 @@ export const ministries: Ministry[] = [
       'A week of summer mornings built entirely for kids — music, stories, crafts and a great deal of noise.',
     ageRange: 'Children',
     meetingSchedule: 'One week each summer',
-    tone: 'sage',
+    tone: 'cool',
     order: 5,
   },
 ]
@@ -146,7 +146,16 @@ export const homePage: HomePageContent = {
     headline: 'There’s a place for you here.',
     hero: {
       description:
-        'The church entrance in early morning light, shot wide from the sidewalk with the jacaranda in frame. People arriving, seen at a distance and from behind. Space at the upper left for type.',
+        'The church exterior at golden hour, shot wide from the sidewalk with the steps and the eucalyptus in frame. Space along the lower edge for type.',
+      image: {
+        src: '/images/church-exterior-golden-hour.png',
+        alt: 'The San Diego Clairemont Seventh-day Adventist church at sunset, its low tiled roof and stucco walls warm in the last light, with steps rising from the sidewalk between clipped hedges and a eucalyptus overhanging from the right.',
+        width: 1024,
+        height: 576,
+        // Supplied and confirmed by the church, 2026-08-23. The site palette is sampled
+        // from this frame, so replacing it is a design decision rather than a swap.
+        provenance: 'church-photo',
+      },
     },
   },
 

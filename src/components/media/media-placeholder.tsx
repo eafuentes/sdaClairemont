@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 
-type PlaceholderTone = 'sky' | 'paper' | 'sage' | 'dusk'
+type PlaceholderTone = 'warm' | 'cool' | 'neutral' | 'dusk'
 
 interface MediaPlaceholderProps {
   /**
@@ -16,11 +16,16 @@ interface MediaPlaceholderProps {
   caption?: string
 }
 
+/*
+ * Tonal washes rather than distinct hues. The palette carries only dawn and dusk, so
+ * variety here comes from opacity over paper — which is also what keeps a shot list of
+ * placeholders from quietly introducing a fourth and fifth colour into the system.
+ */
 const toneClasses: Record<PlaceholderTone, string> = {
-  sky: 'bg-gradient-to-b from-sky-300 via-sky-100 to-dawn-soft/50 text-sky-900',
-  paper: 'bg-gradient-to-b from-paper-warm to-paper-deep text-ink-70',
-  sage: 'bg-gradient-to-b from-sage/35 to-sage/10 text-sage-deep',
-  dusk: 'bg-gradient-to-b from-dusk-raised to-dusk text-paper-on-dusk/60',
+  warm: 'bg-gradient-to-b from-dawn/25 to-paper-deep text-ink-soft',
+  cool: 'bg-gradient-to-b from-dusk/20 to-paper-deep text-ink-soft',
+  neutral: 'bg-gradient-to-b from-paper-warm to-paper-deep text-ink-soft',
+  dusk: 'bg-gradient-to-b from-dusk-raised to-dusk text-paper-on-dusk/70',
 }
 
 /**
@@ -37,7 +42,7 @@ const toneClasses: Record<PlaceholderTone, string> = {
 export function MediaPlaceholder({
   description,
   className,
-  tone = 'paper',
+  tone = 'neutral',
   caption,
 }: MediaPlaceholderProps) {
   return (
@@ -53,7 +58,7 @@ export function MediaPlaceholder({
         </div>
       </div>
       {caption ? (
-        <figcaption className="mt-3 font-sans text-body-sm text-ink-70">{caption}</figcaption>
+        <figcaption className="mt-3 font-sans text-body-sm text-ink-soft">{caption}</figcaption>
       ) : null}
     </figure>
   )

@@ -58,23 +58,70 @@ const composite = (foreground, background, alpha) =>
 
 const t = readTokens()
 
+/*
+ * The hero puts type over a photograph, where the background is whatever the camera
+ * happened to see. Rather than measure against the image — which would only hold for
+ * this one image — the check measures against the worst case any image can present: a
+ * blown-out white highlight sitting directly behind a line of text.
+ *
+ * The static base scrim is at least 85% dusk everywhere type is placed, so that worst
+ * case flattens to this. The scroll-driven layer only ever adds more density on top, so
+ * this is genuinely the floor rather than a typical value.
+ */
+const WORST_CASE_HIGHLIGHT = '#ffffff'
+const HERO_SCRIM_MINIMUM_ALPHA = 0.85
+const heroScrimFloor = composite(t.dusk, WORST_CASE_HIGHLIGHT, HERO_SCRIM_MINIMUM_ALPHA)
+
+/*
+ * Tonal washes are translucent hues laid over paper, which means the surface a caption
+ * lands on is neither the hue nor the paper. Composite first, then measure.
+ */
+const warmWash = composite(t.dawn, t.paper, 0.25)
+const coolWash = composite(t.dusk, t.paper, 0.2)
+const ministryCoolWash = composite(t.dusk, t.paper, 0.07)
+const invitationWash = composite(t.dawn, t.paper, 0.12)
+
 // `min` follows WCAG: 4.5 for text under ~24px, 3 for large text and non-text boundaries.
 const pairs = [
+  // The light register.
   ['ink on paper', t.ink, t.paper, 4.5],
-  ['ink-70 on paper', t['ink-70'], t.paper, 4.5],
-  ['ink-70 on paper-deep', t['ink-70'], t['paper-deep'], 4.5],
-  ['ink-45 eyebrow on paper', t['ink-45'], t.paper, 4.5],
-  ['ink-45 eyebrow on paper-deep', t['ink-45'], t['paper-deep'], 4.5],
-  ['ink-45 eyebrow on paper-warm', t['ink-45'], t['paper-warm'], 4.5],
-  ['ink-45 eyebrow on sky-100', t['ink-45'], t['sky-100'], 4.5],
+  ['ink-soft on paper', t['ink-soft'], t.paper, 4.5],
+  ['ink-soft on paper-deep', t['ink-soft'], t['paper-deep'], 4.5],
+  ['ink-soft on paper-warm', t['ink-soft'], t['paper-warm'], 4.5],
+  ['ink-muted eyebrow on paper', t['ink-muted'], t.paper, 4.5],
+  ['ink-muted eyebrow on paper-deep', t['ink-muted'], t['paper-deep'], 4.5],
+  ['ink-muted eyebrow on paper-warm', t['ink-muted'], t['paper-warm'], 4.5],
   ['paper on ink (primary button)', t.paper, t.ink, 4.5],
-  ['dawn-deep body link on paper', t['dawn-deep'], t.paper, 4.5],
-  ['sage-deep tag on paper-deep', t['sage-deep'], t['paper-deep'], 4.5],
-  ['sky-900 on sky-100', t['sky-900'], t['sky-100'], 4.5],
-  ['sky-900 on sky-300', t['sky-900'], t['sky-300'], 4.5],
+
+  // Dawn carries links and small text, so it is held to the text floor, not the 3:1 one.
+  ['dawn link on paper', t.dawn, t.paper, 4.5],
+  ['dawn link on paper-deep', t.dawn, t['paper-deep'], 4.5],
+  ['dawn link on paper-warm', t.dawn, t['paper-warm'], 4.5],
+  ['dawn "Live now" on paper', t.dawn, t.paper, 4.5],
+
+  // Tonal washes, composited over paper first.
+  ['ink-soft caption on warm wash', t['ink-soft'], warmWash, 4.5],
+  ['ink-soft caption on cool wash', t['ink-soft'], coolWash, 4.5],
+  ['ink-muted on ministry cool wash', t['ink-muted'], ministryCoolWash, 4.5],
+  ['ink-muted on invitation wash', t['ink-muted'], invitationWash, 4.5],
+  ['dawn tag on invitation wash', t.dawn, invitationWash, 4.5],
+
+  // The dusk register.
   ['paper-on-dusk on dusk', t['paper-on-dusk'], t.dusk, 4.5],
   ['paper-on-dusk on dusk-raised', t['paper-on-dusk'], t['dusk-raised'], 4.5],
-  ['ember "Live now" on dusk', t.ember, t.dusk, 4.5],
+  ['dawn-soft eyebrow on dusk', t['dawn-soft'], t.dusk, 4.5],
+  ['dawn-soft eyebrow on dusk-raised', t['dawn-soft'], t['dusk-raised'], 4.5],
+  ['dusk on paper-on-dusk (on-dusk button)', t.dusk, t['paper-on-dusk'], 4.5],
+
+  // The hero, against the worst case any photograph can present behind the type.
+  ['paper-on-dusk over hero scrim floor', t['paper-on-dusk'], heroScrimFloor, 4.5],
+  ['dawn-glow eyebrow over hero scrim floor', t['dawn-glow'], heroScrimFloor, 4.5],
+  [
+    'paper-on-dusk/75 over hero scrim floor',
+    composite(t['paper-on-dusk'], heroScrimFloor, 0.75),
+    heroScrimFloor,
+    4.5,
+  ],
 
   // Non-text boundaries and marks.
   ['dawn focus ring against paper', t.dawn, t.paper, 3],
@@ -82,15 +129,21 @@ const pairs = [
   ['dawn focus ring against paper-warm', t.dawn, t['paper-warm'], 3],
   ['dawn-soft focus ring against dusk', t['dawn-soft'], t.dusk, 3],
   ['paper glyph on dawn', t.paper, t.dawn, 3],
+  [
+    'on-dusk-quiet button border over hero scrim',
+    composite(t['paper-on-dusk'], heroScrimFloor, 0.7),
+    heroScrimFloor,
+    3,
+  ],
+  ['dawn-soft underline over hero scrim (non-text)', t['dawn-soft'], heroScrimFloor, 3],
 
   // Translucent text in the dusk register, measured composited.
   ['paper-on-dusk/75 over dusk', composite(t['paper-on-dusk'], t.dusk, 0.75), t.dusk, 4.5],
   ['paper-on-dusk/70 over dusk', composite(t['paper-on-dusk'], t.dusk, 0.7), t.dusk, 4.5],
   ['paper-on-dusk/60 over dusk', composite(t['paper-on-dusk'], t.dusk, 0.6), t.dusk, 4.5],
-  ['paper-on-dusk/50 over dusk', composite(t['paper-on-dusk'], t.dusk, 0.5), t.dusk, 4.5],
   [
-    'paper-on-dusk/60 over dusk-raised',
-    composite(t['paper-on-dusk'], t['dusk-raised'], 0.6),
+    'paper-on-dusk/70 over dusk-raised',
+    composite(t['paper-on-dusk'], t['dusk-raised'], 0.7),
     t['dusk-raised'],
     4.5,
   ],

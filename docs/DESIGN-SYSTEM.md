@@ -52,52 +52,62 @@ Semantic tokens, defined once in `src/styles/globals.css` via Tailwind v4 `@them
 
 ### Palette
 
+The palette is **sampled from the church's own exterior photograph at golden hour**, not invented. Measured off that image, the building sits in warm cream and terracotta with deep olive shadow, and the only cool note anywhere in the frame is a desaturated slate at the top of the sky — `#54616F`, and only about 5% of the sky pixels at that. An invented "sky" scale of clean blues would have been more saturated and more blue than the place actually is.
+
+So the system carries warm neutrals and exactly **two hues**:
+
+| Hue    | Where it comes from              | What it does         |
+| ------ | -------------------------------- | -------------------- |
+| `dawn` | the sun and the tile roof        | accent, links, marks |
+| `dusk` | the shadow side of that same sky | the vespers register |
+
+Everything else is a tint of those two over paper. There is no third hue to reach for, which is what stops a fourth and fifth from arriving later.
+
 **Paper (light register)**
 
-- `paper` `#FAF7F2` — primary background, warm off-white
-- `paper-deep` `#F2EDE4` — alternating sections, subtle inset areas
-- `paper-warm` `#EDE3D4` — warmest paper, used sparingly behind pull quotes
+- `paper` `#FAF7F1` — primary background, warm off-white
+- `paper-deep` `#F1EBE0` — alternating sections, subtle inset areas
+- `paper-warm` `#EFE7DA` — warmest paper, sections that should feel sunlit
 
 **Ink**
 
-- `ink` `#14181A` — primary text, a warm-cool near-black, never pure `#000`
-- `ink-70` `#4A5154` — secondary text, captions, metadata
-- `ink-45` `#626769` — tertiary, eyebrows, timestamps. Darkened from `#7C8285` during Phase 1: this tier carries 12–14px text, which needs 4.5:1 rather than 3:1, and the original reached only 3.34:1 on `paper-deep`.
-- `rule` `#14181A` at 10% — hairline rules and borders. There is one border weight in this system: 1px.
+- `ink` `#171410` — primary text. Sampled from the deep foliage shadow, which is a warm olive-black rather than the blue-black most systems default to. Against warm paper that difference is most of why the page reads as daylight.
+- `ink-soft` `#5B5854` — secondary text, captions
+- `ink-muted` `#66635F` — eyebrows, timestamps, metadata
+- `rule` `#171410` at 10% — hairline rules and borders. There is one border weight in this system: 1px.
 
-**Sky (the atmospheric scale)**
+Both subordinate ink tiers clear 4.5:1 on **all three** paper surfaces, not just on `paper`. A metadata tone that is only legible on the page ground is a trap, because sections move between surfaces and the type does not get re-checked when they do.
 
-- `sky-100` `#E8EFF4`
-- `sky-300` `#C3D6E3`
-- `sky-500` `#8FB0C7`
-- `sky-700` `#4A6A85`
-- `sky-900` `#2A3F52`
+**Dawn (the accent — sun and tile roof)**
 
-**Dawn (accent — morning sun)**
+- `dawn` `#8F5624` — links, focus rings, small marks, tags
+- `dawn-soft` `#E0A566` — the dusk-register equivalent
+- `dawn-glow` `#F2CF9E` — accent type set **over photography**
 
-- `dawn` `#A97937` — primary accent: links, focus rings, small marks. Darkened from `#C08A3E` during Phase 1, which reached only 2.83:1 on `paper` and so failed the 3:1 non-text contrast floor while serving as the focus ring colour.
-- `dawn-soft` `#E2C08A` — gradient washes, highlight fills
-- `dawn-deep` `#8E6224` — accent text on light backgrounds where AA is needed
-
-**Sage (Southern California nature)**
-
-- `sage` `#7F8C77` — secondary accent, tags, ministry differentiation
-- `sage-deep` `#4E5A49`
+`dawn` is deliberately dark enough to clear 4.5:1 on every paper surface, so the accent can carry actual words rather than being decoration that always has to be paired with `ink` to stay readable. `dawn-glow` exists because over a photograph the accent has to survive a blown-out highlight directly behind it, where `dawn-soft` reaches only 3.69:1 — fine for a rule or an underline, not for text.
 
 **Dusk (the vespers register)**
 
-- `dusk` `#161D2B` — dark section background
-- `dusk-raised` `#1F2739`
-- `ember` `#BA715E` — the last warm light at the horizon
-- `paper-on-dusk` `#F0EBE3` — text on dark
+- `dusk` `#2A333C` — dark section background
+- `dusk-raised` `#39434E`
+- `paper-on-dusk` `#F0ECE5` — text on dark
+
+Sunset is when Sabbath begins, so this register is a literal reference rather than a mood.
 
 ### Usage rules
 
-- One accent per view. `dawn` and `sage` do not compete in the same section.
-- Gradients are atmospheric only — sky and light washes at low contrast, in backgrounds. Never on text, never on buttons, never as a card fill. No two-color brand gradient anywhere.
+- Two hues, and they do not compete. A section is warm or it is cool; tonal variety comes from opacity over paper, not from new colours.
+- Gradients are atmospheric only — light washes at low contrast, in backgrounds. Never on text, never on buttons, never as a card fill. No two-color brand gradient anywhere.
 - No shadows for elevation. Depth comes from photography, overlap, and scale. A `shadow-sm` may appear on the mobile nav sheet and the lightbox, and nowhere else.
 - Dark sections are full-bleed and intentional. Never a dark card on a light page.
-- Contrast floors: 4.5:1 body, 3:1 large display text and UI boundaries. Every pair in this palette — including the composited translucent ones used on `dusk` — is checked against these floors by script rather than by eye. Body links use `dawn-deep` or an underline plus `ink`.
+- **Translucent text only on solid registers, never over imagery.** Over a photograph the composited result depends on what the camera saw, so opacity stops being a typographic choice and becomes a contrast risk.
+- Contrast floors: 4.5:1 body, 3:1 large display text and UI boundaries. Every pair — including composited translucent ones and the hero scrim over a worst-case white highlight — is checked by `pnpm check:contrast` rather than by eye.
+
+### Type over photography
+
+The hero sets type over a photograph, where the background is whatever the camera happened to see. Rather than tune the scrim against this one image, the floor is derived against the **worst case any photograph can present**: a blown-out white highlight sitting directly behind a line of text.
+
+The static base scrim holds at least 85% `dusk` everywhere type is placed, which flattens that worst case to `#4A5259` and gives `paper-on-dusk` 6.75:1. The scroll-driven layer sits on top and only ever adds density. So there is no scroll position, and no interrupted animation, at which the type can become unreadable — the guarantee does not depend on the motion landing anywhere in particular.
 
 ---
 
@@ -113,6 +123,20 @@ Explicitly not Inter, and not by accident: Inter is the default voice of softwar
 
 This pairing is **decided, not provisional**. Fraunces was the considered alternative for the display face, and it was set aside: its soft and wonk axes add character, but they also add a fashionable quality that will date, and Newsreader's optical-size axis is the more useful property for a site that sets the same family at both 14px captions and 112px display.
 
+### Rejected: heavy grotesk with monospace metadata
+
+This pairing was proposed mid-Phase 1, built out in full — every token, component and chapter migrated to Archivo and IBM Plex Mono — and then reverted. Recording why, so it does not get proposed a third time.
+
+It is a genuinely good system, and it belongs to a different building. Heavy grotesk headlines set tight and uppercase read as a manifesto: confident, editorial, faintly commercial. Monospace metadata reads as instrumentation — a readout, a terminal, a build log. Both are the visual language of software and fashion, and both are _assertive_. The homepage's first line is "There's a place for you here," and set in tight uppercase grotesk it stops sounding like an invitation and starts sounding like a claim.
+
+The specific failure was tone, not craft:
+
+- **Monospace has no warmth to lend.** It signals precision. Service times and addresses are the most human data on the page — the details someone reads while deciding whether to walk in on a Saturday — and monospace makes them look like machine output.
+- **Uppercase display type is loud at the exact moment the site should be quiet.** A church's front door is not a headline.
+- **A serif carries the one thing a grotesk cannot fake here: continuity.** Scripture set in Newsreader italic looks like it has been read before. Set in a grotesk it looks like it was written for this campaign.
+
+The three-colour discipline from that same proposal was **kept**, and it improved the system: the palette went from six hue families to two. The constraint was right; the typefaces were not.
+
 ### Scale
 
 Fluid via `clamp()`, tuned so mobile is never a shrunken desktop.
@@ -126,7 +150,7 @@ Fluid via `clamp()`, tuned so mobile is never a shrunken desktop.
 | `heading-3` | 1.25rem → 1.5rem    | Sub-headings                    | Instrument Sans, 600                               |
 | `body-lg`   | 1.125rem → 1.375rem | Lead paragraphs                 | Instrument Sans, 400, `1.65`                       |
 | `body`      | 1rem → 1.0625rem    | Body                            | Instrument Sans, 400, `1.7`                        |
-| `body-sm`   | 0.875rem            | Captions, metadata              | Instrument Sans, 400, `ink-70`                     |
+| `body-sm`   | 0.875rem            | Captions, metadata              | Instrument Sans, 400, `ink-soft`                   |
 | `eyebrow`   | 0.75rem             | Chapter labels, section kickers | Instrument Sans, 500, `0.14em` tracking, uppercase |
 | `quote`     | 1.375rem → 2rem     | Scripture                       | Newsreader **italic**, 300, `1.45`                 |
 
