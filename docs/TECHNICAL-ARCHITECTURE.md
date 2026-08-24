@@ -26,17 +26,25 @@ Deliberately short. Every entry below has a reason; anything not listed is a "no
 **Runtime**
 
 ```
-next                      ^16.3
-react                     ^19.2
-react-dom                 ^19.2
+next                      16.3.2
+react                     19.2.8
+react-dom                 19.2.8
 motion                    ^13.1
-next-sanity               ^13.3
+@sanity/client            ^7.26.2
 @sanity/image-url         ^2.1
-@portabletext/react       ^8.0
 @supabase/supabase-js     ^2.112
 @supabase/ssr             ^0.12
 zod                       ^4
+server-only               ^0.0.1
 ```
+
+Two adjustments made when Phase 0 was actually installed:
+
+**`@sanity/client` in place of `next-sanity` until Phase 2.** `next-sanity@13.3.3` declares a peer dependency on `@sanity/client@^7.26.2`, while `sanity@6.10.1` — which `next-sanity` also requires as a peer — resolves `@sanity/client@8.2.0`. Installing `next-sanity` today therefore pulls two majors of the same client into the tree along with roughly 750 transitive packages, for capabilities (live queries, draft perspectives, Visual Editing, webhook verification) that are entirely Phase 2. `next-sanity` re-exports the same `createClient`, so adopting it later is a one-line import change in `src/sanity/lib/client.ts`. Pinning `^7.26.2` now means the eventual `next-sanity` install resolves to a single client copy.
+
+**`@portabletext/react` deferred to Phase 2.** Nothing renders Portable Text before schemas exist, and `next-sanity` vendors `^7` internally while `^8` is current — a version choice better made when the renderer is actually written.
+
+**`server-only` added.** It is the mechanism that makes the service-role boundary real rather than advisory: importing `lib/supabase/admin.ts` from a Client Component fails the build. Next depends on it internally, but pnpm's strict module isolation does not expose transitive dependencies, so it must be declared. Verified by deliberately importing the admin client from a client component and confirming the build fails with an import trace.
 
 **Studio — deferred to Phase 2**
 
