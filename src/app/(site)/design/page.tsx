@@ -20,7 +20,7 @@ const paperTokens = [
 const inkTokens = [
   { name: 'ink', value: '#14181A', className: 'bg-ink' },
   { name: 'ink-70', value: '#4A5154', className: 'bg-ink-70' },
-  { name: 'ink-45', value: '#7C8285', className: 'bg-ink-45' },
+  { name: 'ink-45', value: '#626769', className: 'bg-ink-45' },
 ]
 
 const skyTokens = [
@@ -32,7 +32,7 @@ const skyTokens = [
 ]
 
 const accentTokens = [
-  { name: 'dawn', value: '#C08A3E', className: 'bg-dawn' },
+  { name: 'dawn', value: '#A97937', className: 'bg-dawn' },
   { name: 'dawn-soft', value: '#E2C08A', className: 'bg-dawn-soft' },
   { name: 'dawn-deep', value: '#8E6224', className: 'bg-dawn-deep' },
   { name: 'sage', value: '#7F8C77', className: 'bg-sage' },
@@ -42,7 +42,7 @@ const accentTokens = [
 const duskTokens = [
   { name: 'dusk', value: '#161D2B', className: 'bg-dusk' },
   { name: 'dusk-raised', value: '#1F2739', className: 'bg-dusk-raised' },
-  { name: 'ember', value: '#B9705C', className: 'bg-ember' },
+  { name: 'ember', value: '#BA715E', className: 'bg-ember' },
   { name: 'paper-on-dusk', value: '#F0EBE3', className: 'bg-paper-on-dusk' },
 ]
 

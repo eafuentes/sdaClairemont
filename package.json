@@ -17,6 +17,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check:contrast": "node scripts/check-contrast.mjs",
     "sanity:ping": "node --env-file-if-exists=.env.local scripts/sanity-ping.mjs"
   },
   "dependencies": {

@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Typecheck, lint, format and build
+    name: Typecheck, lint, format, contrast and build
     runs-on: ubuntu-latest
 
     steps:
@@ -40,6 +40,11 @@ jobs:
 
       - name: Check formatting
         run: pnpm format:check
+
+      # Reads the palette straight out of the theme, so a colour change that drops a
+      # pair below its WCAG floor fails here rather than in an audit after launch.
+      - name: Check colour contrast
+        run: pnpm check:contrast
 
       # No environment variables are configured here, deliberately. Environment
       # validation is lazy and grouped (src/env.ts), so a build with no credentials

@@ -47,7 +47,12 @@
   /* Ink — never pure black */
   --color-ink: #14181a;
   --color-ink-70: #4a5154;
-  --color-ink-45: #7c8285;
+  /*
+   * Darker than the original #7C8285. This tier carries eyebrows and metadata at 12–14px,
+   * which is small text and therefore needs 4.5:1 rather than 3:1. The old value reached
+   * only 3.34:1 on paper-deep. Chosen against paper-warm, the least forgiving background.
+   */
+  --color-ink-45: #626769;
 
   /* The single border weight in this system is 1px, in this colour. */
   --color-rule: #14181a1a;
@@ -59,8 +64,15 @@
   --color-sky-700: #4a6a85;
   --color-sky-900: #2a3f52;
 
-  /* Dawn — the primary accent, morning sun */
-  --color-dawn: #c08a3e;
+  /*
+   * Dawn — the primary accent, morning sun.
+   *
+   * Darker than the original #C08A3E, which reached only 2.83:1 on paper and so failed
+   * the 3:1 non-text contrast floor. Since dawn is the focus ring colour, that was a
+   * real accessibility defect rather than a stylistic preference. This value clears 3:1
+   * on paper, paper-deep and paper-warm alike.
+   */
+  --color-dawn: #a97937;
   --color-dawn-soft: #e2c08a;
   --color-dawn-deep: #8e6224;
 
@@ -71,7 +83,8 @@
   /* Dusk — the vespers register */
   --color-dusk: #161d2b;
   --color-dusk-raised: #1f2739;
-  --color-ember: #b9705c;
+  /* Lightened a touch so the 12px "Live now" label clears 4.5:1 on dusk. */
+  --color-ember: #ba715e;
   --color-paper-on-dusk: #f0ebe3;
 
   /* --- Type scale --------------------------------------------------------- */
@@ -178,15 +191,25 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Focus is always visible and never removed. */
+  /*
+   * Focus is always visible and never removed.
+   *
+   * A two-tone ring: a dawn outline with a paper band filling the offset gap. Parts of
+   * this site put focusable elements over photographs and sky gradients, where no single
+   * ring colour can be guaranteed 3:1 against whatever is behind it — dawn on sky-300
+   * reaches only 2.56:1. The inner band means the indicator always contrasts against an
+   * adjacent colour, which is what the non-text contrast rule actually asks for.
+   */
   :focus-visible {
     outline: 2px solid var(--color-dawn);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-paper);
   }
 
-  /* On the dusk register the ring lightens to hold contrast. */
+  /* On the dusk register both tones invert to hold the same relationship. */
   .register-dusk :focus-visible {
     outline-color: var(--color-dawn-soft);
+    box-shadow: 0 0 0 2px var(--color-dusk);
   }
 
   :is(h1, h2, h3, h4, h5, h6) {

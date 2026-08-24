@@ -78,19 +78,22 @@ Then open http://localhost:3000.
 
 ## Scripts
 
-| Script              | Purpose                                                       |
-| ------------------- | ------------------------------------------------------------- |
-| `pnpm dev`          | Start the development server                                  |
-| `pnpm build`        | Production build                                              |
-| `pnpm start`        | Serve a production build locally                              |
-| `pnpm lint`         | ESLint (flat config; `next lint` no longer exists in Next 16) |
-| `pnpm lint:fix`     | ESLint with autofix                                           |
-| `pnpm typecheck`    | `tsc --noEmit`                                                |
-| `pnpm format`       | Write Prettier formatting                                     |
-| `pnpm format:check` | Verify formatting without writing                             |
-| `pnpm sanity:ping`  | Verify the configured Sanity project is reachable             |
+| Script                | Purpose                                                       |
+| --------------------- | ------------------------------------------------------------- |
+| `pnpm dev`            | Start the development server                                  |
+| `pnpm build`          | Production build                                              |
+| `pnpm start`          | Serve a production build locally                              |
+| `pnpm lint`           | ESLint (flat config; `next lint` no longer exists in Next 16) |
+| `pnpm lint:fix`       | ESLint with autofix                                           |
+| `pnpm typecheck`      | Regenerates route types, then `tsc --noEmit`                  |
+| `pnpm format`         | Write Prettier formatting                                     |
+| `pnpm format:check`   | Verify formatting without writing                             |
+| `pnpm check:contrast` | Check the palette against WCAG contrast floors                |
+| `pnpm sanity:ping`    | Verify the configured Sanity project is reachable             |
 
-Before opening a pull request, run `pnpm typecheck`, `pnpm lint`, `pnpm format:check` and `pnpm build`. CI runs exactly these four.
+Before opening a pull request, run `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm check:contrast` and `pnpm build`. CI runs exactly these five.
+
+`pnpm typecheck` runs `next typegen` first. Without it, generated route types left over from a previous file layout fail a tree that is actually clean.
 
 ## Architecture
 
@@ -146,15 +149,17 @@ The documents in `docs/` are the architectural source of truth. Code that contra
 
 ### A note on placeholder imagery
 
-Real church photography does not exist yet. Phase 1 is designed against AI-generated placeholders used purely to evaluate composition, under a firm policy: atmosphere, interiors, hands, backs and distance only, with **no generated identifiable faces and no generated children**. Every image carries a required `provenance` field, and a build-time check fails production if any published page still references non-`church-photo` media. See `docs/MEDIA-STRATEGY.md`.
+Real church photography does not exist yet. Every photographic slot currently renders a `MediaPlaceholder`: a tonal surface printing the brief for the shot it is waiting for. This means the homepage doubles as a live shot list — the photography the site needs can be read off the page itself — and a placeholder can never be mistaken for finished work or quietly survive into production as a photograph.
+
+When AI-generated placeholders are used to evaluate composition, they fall under a firm policy: atmosphere, interiors, hands, backs and distance only, with **no generated identifiable faces and no generated children**. Every image carries a required `provenance` field, and a build-time check fails production if any published page still references non-`church-photo` media. See `docs/MEDIA-STRATEGY.md`.
 
 ## Phase status
 
 | Phase                                               | Status      |
 | --------------------------------------------------- | ----------- |
 | Planning and architecture                           | Complete    |
-| Phase 0 — technical foundation                      | **Current** |
-| Phase 1 — design system and static homepage         | Not started |
+| Phase 0 — technical foundation                      | Complete    |
+| Phase 1 — design system and static homepage         | **Current** |
 | Phase 2 — Sanity Studio, schemas and content wiring | Not started |
 | Phase 3 — motion system                             | Not started |
 | Phase 4 — Pathfinders and the gallery system        | Not started |

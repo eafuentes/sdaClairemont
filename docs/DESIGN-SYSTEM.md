@@ -62,7 +62,7 @@ Semantic tokens, defined once in `src/styles/globals.css` via Tailwind v4 `@them
 
 - `ink` `#14181A` — primary text, a warm-cool near-black, never pure `#000`
 - `ink-70` `#4A5154` — secondary text, captions, metadata
-- `ink-45` `#7C8285` — tertiary, disabled, timestamps
+- `ink-45` `#626769` — tertiary, eyebrows, timestamps. Darkened from `#7C8285` during Phase 1: this tier carries 12–14px text, which needs 4.5:1 rather than 3:1, and the original reached only 3.34:1 on `paper-deep`.
 - `rule` `#14181A` at 10% — hairline rules and borders. There is one border weight in this system: 1px.
 
 **Sky (the atmospheric scale)**
@@ -75,7 +75,7 @@ Semantic tokens, defined once in `src/styles/globals.css` via Tailwind v4 `@them
 
 **Dawn (accent — morning sun)**
 
-- `dawn` `#C08A3E` — primary accent: links, focus rings, small marks
+- `dawn` `#A97937` — primary accent: links, focus rings, small marks. Darkened from `#C08A3E` during Phase 1, which reached only 2.83:1 on `paper` and so failed the 3:1 non-text contrast floor while serving as the focus ring colour.
 - `dawn-soft` `#E2C08A` — gradient washes, highlight fills
 - `dawn-deep` `#8E6224` — accent text on light backgrounds where AA is needed
 
@@ -88,7 +88,7 @@ Semantic tokens, defined once in `src/styles/globals.css` via Tailwind v4 `@them
 
 - `dusk` `#161D2B` — dark section background
 - `dusk-raised` `#1F2739`
-- `ember` `#B9705C` — the last warm light at the horizon
+- `ember` `#BA715E` — the last warm light at the horizon
 - `paper-on-dusk` `#F0EBE3` — text on dark
 
 ### Usage rules
@@ -97,7 +97,7 @@ Semantic tokens, defined once in `src/styles/globals.css` via Tailwind v4 `@them
 - Gradients are atmospheric only — sky and light washes at low contrast, in backgrounds. Never on text, never on buttons, never as a card fill. No two-color brand gradient anywhere.
 - No shadows for elevation. Depth comes from photography, overlap, and scale. A `shadow-sm` may appear on the mobile nav sheet and the lightbox, and nowhere else.
 - Dark sections are full-bleed and intentional. Never a dark card on a light page.
-- Contrast floors: 4.5:1 body, 3:1 large display text and UI boundaries. `dawn` on `paper` passes for UI marks and large text; body links use `dawn-deep` or an underline plus `ink`.
+- Contrast floors: 4.5:1 body, 3:1 large display text and UI boundaries. Every pair in this palette — including the composited translucent ones used on `dusk` — is checked against these floors by script rather than by eye. Body links use `dawn-deep` or an underline plus `ink`.
 
 ---
 
