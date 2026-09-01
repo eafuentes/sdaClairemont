@@ -2,8 +2,10 @@
 
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
+import { presentationTool } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
 
+import { presentationDocuments, presentationLocations } from '@/sanity/presentation'
 import { SINGLETON_TYPES, schemaTypes } from '@/sanity/schemaTypes'
 import { structure } from '@/sanity/structure'
 
@@ -31,7 +33,22 @@ export default defineConfig({
   basePath: '/studio',
   projectId,
   dataset,
-  plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
+  plugins: [
+    structureTool({ structure }),
+    presentationTool({
+      previewUrl: {
+        previewMode: {
+          enable: '/api/draft-mode/enable',
+          disable: '/api/draft-mode/disable',
+        },
+      },
+      resolve: {
+        mainDocuments: presentationDocuments,
+        locations: presentationLocations,
+      },
+    }),
+    visionTool({ defaultApiVersion: apiVersion }),
+  ],
   schema: {
     types: schemaTypes,
     /*

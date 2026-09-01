@@ -1,8 +1,10 @@
+import { HeroVersionSwitcher } from '@/components/layout/hero-version-switcher'
 import { SiteFooter } from '@/components/layout/site-footer'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SkipToContent } from '@/components/layout/skip-to-content'
 import { MotionProvider } from '@/components/motion/motion-provider'
-import { siteSettings } from '@/content/site-settings'
+import { DraftBanner } from '@/components/sanity/draft-banner'
+import { getSiteSettings } from '@/sanity/lib/load'
 
 /**
  * The public site shell.
@@ -12,15 +14,20 @@ import { siteSettings } from '@/content/site-settings'
  * (the Studio, an authenticated area) can sit outside this group.
  *
  * Settings are fetched once here and passed down as props. No layout component reaches
- * for its own data.
+ * for its own data. `getSiteSettings` is wrapped in React `cache`, so the homepage
+ * sharing the same request does not issue a second query.
  */
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSiteSettings()
+
   return (
     <MotionProvider>
       <SkipToContent />
-      <SiteHeader settings={siteSettings} />
+      <DraftBanner />
+      <SiteHeader settings={settings} />
       <main id="main">{children}</main>
-      <SiteFooter settings={siteSettings} />
+      <SiteFooter settings={settings} />
+      <HeroVersionSwitcher />
     </MotionProvider>
   )
 }

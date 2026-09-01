@@ -53,6 +53,14 @@ export type MeetingSchedule = {
   notes?: string
 }
 
+export type PropheticDate = {
+  _type: 'propheticDate'
+  era: 'bc' | 'ad'
+  year: number
+  season?: 'spring' | 'summer' | 'autumn' | 'winter'
+  display: string
+}
+
 export type ScriptureRef = {
   _type: 'scriptureRef'
   book: string
@@ -215,6 +223,80 @@ export type Resource = {
   order?: number
 }
 
+export type ProphecyPage = {
+  _id: string
+  _type: 'prophecyPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  eyebrow: string
+  lede: string
+  scripture: ScriptureRef
+  intro?: Array<string>
+  periods?: Array<{
+    key: '2300' | '490'
+    label: string
+    years: number
+    start: PropheticDate
+    end: PropheticDate
+    nestedIn?: '2300'
+    _type: 'propheticPeriod'
+    _key: string
+  }>
+  spine?: Array<{
+    key: Slug
+    date: PropheticDate
+    title: string
+    scripture: ScriptureRef
+    summary: string
+    explanation?: Array<string>
+    arithmetic?: {
+      from?: string
+      plus?: string
+      result?: string
+      note?: string
+    }
+    objections?: Array<{
+      title: string
+      paragraphs?: Array<string>
+      _type: 'propheticObjection'
+      _key: string
+    }>
+    _type: 'propheticEvent'
+    _key: string
+  }>
+  fold?: {
+    beforeEventKey: 'decree' | 'rebuilt' | 'baptism' | 'crucifixion' | 'stephen' | 'sanctuary'
+    yearsFolded: number
+    label: string
+    explanation: string
+  }
+  empires?: Array<{
+    empire: string
+    span: string
+    start: PropheticDate
+    end: PropheticDate
+    daniel2?: string
+    daniel7?: string
+    daniel8?: string
+    daniel11?: string
+    revelation?: string
+    _type: 'empireAlignment'
+    _key: string
+  }>
+  close?: {
+    headline: string
+    body: string
+  }
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
+}
+
 export type Page = {
   _id: string
   _type: 'page'
@@ -282,12 +364,6 @@ export type Page = {
       }
   >
   seo?: Seo
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
 }
 
 export type Announcement = {
@@ -791,6 +867,7 @@ export type AllSanitySchemaTypes =
   | Statistic
   | VideoRef
   | MeetingSchedule
+  | PropheticDate
   | ScriptureRef
   | Address
   | ServiceTime
@@ -807,8 +884,9 @@ export type AllSanitySchemaTypes =
   | ImageWithAlt
   | SanityFileAssetReference
   | Resource
-  | Page
+  | ProphecyPage
   | Slug
+  | Page
   | Announcement
   | PersonReference
   | Event
@@ -1682,6 +1760,153 @@ export type LeadershipQueryResult = Array<{
   phone: string | null
 }>
 
+// Source: src/sanity/queries/prophecy.ts
+// Variable: prophecyPageQuery
+// Query: *[_id == "prophecyPage"][0]{    title,    eyebrow,    lede,    scripture {  book,  chapter,  verses,  translation,  text,  "reference": book + " " + string(chapter) + select(defined(verses) => ":" + verses, "")},    intro,    periods[]{      "id": coalesce(key.current, key),      label,      years,      start { era, year, season, display },      end { era, year, season, display },      nestedIn    },    spine[]{      "id": key.current,      date { era, year, season, display },      title,      scripture {  book,  chapter,  verses,  translation,  text,  "reference": book + " " + string(chapter) + select(defined(verses) => ":" + verses, "")},      summary,      explanation,      arithmetic{ from, plus, result, note },      objections[]{ title, paragraphs }    },    fold{      "beforeEventId": beforeEventKey,      yearsFolded,      label,      explanation    },    empires[]{      empire,      span,      start { era, year, season, display },      end { era, year, season, display },      daniel2,      daniel7,      daniel8,      daniel11,      revelation    },    close{ headline, body }  }
+export type ProphecyPageQueryResult =
+  | {
+      title: null
+      eyebrow: null
+      lede: null
+      scripture: null
+      intro: null
+      periods: null
+      spine: null
+      fold: null
+      empires: null
+      close: null
+    }
+  | {
+      title: string
+      eyebrow: null
+      lede: null
+      scripture: null
+      intro: null
+      periods: null
+      spine: null
+      fold: null
+      empires: null
+      close: null
+    }
+  | {
+      title: string | null
+      eyebrow: null
+      lede: null
+      scripture: null
+      intro: null
+      periods: null
+      spine: null
+      fold: null
+      empires: null
+      close: null
+    }
+  | {
+      title: string
+      eyebrow: null
+      lede: null
+      scripture: null
+      intro: string | null
+      periods: null
+      spine: null
+      fold: null
+      empires: null
+      close: null
+    }
+  | {
+      title: string
+      eyebrow: string
+      lede: string
+      scripture: {
+        book: string
+        chapter: number
+        verses: string | null
+        translation: 'ESV' | 'KJV' | 'NIV' | 'NKJV' | 'NLT' | null
+        text: string | null
+        reference: string
+      }
+      intro: Array<string> | null
+      periods: Array<{
+        id: '2300' | '490'
+        label: string
+        years: number
+        start: {
+          era: 'ad' | 'bc'
+          year: number
+          season: 'autumn' | 'spring' | 'summer' | 'winter' | null
+          display: string
+        }
+        end: {
+          era: 'ad' | 'bc'
+          year: number
+          season: 'autumn' | 'spring' | 'summer' | 'winter' | null
+          display: string
+        }
+        nestedIn: '2300' | null
+      }> | null
+      spine: Array<{
+        id: string
+        date: {
+          era: 'ad' | 'bc'
+          year: number
+          season: 'autumn' | 'spring' | 'summer' | 'winter' | null
+          display: string
+        }
+        title: string
+        scripture: {
+          book: string
+          chapter: number
+          verses: string | null
+          translation: 'ESV' | 'KJV' | 'NIV' | 'NKJV' | 'NLT' | null
+          text: string | null
+          reference: string
+        }
+        summary: string
+        explanation: Array<string> | null
+        arithmetic: {
+          from: string | null
+          plus: string | null
+          result: string | null
+          note: string | null
+        } | null
+        objections: Array<{
+          title: string
+          paragraphs: Array<string> | null
+        }> | null
+      }> | null
+      fold: {
+        beforeEventId: 'baptism' | 'crucifixion' | 'decree' | 'rebuilt' | 'sanctuary' | 'stephen'
+        yearsFolded: number
+        label: string
+        explanation: string
+      } | null
+      empires: Array<{
+        empire: string
+        span: string
+        start: {
+          era: 'ad' | 'bc'
+          year: number
+          season: 'autumn' | 'spring' | 'summer' | 'winter' | null
+          display: string
+        }
+        end: {
+          era: 'ad' | 'bc'
+          year: number
+          season: 'autumn' | 'spring' | 'summer' | 'winter' | null
+          display: string
+        }
+        daniel2: string | null
+        daniel7: string | null
+        daniel8: string | null
+        daniel11: string | null
+        revelation: string | null
+      }> | null
+      close: {
+        headline: string
+        body: string
+      } | null
+    }
+  | null
+
 // Source: src/sanity/queries/sabbath.ts
 // Variable: currentSabbathProgramQuery
 // Query: *[_type == "sabbathProgram" && date >= $today] | order(date asc)[0] {  date,  sermonTitle,    "speakerName": coalesce(speaker->name, speakerName),  "speakerRole": coalesce(speaker->role, speakerRole),  "speakerSlug": speaker->slug.current,  "speakerImage": speaker->image {  "src": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip,  alt,  caption,  credit,  provenance,  provenanceNote,  hotspot,  crop},  scripture[] {  book,  chapter,  verses,  translation,  text,  "reference": book + " " + string(chapter) + select(defined(verses) => ":" + verses, "")},  sermonSummary,  sabbathSchoolTime,  worshipTime,  specialMusic[]{ title, performer },  announcements[]->{    title,    body,    link  },  featuredMessage,  image {  "src": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip,  alt,  caption,  credit,  provenance,  provenanceNote,  hotspot,  crop},  "bulletinUrl": bulletin.asset->url,  livestreamUrl,  isSpecialService,  specialServiceLabel}
@@ -2123,6 +2348,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': PageSlugsQueryResult
     '\n  *[_type == "announcement" && startDate <= $today && endDate >= $today]\n    | order(priority desc, endDate asc){\n      title,\n      body,\n      priority,\n      link,\n      "ministryName": ministry->name,\n      showOnHomepage\n    }\n': ActiveAnnouncementsQueryResult
     '\n  *[_type == "person"] | order(order asc, name asc){\n    name,\n    "slug": slug.current,\n    role,\n    roleCategory,\n    bio,\n    image {\n  "src": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip,\n  alt,\n  caption,\n  credit,\n  provenance,\n  provenanceNote,\n  hotspot,\n  crop\n},\n    "email": select(showContactPublicly => email, null),\n    "phone": select(showContactPublicly => phone, null)\n  }\n': LeadershipQueryResult
+    '\n  *[_id == "prophecyPage"][0]{\n    title,\n    eyebrow,\n    lede,\n    scripture {\n  book,\n  chapter,\n  verses,\n  translation,\n  text,\n  "reference": book + " " + string(chapter) + select(defined(verses) => ":" + verses, "")\n},\n    intro,\n    periods[]{\n      "id": coalesce(key.current, key),\n      label,\n      years,\n      start { era, year, season, display },\n      end { era, year, season, display },\n      nestedIn\n    },\n    spine[]{\n      "id": key.current,\n      date { era, year, season, display },\n      title,\n      scripture {\n  book,\n  chapter,\n  verses,\n  translation,\n  text,\n  "reference": book + " " + string(chapter) + select(defined(verses) => ":" + verses, "")\n},\n      summary,\n      explanation,\n      arithmetic{ from, plus, result, note },\n      objections[]{ title, paragraphs }\n    },\n    fold{\n      "beforeEventId": beforeEventKey,\n      yearsFolded,\n      label,\n      explanation\n    },\n    empires[]{\n      empire,\n      span,\n      start { era, year, season, display },\n      end { era, year, season, display },\n      daniel2,\n      daniel7,\n      daniel8,\n      daniel11,\n      revelation\n    },\n    close{ headline, body }\n  }\n': ProphecyPageQueryResult
     '\n  *[_type == "sabbathProgram" && date >= $today] | order(date asc)[0] {\n  date,\n  sermonTitle,\n  \n  "speakerName": coalesce(speaker->name, speakerName),\n  "speakerRole": coalesce(speaker->role, speakerRole),\n  "speakerSlug": speaker->slug.current\n,\n  "speakerImage": speaker->image {\n  "src": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip,\n  alt,\n  caption,\n  credit,\n  provenance,\n  provenanceNote,\n  hotspot,\n  crop\n},\n  scripture[] {\n  book,\n  chapter,\n  verses,\n  translation,\n  text,\n  "reference": book + " " + string(chapter) + select(defined(verses) => ":" + verses, "")\n},\n  sermonSummary,\n  sabbathSchoolTime,\n  worshipTime,\n  specialMusic[]{ title, performer },\n  announcements[]->{\n    title,\n    body,\n    link\n  },\n  featuredMessage,\n  image {\n  "src": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip,\n  alt,\n  caption,\n  credit,\n  provenance,\n  provenanceNote,\n  hotspot,\n  crop\n},\n  "bulletinUrl": bulletin.asset->url,\n  livestreamUrl,\n  isSpecialService,\n  specialServiceLabel\n}\n': CurrentSabbathProgramQueryResult
     '\n  *[_type == "sabbathProgram" && date < $today] | order(date desc)[0] {\n  date,\n  sermonTitle,\n  \n  "speakerName": coalesce(speaker->name, speakerName),\n  "speakerRole": coalesce(speaker->role, speakerRole),\n  "speakerSlug": speaker->slug.current\n,\n  "speakerImage": speaker->image {\n  "src": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip,\n  alt,\n  caption,\n  credit,\n  provenance,\n  provenanceNote,\n  hotspot,\n  crop\n},\n  scripture[] {\n  book,\n  chapter,\n  verses,\n  translation,\n  text,\n  "reference": book + " " + string(chapter) + select(defined(verses) => ":" + verses, "")\n},\n  sermonSummary,\n  sabbathSchoolTime,\n  worshipTime,\n  specialMusic[]{ title, performer },\n  announcements[]->{\n    title,\n    body,\n    link\n  },\n  featuredMessage,\n  image {\n  "src": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip,\n  alt,\n  caption,\n  credit,\n  provenance,\n  provenanceNote,\n  hotspot,\n  crop\n},\n  "bulletinUrl": bulletin.asset->url,\n  livestreamUrl,\n  isSpecialService,\n  specialServiceLabel\n}\n': LatestPastSabbathProgramQueryResult
     '\n  *[_type == "sabbathProgram"] | order(date desc)[0...$limit]{\n    date,\n    sermonTitle,\n    \n  "speakerName": coalesce(speaker->name, speakerName),\n  "speakerRole": coalesce(speaker->role, speakerRole),\n  "speakerSlug": speaker->slug.current\n,\n    sermonSummary,\n    image {\n  "src": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip,\n  alt,\n  caption,\n  credit,\n  provenance,\n  provenanceNote,\n  hotspot,\n  crop\n},\n    isSpecialService,\n    specialServiceLabel\n  }\n': SabbathProgramArchiveQueryResult

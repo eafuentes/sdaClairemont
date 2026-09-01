@@ -9,7 +9,8 @@ import type { SiteSettings } from '@/types/content'
  * staff before launch. They are flagged in code, not only in a document, so they
  * cannot quietly ship as fact.
  *
- * In Phase 2 this is replaced by a GROQ query returning the same shape.
+ * In Phase 2 this is the fallback when Sanity is unconfigured or the singleton
+ * has not been created yet. Real values come from `getSiteSettings()`.
  */
 export const siteSettings: SiteSettings = {
   name: 'San Diego Clairemont Seventh-day Adventist Church',
@@ -62,8 +63,7 @@ export const siteSettings: SiteSettings = {
   // NEEDS CONFIRMATION — the congregation's specific AdventistGiving URL. Until staff
   // provide it this points at the portal's own search, which is honest rather than wrong.
   givingUrl: 'https://adventistgiving.org/',
-  // NEEDS CONFIRMATION — official channel, required for the Watch experience.
-  youtubeUrl: undefined,
+  youtubeUrl: 'https://www.youtube.com/@SDClairemontSDA',
   facebookUrl: 'https://www.facebook.com/Clairemont-SDA-Church-201001569921760/',
 
   // Set by hand by staff before a service. A boolean a person controls is more reliable

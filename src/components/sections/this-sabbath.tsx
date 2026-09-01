@@ -56,7 +56,7 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
 
             <Link
               className="mt-10 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-              href="/visit"
+              href="/this-sabbath"
             >
               See the full program
             </Link>
@@ -81,6 +81,7 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
             <MediaPlaceholder
               className="mt-8 aspect-[4/5] w-full"
               description="Portrait crop of this week's speaker, or the sanctuary in morning light."
+              image={program.image}
               tone="neutral"
             />
           </div>

@@ -21,12 +21,14 @@ interface SiteHeaderProps {
  */
 export function SiteHeader({ settings }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-paper">
+    <header className="site-header sticky top-0 z-40 border-b border-rule bg-paper">
       <Container>
         <div className="flex min-h-16 items-center justify-between gap-8 lg:min-h-20">
           <Link className="flex flex-col justify-center py-2" href="/">
-            <span className="font-serif text-heading-3 leading-none">Clairemont</span>
-            <span className="mt-1 font-sans text-eyebrow text-ink-muted uppercase">
+            <span className="site-header-wordmark font-serif text-heading-3 leading-none">
+              Clairemont
+            </span>
+            <span className="site-header-kicker mt-1 font-sans text-eyebrow text-ink-muted uppercase">
               Seventh-day Adventist Church
             </span>
           </Link>
@@ -36,8 +38,8 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
               {settings.primaryNav.map((item) => (
                 <li key={item.href}>
                   <NavLink
-                    activeClassName="text-ink decoration-dawn decoration-2"
-                    className="font-sans text-body-sm text-ink-soft underline decoration-transparent decoration-1 underline-offset-8 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+                    activeClassName="site-header-link text-ink decoration-dawn decoration-2"
+                    className="site-header-link font-sans text-body-sm text-ink-soft underline decoration-transparent decoration-1 underline-offset-8 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
                     href={item.href}
                   >
                     {item.label}
@@ -59,8 +61,15 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
                 Live now
               </a>
             ) : null}
+            <NavLink
+              activeClassName="site-header-link text-ink decoration-dawn"
+              className="site-header-link font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+              href="/this-sabbath"
+            >
+              This Sabbath
+            </NavLink>
             <a
-              className="font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+              className="site-header-link font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
               href={settings.givingUrl}
               rel="noreferrer noopener"
               target="_blank"
@@ -68,7 +77,7 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
               Give
             </a>
             <Link
-              className="inline-flex min-h-11 items-center rounded-xs bg-ink px-5 font-sans text-body-sm font-medium text-paper transition-colors duration-[var(--dur-instant)] ease-out hover:bg-ink-soft"
+              className="site-header-cta inline-flex min-h-11 items-center rounded-xs bg-ink px-5 font-sans text-body-sm font-medium text-paper transition-colors duration-[var(--dur-instant)] ease-out hover:bg-ink-soft"
               href="/visit"
             >
               Plan Your Visit

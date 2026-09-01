@@ -54,6 +54,16 @@ export function formatTime(isoDate: string): string {
   }).format(new Date(isoDate))
 }
 
+/** A full event when-line: `Saturday, August 29 · 12:30 PM`. */
+export function formatEventWhen(start: string, end?: string, isAllDay?: boolean): string {
+  const date = formatServiceDate(start)
+  if (isAllDay) return date
+
+  const startTime = formatTime(start)
+  if (!end) return `${date} · ${startTime}`
+  return `${date} · ${startTime}–${formatTime(end)}`
+}
+
 /** Parts for a stacked date block: `SAT` over `14`. */
 export function formatDateParts(isoDate: string): { weekday: string; day: string; month: string } {
   const date = new Date(isoDate)

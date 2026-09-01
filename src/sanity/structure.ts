@@ -6,7 +6,7 @@ import type { StructureResolver } from 'sanity/structure'
  * An alphabetical list of document types is a developer's view of the content. A
  * volunteer opening this on a Thursday is not looking for "the sabbathProgram type" —
  * they are looking for this week. So the two singletons are pinned at the top where
- * settings belong, the operational work sits above the archival work, and Events are
+ * settings belong (homepage and prophecy timeline with them), the operational work sits above the archival work, and Events are
  * split into Upcoming and Past because those are different tasks.
  *
  * "Needs attention" is the one list here that is not a category. It surfaces images
@@ -26,6 +26,10 @@ export const structure: StructureResolver = (S) =>
         .title('Homepage')
         .id('homePage')
         .child(S.document().schemaType('homePage').documentId('homePage')),
+      S.listItem()
+        .title('Prophecy timeline')
+        .id('prophecyPage')
+        .child(S.document().schemaType('prophecyPage').documentId('prophecyPage')),
 
       S.divider(),
 

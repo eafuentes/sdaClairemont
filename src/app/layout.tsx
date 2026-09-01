@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Instrument_Sans, Newsreader } from 'next/font/google'
 
+import { DraftPreview } from '@/components/sanity/draft-preview'
 import { siteConfig } from '@/config/site'
 import { appEnv } from '@/env'
 
@@ -45,7 +46,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${newsreader.variable} ${instrumentSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <DraftPreview />
+      </body>
     </html>
   )
 }

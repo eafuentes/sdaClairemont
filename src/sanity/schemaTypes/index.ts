@@ -6,6 +6,7 @@ import { gallery } from './documents/gallery'
 import { homePage } from './documents/home-page'
 import { ministry } from './documents/ministry'
 import { page } from './documents/page'
+import { prophecyPage } from './documents/prophecy-page'
 import { person } from './documents/person'
 import { resource } from './documents/resource'
 import { sabbathProgram } from './documents/sabbath-program'
@@ -23,6 +24,7 @@ import {
   timelineEntry,
 } from './objects/ministry-details'
 import { scriptureRef } from './objects/scripture-ref'
+import { propheticDate } from './objects/prophetic-date'
 import { seo } from './objects/seo'
 import { serviceTime } from './objects/service-time'
 import { videoRef } from './objects/video-ref'
@@ -40,6 +42,7 @@ export const documentTypes = [
   gallery,
   testimonial,
   page,
+  prophecyPage,
   resource,
 ]
 
@@ -53,6 +56,7 @@ export const objectTypes = [
   serviceTime,
   address,
   scriptureRef,
+  propheticDate,
   meetingSchedule,
   videoRef,
   statistic,
@@ -60,7 +64,7 @@ export const objectTypes = [
   pathfinderClass,
 ]
 
-/** The two documents that must exist exactly once, pinned in the desk structure. */
-export const SINGLETON_TYPES = new Set(['siteSettings', 'homePage'])
+/** Documents that must exist exactly once, pinned in the desk structure. */
+export const SINGLETON_TYPES = new Set(['siteSettings', 'homePage', 'prophecyPage'])
 
 export const schemaTypes: SchemaTypeDefinition[] = [...documentTypes, ...objectTypes]

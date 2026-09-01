@@ -12,7 +12,8 @@ interface PrayerProps {
  *
  * The chapter contains the invitation, not the form. Asking someone to type something
  * painful into a homepage section, between an events list and a scripture quote, is the
- * wrong context; `/prayer` is a page that can hold it properly.
+ * wrong context; `/prayer` is a quiet page with the church phone and email until the
+ * private form exists.
  *
  * It should feel like the room quieting rather than a dramatic reveal.
  */

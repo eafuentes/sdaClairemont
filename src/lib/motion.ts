@@ -45,6 +45,16 @@ export const SPRING = {
   lead: { stiffness: 120, damping: 30, restDelta: 0.001 },
   trail: { stiffness: 62, damping: 26, restDelta: 0.001 },
   drift: { stiffness: 38, damping: 24, restDelta: 0.001 },
+  /**
+   * Pointer-follow. Damped enough that it settles rather than bounces; stiff enough
+   * that the scene still feels attached to the hand.
+   */
+  follow: { stiffness: 110, damping: 20, mass: 0.85, restDelta: 0.001 },
+  /**
+   * Homepage hero look-around. Quicker than `follow` so the scene stays on the
+   * hand while still settling without bounce.
+   */
+  look: { stiffness: 170, damping: 22, mass: 0.55, restDelta: 0.001 },
 } as const
 
 /**
@@ -83,3 +93,80 @@ export const REVEAL_VIEWPORT = { once: true, amount: 0.25 } as const
 
 /** Distance a revealed element rises. Small on purpose — 16px reads, 60px lurches. */
 export const REVEAL_DISTANCE = 20
+
+/** Line stagger for RevealText, in seconds. */
+export const REVEAL_TEXT_STAGGER = 0.05
+
+/**
+ * Parallax travel caps from MOTION-SYSTEM.md, as fractions of the element's own height
+ * so a 6% foreground shift stays inside the budget without measuring the viewport.
+ */
+export const PARALLAX = {
+  foreground: 0.06,
+  background: 0.12,
+  photoScale: 1.06,
+} as const
+
+/** Pointer displacement caps, in pixels. */
+export const POINTER = {
+  far: 14,
+  near: 6,
+  plate: 6,
+} as const
+
+/**
+ * Flagship-page hero: full-bleed photograph settling into a contained plate.
+ *
+ * Scale here is photographic, not UI. The plate is one picture changing composition
+ * as you read, the same way the homepage hero walks golden hour into dusk. Type
+ * travels and fades; it does not bounce.
+ */
+export const SCROLL_HERO = {
+  trackVh: 180,
+  plateScale: [1.04, 1] as const,
+  titleScale: [1, 0.52] as const,
+} as const
+
+/**
+ * Prophecy flight. Longer than other sticky scenes on purpose: 200vh is one flick
+ * of the wheel, which reads as paging the site. This page *is* the years, so the
+ * track is several viewports. Leaving it is still native scroll — no wheel hijack.
+ */
+export const SCROLL_FLIGHT = {
+  trackVh: 720,
+  /** First and last fraction of the track where the camera holds still. */
+  linger: 0.05,
+} as const
+
+/**
+ * Maps sticky-track progress so the camera lingers at the first and last years.
+ * The middle is a smoothstep: travel does not start or stop with a jump.
+ */
+export function travelProgress(progress: number, linger: number = SCROLL_FLIGHT.linger): number {
+  const p = Math.max(0, Math.min(1, progress))
+  const start = linger
+  const end = 1 - linger
+  if (p <= start) return 0
+  if (p >= end) return 1
+  const t = (p - start) / (end - start)
+  return t * t * (3 - 2 * t)
+}
+
+/**
+ * Inverse of `travelProgress`. Used when a click names a year and the camera
+ * should travel there — the scroll position jumps, the spring flies.
+ */
+export function untravelProgress(travel: number, linger: number = SCROLL_FLIGHT.linger): number {
+  const y = Math.max(0, Math.min(1, travel))
+  if (y <= 0) return 0
+  if (y >= 1) return 1
+  let lo = 0
+  let hi = 1
+  for (let step = 0; step < 16; step += 1) {
+    const mid = (lo + hi) / 2
+    if (mid * mid * (3 - 2 * mid) < y) lo = mid
+    else hi = mid
+  }
+  const t = (lo + hi) / 2
+  return linger + t * (1 - 2 * linger)
+}

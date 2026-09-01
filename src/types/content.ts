@@ -16,14 +16,17 @@ export interface ContentImage {
   alt: string
   width: number
   height: number
+  /** Tiny base64 preview from Sanity. Used as the blur placeholder, never shown as the image. */
+  lqip?: string
   caption?: string
   credit?: string
   /**
-   * `church-photo` is the only value permitted in production. A build-time check
-   * fails the production build if a published page references anything else.
+   * `church-photo` is the only value permitted in production for photography.
+   * `youtube-thumbnail` is a video poster constructed at render time from a YouTube
+   * id — it is not stored in Sanity and is exempt from the placeholder check.
    * See docs/MEDIA-STRATEGY.md.
    */
-  provenance: 'church-photo' | 'ai-placeholder' | 'stock-placeholder'
+  provenance: 'church-photo' | 'ai-placeholder' | 'stock-placeholder' | 'youtube-thumbnail'
   /** Required unless provenance is `church-photo`. Records the generator or licence. */
   provenanceNote?: string
 }
@@ -84,6 +87,8 @@ export interface Person {
 export interface ScriptureRef {
   reference: string
   translation?: string
+  /** Passage text, when staff have typed it into Studio. */
+  text?: string
 }
 
 export interface SabbathProgram {
@@ -100,6 +105,9 @@ export interface SabbathProgram {
   image?: ContentImage
   isSpecialService?: boolean
   specialServiceLabel?: string
+  specialMusic?: Array<{ title: string; performer?: string }>
+  announcements?: Array<{ title: string; body: string[] }>
+  isPast?: boolean
 }
 
 export interface ChurchEvent {
@@ -178,6 +186,7 @@ export interface MediaSlot {
 export interface HomePageContent {
   arrival: {
     headline: string
+    subhead?: string
     hero: MediaSlot
   }
   belong: {
@@ -194,7 +203,8 @@ export interface HomePageContent {
   }
   watch: {
     headline: string
-    featured: Sermon
+    /** Absent when neither Studio nor the channel feed has a watchable message yet. */
+    featured?: Sermon
     recent: Sermon[]
   }
   prayer: {
@@ -213,4 +223,159 @@ export interface HomePageContent {
     parking: string
     entrance: MediaSlot
   }
+}
+
+export type EditorialBlock =
+  | { type: 'paragraph'; key: string; text: string }
+  | { type: 'heading'; key: string; text: string; level: 2 | 3 }
+  | { type: 'quote'; key: string; text: string }
+  | { type: 'list'; key: string; ordered: boolean; items: string[] }
+  | { type: 'image'; key: string; image: ContentImage }
+  | { type: 'scripture'; key: string; reference: string; translation?: string; text?: string }
+  | { type: 'cta'; key: string; label: string; href: string; external?: boolean }
+  | { type: 'video'; key: string; title: string; url: string }
+  | { type: 'links'; key: string; heading?: string; links: Array<{ label: string; href: string }> }
+  | {
+      type: 'accordion'
+      key: string
+      heading?: string
+      items: Array<{ question: string; answer: string[] }>
+    }
+
+export interface EditorialPage {
+  title: string
+  slug: string
+  intro?: string
+  hero?: ContentImage
+  blocks: EditorialBlock[]
+}
+
+export interface EventDetail extends ChurchEvent {
+  description?: string[]
+  locationAddress?: string
+  locationMapUrl?: string
+  cost?: string
+  ageRange?: string
+  contact?: { name: string; role: string; email?: string; phone?: string }
+}
+
+/** One photograph in a gallery or an adventures sequence. */
+export interface GalleryEntry {
+  id: string
+  image: ContentImage
+  title?: string
+  date?: string
+  sentence?: string
+}
+
+export interface PhotoGallery {
+  title: string
+  slug: string
+  description?: string
+  date?: string
+  layout: 'masonry' | 'horizontal'
+  cover?: ContentImage
+  items: GalleryEntry[]
+  ministrySlug?: string
+}
+
+export interface MinistryDetail extends Ministry {
+  description?: string[]
+  registrationUrl?: string
+  leaders?: Person[]
+  resources?: Array<{ title: string; href: string; description?: string }>
+  hasPathfinderDetails?: boolean
+  classes?: Array<{ name: string; ageRange: string; description?: string }>
+  statistics?: Array<{ value: string; label: string; description?: string }>
+  timeline?: GalleryEntry[]
+}
+
+export interface SermonDetail extends Sermon {
+  speakerRole?: string
+  speakerImage?: ContentImage
+  description?: string
+  notesUrl?: string
+  ministryName?: string
+}
+
+export interface Leader extends Person {
+  roleCategory?: string
+  bio?: string[]
+  email?: string
+  phone?: string
+}
+
+/**
+ * A prophetic date is not an ISO day. Several points are seasonal, there is no year
+ * zero, and the display string is the thing a reader should see.
+ */
+export interface PropheticDate {
+  era: 'bc' | 'ad'
+  year: number
+  season?: 'spring' | 'summer' | 'autumn' | 'winter'
+  display: string
+}
+
+export interface PropheticArithmetic {
+  from: string
+  plus: string
+  result: string
+  note: string
+}
+
+export interface PropheticObjection {
+  title: string
+  paragraphs: string[]
+}
+
+export interface PropheticEvent {
+  id: string
+  date: PropheticDate
+  title: string
+  scripture: ScriptureRef
+  summary: string
+  explanation: string[]
+  arithmetic?: PropheticArithmetic
+  objections?: PropheticObjection[]
+}
+
+export interface PropheticPeriod {
+  id: string
+  label: string
+  years: number
+  start: PropheticDate
+  end: PropheticDate
+  nestedIn?: string
+}
+
+export interface TimelineFold {
+  beforeEventId: string
+  yearsFolded: number
+  label: string
+  explanation: string
+}
+
+export interface EmpireAlignment {
+  empire: string
+  span: string
+  start: PropheticDate
+  end: PropheticDate
+  daniel2: string
+  daniel7: string
+  daniel8: string
+  daniel11?: string
+  revelation?: string
+}
+
+export interface ProphecyPageContent {
+  title: string
+  eyebrow: string
+  lede: string
+  scripture: ScriptureRef
+  intro: string[]
+  periods: PropheticPeriod[]
+  spine: PropheticEvent[]
+  fold: TimelineFold
+  empires: EmpireAlignment[]
+  close: { headline: string; body: string }
 }

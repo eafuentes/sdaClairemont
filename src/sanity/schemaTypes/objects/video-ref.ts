@@ -1,18 +1,8 @@
 import { defineField, defineType } from 'sanity'
 
-/**
- * Matches the YouTube URL shapes people actually paste: the address bar form, the
- * Share-button short form, the embed form, and Shorts. Captures the eleven-character
- * video id in each.
- */
-export const YOUTUBE_URL_PATTERN =
-  /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|live\/|shorts\/)|youtu\.be\/)([\w-]{11})/
+import { extractYouTubeId, YOUTUBE_URL_PATTERN } from '@/lib/youtube'
 
-/** Pulls the video id out of any accepted YouTube URL, or `null` if there isn't one. */
-export function extractYouTubeId(url: string | undefined): string | null {
-  if (!url) return null
-  return YOUTUBE_URL_PATTERN.exec(url)?.[1] ?? null
-}
+export { extractYouTubeId, YOUTUBE_URL_PATTERN }
 
 /**
  * A YouTube video, referenced by URL.

@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Typecheck, lint, format, contrast, schema, types, build, classes and budget
+    name: Typecheck, lint, format, contrast, schema, types, build, classes, budget and lighthouse
     runs-on: ubuntu-latest
 
     steps:
@@ -80,3 +80,14 @@ jobs:
       # so a dependency added without thinking shows up here rather than in field data.
       - name: Check JavaScript budget
         run: pnpm check:bundle
+
+      # Homepage performance and accessibility, against a production start. Performance
+      # is a warning at 90: CI Chrome is not a mid-tier phone on 4G. Accessibility is a
+      # hard floor.
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v2
+
+      - name: Lighthouse
+        env:
+          SANITY_TELEMETRY_DISABLED: '1'
+        run: pnpm check:lighthouse

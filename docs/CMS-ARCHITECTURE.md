@@ -13,7 +13,7 @@ These constraints shape every schema below.
 - **Validation that teaches.** Required fields are required in the schema with useful messages. A missing image `alt` blocks publish. A malformed YouTube URL is caught at entry, not at render.
 - **Meaningful previews.** Every document type has a `preview` with title, subtitle, and thumbnail, so lists are scannable — a Sabbath program list should read as dates and sermon titles, not "Untitled".
 - **Custom desk structure.** Editors see task-oriented groups (This Sabbath, Events, Ministries, Sermons, People, Pages, Site Settings), not an alphabetical list of schema types.
-- **Singletons are singletons.** `siteSettings` and `homePage` are pinned in the structure with document actions restricted so nobody can create a second one or delete the only one.
+- **Singletons are singletons.** `siteSettings`, `homePage`, and `prophecyPage` are pinned in the structure with document actions restricted so nobody can create a second one or delete the only one.
 - **No naked Portable Text everywhere.** Rich text is used where prose belongs; structured fields are used where structure belongs. A "time" is a field, not a sentence inside a paragraph.
 
 ---
@@ -31,6 +31,10 @@ Putting the AdventistGiving URL and service times here — rather than in code o
 **`homePage`** — chapter-by-chapter control of the narrative.
 
 Rather than a free-form page builder (which invites editors to break a carefully-composed narrative), this is a fixed set of named chapter objects matching the ten homepage chapters, each with the fields that chapter actually needs, and each with an `isVisible` toggle plus an optional order override. Editors can change words, images, and whether a chapter appears — they cannot accidentally produce a homepage with four hero sections. Chapters: arrival (headline, subhead, primary/secondary CTA, background media, atmosphere image), thisSabbath (intro copy only — the program itself is fetched live), belong (headline, body, image set, testimonial references), ministries (headline, intro, ordered ministry references), events (headline, count to show), story (headline, Portable Text, mission emphasis, media plate), watch (headline, featured sermon reference or "latest"), prayer (headline, invitation copy, scripture), hope (scripture, attribution, atmosphere image), invitation (headline, body, what-to-expect bullets, CTA, map emphasis).
+
+**`prophecyPage`** — the prophetic timeline at `/prophecy`.
+
+Staff edit the spine dates, copy, objections, fold, and empire alignments. They never place stars: the constellation is derived from the dates. A `propheticDate` object holds era, year, optional season, and the display string a reader sees.
 
 ### Content documents
 
@@ -72,7 +76,7 @@ Making alt a required field on a reusable object is the cheapest accessibility w
 
 Studio mounts at `/studio` in the same Next.js app, which keeps preview and editing on one origin and means no separate deployment to hand over. A dedicated `studio.` subdomain remains available later without code changes.
 
-- **Structure**: a hand-built desk in `sanity/structure.ts` grouping by editorial task, with `siteSettings` and `homePage` as pinned singletons, Sabbath Programs sorted by date descending with the upcoming one first, Events split into Upcoming and Past, Ministries in display order, and a "Needs attention" list surfacing documents with placeholder images or missing alt text.
+- **Structure**: a hand-built desk in `sanity/structure.ts` grouping by editorial task, with `siteSettings`, `homePage`, and `prophecyPage` as pinned singletons, Sabbath Programs sorted by date descending with the upcoming one first, Events split into Upcoming and Past, Ministries in display order, and a "Needs attention" list surfacing documents with placeholder images or missing alt text.
 - **Presentation tool** (`presentationTool` from `sanity/presentation`) configured with `previewUrl` pointing at the site and a `resolve` map from document type to route, so an editor opening a `sabbathProgram` sees the actual `/this-sabbath` page beside the form.
 - **Visual Editing**: `defineLive`/`sanityFetch` from `next-sanity` with stega encoding enabled in draft mode only, plus `<VisualEditing />` mounted when draft mode is active. Editors click rendered text on the real page and land on the right field. Stega is never enabled in production, so no encoded characters reach public HTML.
 - **Draft mode** enabled through a signed route handler that Presentation calls, and disabled by a matching route. Draft content is never cached.

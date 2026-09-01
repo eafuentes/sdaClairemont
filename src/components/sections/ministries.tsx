@@ -1,43 +1,29 @@
 import Link from 'next/link'
 
 import { Container } from '@/components/layout/container'
-import { MediaPlaceholder } from '@/components/media/media-placeholder'
+import { MinistryRow } from '@/components/ministries/ministry-row'
+import { MinistrySwitcher } from '@/components/ministries/ministry-switcher'
 import { Reveal } from '@/components/motion/reveal'
 import { Eyebrow } from '@/components/ui/eyebrow'
-import { cn } from '@/lib/utils'
-import type { Ministry, MinistryTone } from '@/types/content'
+import type { Ministry } from '@/types/content'
 
 interface MinistriesProps {
   ministries: Ministry[]
 }
 
-const toneClasses: Record<MinistryTone, string> = {
-  warm: 'bg-gradient-to-b from-paper-warm to-paper-deep',
-  cool: 'bg-gradient-to-b from-dusk/[0.07] to-paper-deep',
-  neutral: 'bg-gradient-to-b from-paper-deep to-paper',
-}
-
-const placeholderTone: Record<MinistryTone, 'warm' | 'cool' | 'neutral'> = {
-  warm: 'warm',
-  cool: 'cool',
-  neutral: 'neutral',
-}
-
 /**
  * Chapter 04 — Ministries. Explicitly not a grid of cards.
  *
- * Phase 1 renders the stacked full-bleed composition at every width. On mobile this is
- * the final design; on desktop the pointer-driven switcher replaces it in Phase 3.
- * Building the stacked version first is deliberate — it is the reduced-motion and
- * no-JavaScript state, every name is already a real link, and the switcher is layered
- * on top of something that already works rather than being the only thing that does.
+ * The stacked rows are the design on touch, on small screens, without JavaScript, and
+ * with reduced-width viewports. The pointer switcher is layered on top for fine
+ * pointers at desktop width — hover is enhancement, every name is already a link.
  */
 export function Ministries({ ministries }: MinistriesProps) {
   const ordered = [...ministries].sort((first, second) => first.order - second.order)
 
   return (
-    <section aria-labelledby="ministries-title" className="bg-paper py-section-lg" id="ministries">
-      <Container>
+    <section aria-labelledby="ministries-title" className="bg-paper" id="ministries">
+      <Container className="pt-section-lg">
         <Reveal>
           <Eyebrow index="04">Ministries</Eyebrow>
         </Reveal>
@@ -48,46 +34,21 @@ export function Ministries({ ministries }: MinistriesProps) {
         </Reveal>
       </Container>
 
-      <ul className="mt-16">
-        {ordered.map((ministry) => (
-          <Reveal
-            key={ministry.slug}
-            as="li"
-            className={cn('border-t border-rule', toneClasses[ministry.tone])}
-          >
-            <Link
-              className="group block transition-colors duration-[var(--dur-quick)] ease-out hover:bg-ink/[0.02]"
-              href={`/ministries/${ministry.slug}`}
-            >
-              <Container>
-                <div className="grid grid-cols-1 items-center gap-8 py-12 lg:grid-cols-12 lg:gap-8 lg:py-16">
-                  <div className="lg:col-span-5 lg:col-start-1">
-                    <h3 className="font-serif text-display-2 text-ink underline decoration-transparent decoration-1 underline-offset-[0.15em] transition-colors duration-[var(--dur-quick)] ease-out group-hover:decoration-dawn">
-                      {ministry.name}
-                    </h3>
-                    <p className="mt-5 max-w-measure font-sans text-body text-ink-soft">
-                      {ministry.shortDescription}
-                    </p>
-                    <p className="mt-5 font-sans text-eyebrow text-ink-muted uppercase">
-                      {ministry.ageRange}
-                      <span aria-hidden="true"> · </span>
-                      {ministry.meetingSchedule}
-                    </p>
-                  </div>
+      <div className="ministry-switcher-scene">
+        <div className="ministry-switcher-sticky">
+          <MinistrySwitcher ministries={ordered} />
+        </div>
+      </div>
 
-                  <MediaPlaceholder
-                    className="aspect-[16/9] lg:col-span-6 lg:col-start-7"
-                    description={`Wide atmospheric frame for ${ministry.name}: the group in the middle of doing the thing, shot from a distance rather than posed.`}
-                    tone={placeholderTone[ministry.tone]}
-                  />
-                </div>
-              </Container>
-            </Link>
+      <ul className="ministry-stack mt-16">
+        {ordered.map((ministry) => (
+          <Reveal key={ministry.slug} as="li">
+            <MinistryRow ministry={ministry} />
           </Reveal>
         ))}
       </ul>
 
-      <Container>
+      <Container className="pb-section-lg">
         <Link
           className="mt-12 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
           href="/ministries"

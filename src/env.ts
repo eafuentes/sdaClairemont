@@ -89,6 +89,32 @@ export const appEnv = defineEnv(
   }),
 )
 
+/**
+ * Whether the Sanity group is present and well-formed, without throwing.
+ *
+ * Used by the fetch layer to decide whether to hit the CMS or stay on fixtures.
+ * Calling `sanityEnv()` would throw on a clean CI checkout, which is the opposite
+ * of what lazy grouped validation is for: the homepage must still build when
+ * credentials are absent.
+ *
+ * The placeholder value from `.env.example` fails the project-id pattern, so copying
+ * the example file does not silently count as configured.
+ */
+export function isSanityConfigured(): boolean {
+  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+  const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION
+
+  return (
+    typeof projectId === 'string' &&
+    sanityProjectIdPattern.test(projectId) &&
+    typeof dataset === 'string' &&
+    dataset.length > 0 &&
+    typeof apiVersion === 'string' &&
+    /^\d{4}-\d{2}-\d{2}$/.test(apiVersion)
+  )
+}
+
 /** Editorial CMS. Browser-safe: project ID and dataset are public values. */
 export const sanityEnv = defineEnv(
   { label: 'Sanity', requiredFrom: 'Phase 2' },

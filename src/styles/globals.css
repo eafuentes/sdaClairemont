@@ -184,6 +184,7 @@
   --dur-base: 420ms;
   --dur-slow: 700ms;
   --dur-ambient: 1400ms;
+  --hero-lock: 1;
 }
 
 @layer base {
@@ -193,6 +194,8 @@
      * site — it fights keyboard paging and jump-link expectations.
      */
     -webkit-text-size-adjust: 100%;
+    --light-warmth: 0.22;
+    --light-position: 0.15;
   }
 
   body {
@@ -294,6 +297,10 @@
   [data-motion='sunset'] {
     opacity: 0.4 !important;
   }
+
+  .church-hero-sky-ambient {
+    animation: none;
+  }
 }
 
 /* Overlay opacities firm up when the user asks for less transparency. */
@@ -307,5 +314,806 @@
 @media (prefers-contrast: more) {
   :root {
     --color-rule: #17141059;
+  }
+}
+
+/*
+ * Ministries: stacked rows are the default. The pointer switcher is a desktop
+ * enhancement for fine pointers only, so a phone never pays for a hover scene and
+ * JavaScript-off still shows every ministry as a real link.
+ */
+.ministry-switcher {
+  display: none;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .ministry-switcher {
+    display: block;
+  }
+
+  .ministry-switcher-scene {
+    height: 150vh;
+    margin-top: 4rem;
+  }
+
+  .ministry-switcher-sticky {
+    position: sticky;
+    top: 0;
+  }
+
+  .ministry-stack {
+    display: none;
+  }
+}
+
+/*
+ * Horizon glow in Hope. Strength follows the shared light arc so dawn of the last
+ * chapter begins here rather than arriving as a hard cut.
+ */
+.hope-horizon {
+  opacity: clamp(0.4, calc(var(--light-warmth) * 1.15), 1);
+}
+
+/*
+ * Flagship ministry hero. The photograph starts full-bleed; the site header sits over
+ * it and only firms up to paper as the plate settles. --hero-lock is written by
+ * ScrollHero. Default 1 so a page without that listener never renders a transparent bar.
+ */
+html.header-over-media .site-header {
+  /*
+   * Over the photograph the bar is dusk-register type, not ink. Ink on a dark sky
+   * disappears. These mixes follow --hero-lock so the same elements settle back to
+   * the paper header without a second component.
+   */
+  --header-ink: color-mix(
+    in srgb,
+    var(--color-ink) calc(var(--hero-lock) * 100%),
+    var(--color-paper-on-dusk)
+  );
+  --header-muted: color-mix(
+    in srgb,
+    var(--color-ink-muted) calc(var(--hero-lock) * 100%),
+    rgb(240 236 229 / 0.78)
+  );
+  --header-cta-bg: color-mix(
+    in srgb,
+    var(--color-ink) calc(var(--hero-lock) * 100%),
+    var(--color-paper-on-dusk)
+  );
+  --header-cta-fg: color-mix(
+    in srgb,
+    var(--color-paper) calc(var(--hero-lock) * 100%),
+    var(--color-dusk)
+  );
+
+  background-color: color-mix(
+    in srgb,
+    var(--color-paper) calc(var(--hero-lock) * 100%),
+    transparent
+  );
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--color-rule) calc(var(--hero-lock) * 100%),
+    transparent
+  );
+  color: var(--header-ink);
+}
+
+html.header-over-media .site-header::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgb(42 51 60 / 0.5), transparent);
+  opacity: calc(1 - var(--hero-lock));
+}
+
+html.header-over-media .site-header-wordmark {
+  color: var(--header-ink);
+}
+
+html.header-over-media .site-header-kicker,
+html.header-over-media .site-header-link {
+  color: var(--header-muted);
+}
+
+html.header-over-media .site-header-link:hover,
+html.header-over-media .site-header-link[aria-current='page'] {
+  color: var(--header-ink);
+}
+
+html.header-over-media .site-header-cta {
+  background-color: var(--header-cta-bg);
+  color: var(--header-cta-fg);
+}
+
+html.header-over-media .site-header-cta:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--color-ink-soft) calc(var(--hero-lock) * 100%),
+    var(--color-paper)
+  );
+}
+
+html.header-over-media .site-header-menu {
+  color: var(--header-ink);
+}
+
+html.header-over-media .site-header-menu-bar {
+  background-color: var(--header-ink);
+}
+
+html.header-over-media .site-header :focus-visible {
+  outline-color: color-mix(
+    in srgb,
+    var(--color-dawn) calc(var(--hero-lock) * 100%),
+    var(--color-dawn-soft)
+  );
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--color-paper) calc(var(--hero-lock) * 100%), var(--color-dusk));
+}
+
+.scroll-hero-motion,
+.prophecy-flight-motion {
+  display: none;
+  overflow-anchor: none;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .scroll-hero-motion,
+  .prophecy-flight-motion {
+    display: block;
+  }
+
+  .scroll-hero-rest,
+  .prophecy-flight-rest {
+    display: none;
+  }
+
+  /*
+   * Homepage Arrival pulls under the header so the church photograph can open
+   * full-bleed. The header itself firms up via --hero-lock. Only on fine pointers:
+   * a phone keeps the paper bar and the existing dusk composition.
+   */
+  .arrival-scene {
+    margin-top: -5rem;
+  }
+}
+
+/*
+ * Homepage Arrival sky. Almost imperceptible scale, not a looping cloud pan —
+ * the plate does not tile.
+ */
+.church-hero-sky-ambient {
+  animation: church-hero-sky-breathe 36s var(--ease-settle) infinite;
+  transform-origin: center;
+}
+
+@keyframes church-hero-sky-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.008);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.header-over-media .site-header {
+    background-color: var(--color-paper);
+    border-bottom-color: var(--color-rule);
+    color: var(--color-ink);
+  }
+
+  html.header-over-media .site-header::before {
+    opacity: 0;
+  }
+
+  .scroll-hero-motion,
+  .prophecy-flight-motion {
+    display: none;
+  }
+
+  .scroll-hero-rest,
+  .prophecy-flight-rest {
+    display: block;
+  }
+}
+
+/*
+ * Prophecy timeline. The markup is the document; these rules are the drawing.
+ * See docs/PROPHECY-TIMELINE.md. No canvas. Compression is only the labeled fold.
+ */
+.prophecy-scale-track {
+  display: flex;
+  height: 4.5rem;
+  overflow: hidden;
+  border: 1px solid var(--color-ink);
+}
+
+.prophecy-scale-weeks {
+  width: var(--nested-width, 21.3%);
+  background-color: var(--color-dawn);
+}
+
+.prophecy-scale-rest {
+  flex: 1;
+  background-color: var(--color-paper);
+}
+
+.prophecy-scale-legend,
+.prophecy-scale-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: var(--text-eyebrow--font-weight);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.prophecy-scale-ticks {
+  position: relative;
+  min-height: 1.5rem;
+}
+
+.prophecy-scale-tick {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.prophecy-scale-tick:first-child {
+  transform: none;
+}
+
+.prophecy-scale-tick:last-child {
+  transform: translateX(-100%);
+  text-align: right;
+}
+
+.prophecy-spine {
+  position: relative;
+}
+
+.prophecy-event + .prophecy-event {
+  margin-top: 5rem;
+}
+
+.prophecy-event-block {
+  display: grid;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.prophecy-event-copy {
+  position: relative;
+  padding-left: 1.75rem;
+  border-left: 1px solid var(--color-rule);
+}
+
+.prophecy-event-copy::before {
+  content: '';
+  position: absolute;
+  top: 0.55rem;
+  left: -0.28rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-dawn);
+}
+
+.prophecy-fold {
+  margin: 0 0 4rem;
+  padding: 2rem 0 2.5rem;
+  border-block: 1px dashed var(--color-ink);
+}
+
+.prophecy-sum {
+  font-family: var(--font-serif);
+  font-size: var(--text-heading-2);
+  line-height: 1.35;
+  color: var(--color-ink);
+}
+
+.prophecy-sum-op {
+  margin: 0 0.55rem;
+  color: var(--color-ink-muted);
+}
+
+.prophecy-sum-result {
+  color: var(--color-dawn);
+}
+
+.prophecy-objection,
+.prophecy-lanes-more {
+  border-top: 1px solid var(--color-rule);
+  padding-top: 1.25rem;
+}
+
+.prophecy-objection summary,
+.prophecy-lanes-more summary {
+  list-style: none;
+}
+
+.prophecy-objection summary::-webkit-details-marker,
+.prophecy-lanes-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.prophecy-lanes-table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.prophecy-lanes-table th,
+.prophecy-lanes-table td {
+  padding: 1.25rem 1.5rem 1.25rem 0;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-rule);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+  color: var(--color-ink-soft);
+}
+
+.prophecy-lanes-table thead th {
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: var(--text-eyebrow--font-weight);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.prophecy-lanes-table tbody th {
+  font-weight: 400;
+  color: var(--color-ink);
+}
+
+.prophecy-empire-strip {
+  display: flex;
+  min-height: 8rem;
+  border: 1px solid var(--color-ink);
+}
+
+.prophecy-empire-band {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.85rem 0.7rem;
+  border-right: 1px solid var(--color-ink);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  background-color: var(--color-paper);
+}
+
+.prophecy-empire-band:nth-child(even) {
+  background-color: var(--color-paper-warm);
+}
+
+.prophecy-empire-band:last-child {
+  border-right: 0;
+}
+
+.prophecy-empire-band-name {
+  font-family: var(--font-serif);
+  font-size: var(--text-body-sm);
+  color: var(--color-ink);
+}
+
+.prophecy-empire-band-years {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+@media (min-width: 1024px) {
+  .prophecy-event + .prophecy-event {
+    margin-top: 0;
+  }
+
+  .prophecy-event-block {
+    grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
+    column-gap: 4rem;
+    min-height: 82vh;
+    padding: 4rem 0 6rem;
+  }
+
+  .prophecy-event-year {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+  }
+
+  .prophecy-event-copy {
+    padding-left: 2.25rem;
+  }
+
+  .prophecy-fold {
+    margin-top: 2rem;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .prophecy-scale-track {
+      transform-origin: left center;
+      animation: prophecy-scale-draw 1s var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    .prophecy-sum-result {
+      animation: prophecy-resolve 0.8s var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+
+@keyframes prophecy-scale-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes prophecy-resolve {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Prophecy flight — a scroll camera through the years. Nodes and edges are SVG;
+ * labels are real buttons. No canvas.
+ */
+.prophecy-flight-stage {
+  color: var(--color-paper-on-dusk);
+}
+
+.prophecy-horizon {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 100% 110%, rgb(224 165 102 / 0.26), transparent 58%),
+    radial-gradient(ellipse 45% 40% at 0% -10%, rgb(57 67 78 / 0.95), transparent 55%),
+    var(--color-dusk);
+}
+
+.prophecy-ghost-year {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: clamp(7rem, 22vw, 18rem);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: var(--color-paper-on-dusk);
+  opacity: 0.14;
+}
+
+.prophecy-constellation {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.prophecy-constellation-edges {
+  fill: none;
+  stroke: rgb(240 236 229 / 0.42);
+  stroke-width: 0.85;
+}
+
+.prophecy-star {
+  fill: rgb(240 236 229 / 0.88);
+}
+
+.prophecy-star-spine {
+  fill: var(--color-dawn-soft);
+}
+
+.prophecy-star-empire {
+  fill: rgb(240 236 229 / 0.95);
+}
+
+.prophecy-star-lane {
+  fill: var(--color-dawn-soft);
+}
+
+.prophecy-star-tick {
+  fill: rgb(240 236 229 / 0.55);
+}
+
+.prophecy-star.is-selected {
+  fill: var(--color-dawn-soft);
+  stroke: var(--color-paper-on-dusk);
+  stroke-width: 2;
+}
+
+.prophecy-star-fold {
+  fill: transparent;
+  stroke: var(--color-dawn-soft);
+  stroke-width: 1.4;
+}
+
+.prophecy-star-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.prophecy-star-hit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  max-width: 18rem;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.prophecy-star-hit:focus-visible {
+  outline: 2px solid var(--color-dawn-soft);
+  outline-offset: 4px;
+}
+
+.prophecy-star-hotspot {
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  border-radius: 9999px;
+}
+
+.prophecy-star-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding-top: 0.45rem;
+}
+
+.prophecy-star-hit-spine .prophecy-star-number {
+  margin-top: 0.45rem;
+}
+
+.prophecy-star-hit-tick .prophecy-star-copy {
+  padding-top: 0.7rem;
+}
+
+.prophecy-star-hit-tick .prophecy-star-date {
+  font-size: 0.7rem;
+}
+
+.prophecy-star-number {
+  display: flex;
+  width: 1.45rem;
+  height: 1.45rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--color-dawn-soft);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-dusk);
+}
+
+.prophecy-star-kicker {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-dawn-soft);
+}
+
+.prophecy-star-name {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  line-height: 1.3;
+  color: var(--color-paper-on-dusk);
+}
+
+.prophecy-star-date {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: rgb(240 236 229 / 0.6);
+}
+
+.prophecy-star-reading {
+  position: absolute;
+  top: 22%;
+  left: 5vw;
+  z-index: 5;
+  width: min(28rem, 36vw);
+  max-height: 58vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.prophecy-star-reading-link,
+.prophecy-star-reading-close {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  color: var(--color-paper-on-dusk);
+  text-decoration: underline;
+  text-decoration-color: var(--color-dawn-soft);
+  text-underline-offset: 4px;
+}
+
+.prophecy-star-reading-close {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.prophecy-flight-intro {
+  pointer-events: none;
+  position: absolute;
+  top: 22%;
+  left: 5vw;
+  z-index: 4;
+  width: min(36rem, 88vw);
+}
+
+.prophecy-flight-cue {
+  pointer-events: none;
+  position: absolute;
+  bottom: 7.5rem;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: var(--text-eyebrow--font-weight);
+  text-transform: uppercase;
+  color: var(--color-dawn-soft);
+}
+
+.prophecy-flight-hud {
+  pointer-events: none;
+  position: absolute;
+  right: 5vw;
+  bottom: 2.25rem;
+  z-index: 4;
+  width: min(28rem, 42vw);
+}
+
+.prophecy-flight-ruler-track {
+  position: relative;
+  height: 0.4rem;
+  overflow: visible;
+  border: 1px solid rgb(240 236 229 / 0.45);
+}
+
+.prophecy-flight-ruler-progress {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background-color: var(--color-dawn-soft);
+  will-change: transform;
+}
+
+.prophecy-flight-ruler-weeks {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: var(--nested-width, 21.3%);
+  height: 100%;
+  box-shadow: inset -1px 0 0 rgb(240 236 229 / 0.85);
+}
+
+.prophecy-flight-playhead {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: visible;
+}
+
+.prophecy-flight-playhead span {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: 0;
+  width: 2px;
+  background-color: var(--color-paper-on-dusk);
+}
+
+.prophecy-flight-ruler-caption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.55rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: rgb(240 236 229 / 0.6);
+}
+
+.prophecy-flight-skip {
+  position: absolute;
+  bottom: 2.25rem;
+  left: 5vw;
+  z-index: 4;
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+}
+
+.prophecy-flight-skip a {
+  color: var(--color-paper-on-dusk);
+  text-decoration: underline;
+  text-decoration-color: var(--color-dawn-soft);
+  text-underline-offset: 4px;
+}
+
+.prophecy-years-snap {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1.25rem 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.25rem;
+}
+
+.prophecy-years-card {
+  flex: 0 0 min(18rem, 78vw);
+  scroll-snap-align: start;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid rgb(240 236 229 / 0.22);
+}
+
+@media (min-width: 768px) {
+  .prophecy-years-snap {
+    padding-inline: 2rem;
+    scroll-padding-inline: 2rem;
   }
 }

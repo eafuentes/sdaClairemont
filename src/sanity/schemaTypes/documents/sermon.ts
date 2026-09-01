@@ -1,6 +1,6 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
-import { YOUTUBE_URL_PATTERN } from '../objects/video-ref'
+import { YOUTUBE_URL_PATTERN } from '@/lib/youtube'
 
 /**
  * A recorded message.

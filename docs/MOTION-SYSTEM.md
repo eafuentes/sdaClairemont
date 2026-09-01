@@ -134,7 +134,7 @@ So: the LCP element may move, scale, or be masked by an ancestor, but it enters 
 
 Scroll-linked motion is read-only: we observe position and map it to transforms. Position is read exclusively through Motion's `useScroll`, which uses a passive listener and requestAnimationFrame batching. No component calls `getBoundingClientRect()` in a scroll handler.
 
-Sticky storytelling uses `position: sticky` in normal document flow, so scrolling out of a sticky scene is as easy as scrolling into it. Sticky scenes are capped at **200vh** of scroll each and there are at most **two** on any page — a sticky scene is a paragraph, not a chapter.
+Sticky storytelling uses `position: sticky` in normal document flow, so scrolling out of a sticky scene is as easy as scrolling into it. Sticky scenes are capped at **200vh** of scroll each and there are at most **two** on any page — a sticky scene is a paragraph, not a chapter. **`/prophecy` is the exception:** that page *is* the years, so its flight track is several viewports (`SCROLL_FLIGHT` in `src/lib/motion.ts`). Leaving it is still native scroll. Homepage scenes stay at the cap.
 
 At most **two scroll-linked scenes are active at once**; each is gated by `IntersectionObserver` and fully suspended when off-screen.
 

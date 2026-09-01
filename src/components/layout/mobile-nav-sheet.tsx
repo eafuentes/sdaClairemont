@@ -52,13 +52,13 @@ export function MobileNavSheet({ navItems, settings }: MobileNavSheetProps) {
       <button
         aria-expanded={isOpen}
         aria-haspopup="dialog"
-        className="-mr-2 inline-flex min-h-11 items-center gap-2 rounded-xs px-2 font-sans text-eyebrow text-ink uppercase lg:hidden"
+        className="site-header-menu -mr-2 inline-flex min-h-11 items-center gap-2 rounded-xs px-2 font-sans text-eyebrow text-ink uppercase lg:hidden"
         onClick={() => dialogRef.current?.showModal()}
         type="button"
       >
         <span aria-hidden="true" className="flex w-5 flex-col gap-[5px]">
-          <span className="h-px w-full bg-ink" />
-          <span className="h-px w-full bg-ink" />
+          <span className="site-header-menu-bar h-px w-full bg-ink" />
+          <span className="site-header-menu-bar h-px w-full bg-ink" />
         </span>
         Menu
       </button>
@@ -107,6 +107,12 @@ export function MobileNavSheet({ navItems, settings }: MobileNavSheetProps) {
           </nav>
 
           <div className="border-t border-rule pt-6">
+            <Link
+              className="mb-4 inline-flex min-h-11 items-center font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4"
+              href="/this-sabbath"
+            >
+              This Sabbath
+            </Link>
             <Link
               className="inline-flex min-h-11 w-full items-center justify-center rounded-xs bg-ink px-6 font-sans text-body-sm font-medium text-paper"
               href="/visit"

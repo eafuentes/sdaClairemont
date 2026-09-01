@@ -9,11 +9,15 @@ interface SiteFooterProps {
 }
 
 const exploreLinks = [
+  { label: 'This Sabbath', href: '/this-sabbath' },
   { label: 'Plan Your Visit', href: '/visit' },
   { label: 'About Us', href: '/about' },
   { label: 'Ministries', href: '/ministries' },
   { label: 'Events', href: '/events' },
   { label: 'Watch & Listen', href: '/watch' },
+  { label: 'Photographs', href: '/gallery' },
+  { label: 'Walk through the years', href: '/prophecy' },
+  { label: 'Give', href: '/give' },
   { label: 'Prayer Requests', href: '/prayer' },
 ]
 

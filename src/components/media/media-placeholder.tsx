@@ -1,4 +1,7 @@
+import Image from 'next/image'
+
 import { cn } from '@/lib/utils'
+import type { ContentImage } from '@/types/content'
 
 type PlaceholderTone = 'warm' | 'cool' | 'neutral' | 'dusk'
 
@@ -6,21 +9,18 @@ interface MediaPlaceholderProps {
   /**
    * The photograph this slot needs, written as a brief.
    *
-   * Rendered on screen on purpose. The composition cannot be judged against grey
-   * boxes, and printing the brief in place turns the homepage into a live shot list
-   * that church staff can read without opening a document.
+   * Rendered on screen when no image has been supplied. The composition cannot be
+   * judged against grey boxes, and printing the brief in place turns the homepage
+   * into a live shot list that church staff can read without opening a document.
    */
   description: string
   className?: string
   tone?: PlaceholderTone
   caption?: string
+  /** When present, this is a real photograph and the brief is not shown. */
+  image?: ContentImage
 }
 
-/*
- * Tonal washes rather than distinct hues. The palette carries only dawn and dusk, so
- * variety here comes from opacity over paper — which is also what keeps a shot list of
- * placeholders from quietly introducing a fourth and fifth colour into the system.
- */
 const toneClasses: Record<PlaceholderTone, string> = {
   warm: 'bg-gradient-to-b from-dawn/25 to-paper-deep text-ink-soft',
   cool: 'bg-gradient-to-b from-dusk/20 to-paper-deep text-ink-soft',
@@ -29,36 +29,53 @@ const toneClasses: Record<PlaceholderTone, string> = {
 }
 
 /**
- * Stands in for a photograph that has not been taken yet.
+ * A photographic slot: the real picture when one exists, otherwise the brief for
+ * the one that does not.
  *
- * Phase 1 composes the entire homepage with these so layout, rhythm and typography can
- * be judged before any imagery exists. Phase 4 replaces this component with
- * `SanityImage`; every call site already passes the alt-text-shaped `description`.
- *
- * Deliberately not a grey box and deliberately not an AI image: it reads as a
- * considered tonal surface, and it cannot be mistaken for finished work or accidentally
- * survive into production as a photograph. See docs/MEDIA-STRATEGY.md.
+ * Deliberately not a grey box and deliberately not an AI image when empty: it reads
+ * as a considered tonal surface, and it cannot be mistaken for finished work. See
+ * docs/MEDIA-STRATEGY.md.
  */
 export function MediaPlaceholder({
   description,
   className,
   tone = 'neutral',
   caption,
+  image,
 }: MediaPlaceholderProps) {
+  const shownCaption = image?.caption ?? caption
+
   return (
     <figure className={cn('flex flex-col', className)}>
       <div
-        className={cn('relative flex h-full w-full items-end overflow-hidden', toneClasses[tone])}
-        role="img"
-        aria-label={description}
+        className={cn(
+          'relative flex h-full w-full items-end overflow-hidden',
+          image ? 'bg-paper-deep' : toneClasses[tone],
+        )}
+        role={image ? undefined : 'img'}
+        aria-label={image ? undefined : description}
       >
-        <div className="w-full p-5 md:p-6">
-          <p className="font-sans text-eyebrow uppercase opacity-70">Photograph needed</p>
-          <p className="mt-2 max-w-measure font-sans text-body-sm">{description}</p>
-        </div>
+        {image ? (
+          <Image
+            alt={image.alt}
+            blurDataURL={image.lqip}
+            className="object-cover"
+            fill
+            placeholder={image.lqip ? 'blur' : 'empty'}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            src={image.src}
+          />
+        ) : (
+          <div className="w-full p-5 md:p-6">
+            <p className="font-sans text-eyebrow uppercase opacity-70">Photograph needed</p>
+            <p className="mt-2 max-w-measure font-sans text-body-sm">{description}</p>
+          </div>
+        )}
       </div>
-      {caption ? (
-        <figcaption className="mt-3 font-sans text-body-sm text-ink-soft">{caption}</figcaption>
+      {shownCaption ? (
+        <figcaption className="mt-3 font-sans text-body-sm text-ink-soft">
+          {shownCaption}
+        </figcaption>
       ) : null}
     </figure>
   )

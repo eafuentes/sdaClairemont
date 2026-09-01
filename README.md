@@ -58,8 +58,9 @@ Variables, by group:
 | `NEXT_PUBLIC_SANITY_PROJECT_ID`        | Phase 2       | Public project identifier                               |
 | `NEXT_PUBLIC_SANITY_DATASET`           | Phase 2       | Usually `production`                                    |
 | `NEXT_PUBLIC_SANITY_API_VERSION`       | Phase 2       | Pinned `YYYY-MM-DD` date                                |
-| `SANITY_API_READ_TOKEN`                | Phase 2       | Server-only. Drafts for Visual Editing                  |
+| `SANITY_API_READ_TOKEN`                | Phase 2       | Server-only. Viewer token for drafts and Presentation   |
 | `SANITY_REVALIDATE_SECRET`             | Phase 2       | Server-only. Webhook signature                          |
+| `SANITY_API_WRITE_TOKEN`               | Phase 2 seed  | Server-only. Editor token for `pnpm sanity:seed` only   |
 | `NEXT_PUBLIC_SUPABASE_URL`             | Phase 5       | Project URL                                             |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Phase 5       | Browser-safe; constrained by Row Level Security         |
 | `SUPABASE_SECRET_KEY`                  | Phase 5       | Server-only. **Bypasses Row Level Security**            |
@@ -78,25 +79,27 @@ Then open http://localhost:3000.
 
 ## Scripts
 
-| Script                | Purpose                                                        |
-| --------------------- | -------------------------------------------------------------- |
-| `pnpm dev`            | Start the development server                                   |
-| `pnpm build`          | Production build                                               |
-| `pnpm start`          | Serve a production build locally                               |
-| `pnpm lint`           | ESLint (flat config; `next lint` no longer exists in Next 16)  |
-| `pnpm lint:fix`       | ESLint with autofix                                            |
-| `pnpm typecheck`      | Regenerates route types, then `tsc --noEmit`                   |
-| `pnpm format`         | Write Prettier formatting                                      |
-| `pnpm format:check`   | Verify formatting without writing                              |
-| `pnpm check:contrast` | Check the palette against WCAG contrast floors                 |
-| `pnpm check:classes`  | Check every colour utility compiles to a rule (needs a build)  |
-| `pnpm check:bundle`   | Check the homepage JavaScript budget (needs a build)           |
-| `pnpm check:schema`   | Compile and validate the Sanity schema graph                   |
-| `pnpm check:types`    | Check the committed Sanity types match the schemas and queries |
-| `pnpm typegen`        | Regenerate `schema.json` and `sanity.types.ts`                 |
-| `pnpm sanity:ping`    | Verify the configured Sanity project is reachable              |
+| Script                    | Purpose                                                                 |
+| ------------------------- | ----------------------------------------------------------------------- |
+| `pnpm dev`                | Start the development server                                            |
+| `pnpm build`              | Production build                                                        |
+| `pnpm start`              | Serve a production build locally                                        |
+| `pnpm lint`               | ESLint (flat config; `next lint` no longer exists in Next 16)           |
+| `pnpm lint:fix`           | ESLint with autofix                                                     |
+| `pnpm typecheck`          | Regenerates route types, then `tsc --noEmit`                            |
+| `pnpm format`             | Write Prettier formatting                                               |
+| `pnpm format:check`       | Verify formatting without writing                                       |
+| `pnpm check:contrast`     | Check the palette against WCAG contrast floors                          |
+| `pnpm check:classes`      | Check every colour utility compiles to a rule (needs a build)           |
+| `pnpm check:bundle`       | Check the homepage JavaScript budget (needs a build)                    |
+| `pnpm check:schema`       | Compile and validate the Sanity schema graph                            |
+| `pnpm check:types`        | Check the committed Sanity types match the schemas and queries          |
+| `pnpm check:placeholders` | Fail a production deploy if published CMS images are still placeholders |
+| `pnpm typegen`            | Regenerate `schema.json` and `sanity.types.ts`                          |
+| `pnpm sanity:ping`        | Verify the configured Sanity project is reachable                       |
+| `pnpm sanity:seed`        | Create or replace starter documents in the Sanity dataset               |
 
-Before opening a pull request, run `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm check:contrast`, `pnpm check:schema`, `pnpm check:types`, `pnpm build`, `pnpm check:classes` and `pnpm check:bundle`. CI runs exactly these nine, in that order — the last two read the build output, so they have to follow the build.
+Before opening a pull request, run `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm check:contrast`, `pnpm check:schema`, `pnpm check:types`, `pnpm build`, `pnpm check:classes` and `pnpm check:bundle`. CI runs exactly these nine, in that order — the last two read the build output, so they have to follow the build. `pnpm build` also runs `check:placeholders`, which skips unless `VERCEL_ENV=production` or `CHECK_PLACEHOLDERS=1`.
 
 `check:schema` catches what type checking cannot see. A reference to a document type that does not exist, or a field type that was never registered, compiles and builds without complaint and then fails when the Studio loads — which for an editor means a blank screen and no explanation. It needs no credentials, so it runs in CI like everything else.
 
@@ -116,7 +119,15 @@ The governing principle is that **Sanity and Supabase have different responsibil
 
 Owns everything the public reads: homepage content, Sabbath programs, events, announcements, ministries, Pathfinders and Adventurers content, sermons, leadership, galleries, testimonials, service times, resources, SEO metadata, and external destinations including the AdventistGiving URL and YouTube links.
 
-Sanity exists so that non-technical church staff can publish without a deployment. Studio will be embedded at `/studio` with Presentation and Visual Editing so editors preview and click-to-edit the real site.
+Sanity exists so that non-technical church staff can publish without a deployment. Studio is embedded at `/studio` with Presentation and Visual Editing so editors preview and click-to-edit the real site.
+
+To fill an empty dataset from the fixture copy:
+
+```bash
+pnpm sanity:seed
+```
+
+That needs `SANITY_API_WRITE_TOKEN`. Sermons are skipped on purpose — the schema requires a real YouTube URL. After seeding, open `/studio`, edit This Sabbath, and publish. Configure a Sanity webhook to `POST /api/revalidate` with `SANITY_REVALIDATE_SECRET` so the published page updates without waiting for the fallback ISR window.
 
 ### Supabase — application backend
 

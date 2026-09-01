@@ -1,12 +1,13 @@
 import { addDays, getUpcomingSabbath, subtractWeeks } from '@/lib/sabbath'
+import { flagshipPhotos } from '@/content/flagship'
 import type { ChurchEvent, HomePageContent, Ministry, SabbathProgram } from '@/types/content'
 
 /**
  * Phase 1 fixtures for the homepage.
  *
  * Shaped exactly like the `homePage` singleton and its referenced documents in
- * docs/CMS-ARCHITECTURE.md, so Phase 2 replaces this module with a GROQ query and
- * changes nothing in any component.
+ * docs/CMS-ARCHITECTURE.md. Phase 2 loaders map GROQ results onto this shape and
+ * use these fixtures to fill any chapter that has not been published yet.
  *
  * The prose here is written in the church's voice and is close to publishable, because
  * placeholder copy hides layout problems that real sentences expose. Names, sermon
@@ -37,6 +38,8 @@ export const ministries: Ministry[] = [
       'Camping, hiking, service and skill-building for grades 5 through 12, run by trained and background-checked volunteers.',
     ageRange: 'Grades 5–12',
     meetingSchedule: 'Sundays during the school year',
+    heroImage: flagshipPhotos.pathfinders.hero,
+    switcherImage: flagshipPhotos.pathfinders.hero,
     tone: 'warm',
     order: 1,
   },
@@ -47,6 +50,8 @@ export const ministries: Ministry[] = [
       'Younger children and their families learning together, twice a month, with plenty of room to be four years old.',
     ageRange: 'Pre-K–Grade 4, with families',
     meetingSchedule: 'Twice monthly on Sundays',
+    heroImage: flagshipPhotos.adventurers.hero,
+    switcherImage: flagshipPhotos.adventurers.hero,
     tone: 'cool',
     order: 2,
   },
@@ -144,6 +149,8 @@ export const upcomingEvents: ChurchEvent[] = [
 export const homePage: HomePageContent = {
   arrival: {
     headline: 'There’s a place for you here.',
+    subhead:
+      'A welcoming community growing in faith, serving our neighbors, and looking forward with hope.',
     hero: {
       description:
         'The church exterior at golden hour, shot wide from the sidewalk with the steps and the eucalyptus in frame. Space along the lower edge for type.',
@@ -205,6 +212,13 @@ export const homePage: HomePageContent = {
     pastorPortrait: {
       description:
         'Portrait of Pastor London Lee, natural light, at the church rather than in a studio. Shoulders up, looking at the camera.',
+      image: {
+        src: '/images/pastor-website-assets/pastor-portrait-London-2.webp',
+        alt: 'Pastor London L. Lee in the Clairemont sanctuary, wearing glasses and a grey suit, smiling toward the camera.',
+        width: 1049,
+        height: 1400,
+        provenance: 'church-photo',
+      },
     },
   },
 
@@ -227,7 +241,7 @@ export const homePage: HomePageContent = {
         title: 'What the Sabbath Is For',
         slug: 'what-the-sabbath-is-for',
         date: subtractWeeks(upcomingSabbath, 2),
-        speakerName: 'Robert David Berry',
+        speakerName: 'Robert Berry',
         scripture: [{ reference: 'Mark 2:27' }],
         youtubeUrl: '',
         duration: '34 min',

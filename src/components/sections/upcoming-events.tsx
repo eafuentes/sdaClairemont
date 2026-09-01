@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 import { Container } from '@/components/layout/container'
 import { Reveal } from '@/components/motion/reveal'
+import { EventRow } from '@/components/events/event-row'
 import { Eyebrow } from '@/components/ui/eyebrow'
-import { formatDateParts, formatTime } from '@/lib/datetime'
 import type { ChurchEvent, SiteSettings } from '@/types/content'
 
 interface UpcomingEventsProps {
@@ -39,64 +39,21 @@ export function UpcomingEvents({ events, settings }: UpcomingEventsProps) {
         </Reveal>
 
         <ul className="mt-12">
-          {events.map((event, index) => {
-            const { weekday, day, month } = formatDateParts(event.startDateTime)
-
-            return (
-              /*
-               * The stagger is capped at four steps. Beyond that the last row in a long
-               * list waits noticeably for its turn, and a delay the reader can feel while
-               * looking straight at an empty row is worse than no stagger at all.
-               */
-              <Reveal
-                key={event.slug}
-                as="li"
-                className="border-t border-rule"
-                delay={Math.min(index, 3) * 0.08}
-              >
-                <Link
-                  className="group flex min-h-11 flex-col gap-4 py-8 sm:flex-row sm:items-baseline sm:gap-10"
-                  href={`/events/${event.slug}`}
-                >
-                  <div className="flex shrink-0 items-baseline gap-3 sm:w-28 sm:flex-col sm:gap-0">
-                    <span className="font-sans text-eyebrow text-ink-muted uppercase">
-                      {weekday}
-                    </span>
-                    <span className="tabular font-serif text-heading-1 leading-none text-ink">
-                      {day}
-                    </span>
-                    <span className="font-sans text-eyebrow text-ink-muted uppercase">{month}</span>
-                  </div>
-
-                  <div className="flex-1">
-                    <h3 className="font-serif text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
-                      {event.title}
-                    </h3>
-                    <p className="mt-2 max-w-measure font-sans text-body-sm text-ink-soft">
-                      {event.shortDescription}
-                    </p>
-                    <p className="mt-3 font-sans text-body-sm text-ink-muted">
-                      <time className="tabular" dateTime={event.startDateTime}>
-                        {formatTime(event.startDateTime)}
-                      </time>
-                      {event.locationName ? (
-                        <>
-                          <span aria-hidden="true"> · </span>
-                          {event.locationName}
-                        </>
-                      ) : null}
-                    </p>
-                  </div>
-
-                  {event.ministryName ? (
-                    <span className="font-sans text-eyebrow text-dawn uppercase sm:shrink-0">
-                      {event.ministryName}
-                    </span>
-                  ) : null}
-                </Link>
-              </Reveal>
-            )
-          })}
+          {events.map((event, index) => (
+            /*
+             * The stagger is capped at four steps. Beyond that the last row in a long
+             * list waits noticeably for its turn, and a delay the reader can feel while
+             * looking straight at an empty row is worse than no stagger at all.
+             */
+            <Reveal
+              key={event.slug}
+              as="li"
+              className="border-t border-rule"
+              delay={Math.min(index, 3) * 0.08}
+            >
+              <EventRow event={event} />
+            </Reveal>
+          ))}
         </ul>
 
         <div className="border-t border-rule pt-8">

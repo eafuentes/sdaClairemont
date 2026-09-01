@@ -115,11 +115,11 @@ The contrast gate applies here as everywhere: every date, label and rule is chec
 - **Its own route** — `/prophecy` or similar — with its own JavaScript budget, recorded in `check:bundle` the same way the homepage is. Nothing here touches the homepage bundle.
 - **SVG for the axis, connectors and period bars.** DOM for all text. No canvas.
 - **One scroll source.** Like `ChapterAtmosphere` on the homepage, the lanes read from a single shared scroll value rather than each registering a listener.
-- **Content lives in Sanity.** A `propheticEvent` document type with date, era, passage references, explanation and lane assignment, plus a `propheticPeriod` for the spans. Deliberately not designed yet: the schema should follow the built page, not precede it, or it will encode guesses.
-- **Dates need care.** There is no year zero, dates are BC/AD rather than ISO, and several are seasonal ("autumn AD 27") rather than exact. A plain `date` field is the wrong shape; this needs a small value object with era, year, optional season and a display string.
+- **Content lives in Sanity.** Singleton `prophecyPage` (desk: Prophecy timeline). Staff edit dates, copy, objections, and empire alignments. The constellation is derived from those dates — never from x/y/z fields. Until the singleton is published, the page falls back to `src/content/prophecy.ts`.
+- **Dates need care.** There is no year zero, dates are BC/AD rather than ISO, and several are seasonal ("autumn AD 27") rather than exact. The `propheticDate` object holds era, year, optional season and a display string.
 
 ---
 
 ## 8. Status
 
-Designed, not built. Scheduled for Phase 4 alongside the Pathfinders page, at the church's direction, after Phase 2 content wiring is complete.
+Built as `/prophecy`. The opening is a scroll flight through the years — SVG constellation, native scroll, a long sticky track so wheel motion is travel through time rather than paging the site. The same chronology remains a document underneath. Staff edit the singleton in Studio; positions are never editorial.

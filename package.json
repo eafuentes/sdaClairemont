@@ -10,7 +10,7 @@
   "packageManager": "pnpm@10.18.3",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node --env-file-if-exists=.env.local scripts/check-placeholders.mjs",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -20,14 +20,18 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:classes": "node scripts/check-classes.mjs",
     "check:bundle": "node scripts/check-bundle.mjs",
+    "check:lighthouse": "lhci autorun --config=lighthouserc.cjs",
     "check:schema": "sanity schema validate",
     "check:types": "node scripts/check-generated-types.mjs",
+    "check:placeholders": "node --env-file-if-exists=.env.local scripts/check-placeholders.mjs",
     "typegen": "sanity schema extract --enforce-required-fields --force && sanity typegen generate",
-    "sanity:ping": "node --env-file-if-exists=.env.local scripts/sanity-ping.mjs"
+    "sanity:ping": "node --env-file-if-exists=.env.local scripts/sanity-ping.mjs",
+    "sanity:seed": "node --env-file-if-exists=.env.local scripts/seed-sanity.mjs"
   },
   "dependencies": {
     "@sanity/client": "^7.26.2",
     "@sanity/image-url": "^2.1.1",
+    "@sanity/preview-url-secret": "^4.1.5",
     "@sanity/vision": "^6.10.1",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.3",
@@ -42,6 +46,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.19.0",
     "@types/react": "^19.2.18",

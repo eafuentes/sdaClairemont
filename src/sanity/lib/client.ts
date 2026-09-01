@@ -1,36 +1,69 @@
-import { createClient } from '@sanity/client'
+import { createClient, type SanityClient } from 'next-sanity'
+import 'server-only'
 
 import { sanityEnv } from '@/env'
+import { sanityApiReadToken } from '@/env.server'
 
 /**
  * Read-only Sanity client for published content.
  *
- * Phase 0 establishes the boundary: no module outside `src/sanity/` constructs a
- * Sanity client or a Sanity URL, so moving to a church-owned project is a change of
- * environment variables rather than a change to application code.
+ * No module outside `src/sanity/` constructs a Sanity client or a Sanity URL, so
+ * moving to a church-owned project is a change of environment variables rather than
+ * a change to application code.
  *
- * Phase 2 replaces `@sanity/client` here with `next-sanity`, which re-exports the
- * same `createClient` and adds live queries, draft perspectives and Visual Editing.
- * That swap is deliberately deferred: at the time of writing, `next-sanity@13`
- * pins `@sanity/client@^7` while `sanity@6` pulls `@sanity/client@8`, and there is
- * no reason to adopt that conflict before Studio actually needs it.
+ * Constructed lazily: CI and a clean checkout never call this, because the loaders
+ * check `isSanityConfigured()` first. Calling `sanityEnv()` at import time would
+ * throw on every build that has no credentials.
  */
-let cachedClient: ReturnType<typeof createClient> | undefined
+let cachedPublishedClient: SanityClient | undefined
+let cachedDraftClient: SanityClient | undefined
 
-export function getSanityClient() {
-  if (cachedClient) return cachedClient
-
+function baseConfig() {
   const env = sanityEnv()
-
-  cachedClient = createClient({
+  return {
     projectId: env.NEXT_PUBLIC_SANITY_PROJECT_ID,
     dataset: env.NEXT_PUBLIC_SANITY_DATASET,
     apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION,
-    // Served from Sanity's CDN. Freshness is handled by tag-based revalidation
-    // driven from a publish webhook, not by bypassing the cache on every request.
+  }
+}
+
+export function getSanityClient(): SanityClient {
+  if (cachedPublishedClient) return cachedPublishedClient
+
+  cachedPublishedClient = createClient({
+    ...baseConfig(),
+    // Served from Sanity's CDN. Freshness is tag-based revalidation once the webhook
+    // is configured; until then fetches keep a short ISR window in `fetch.ts`.
     useCdn: true,
     perspective: 'published',
   })
 
-  return cachedClient
+  return cachedPublishedClient
+}
+
+/**
+ * Drafts, with stega encoding so Presentation can overlay click-to-edit.
+ *
+ * Never cached, never on the CDN, never used for a public request. Returns `null`
+ * when the read token is missing so draft mode fails closed rather than leaking
+ * an unauthenticated drafts query.
+ */
+export function getDraftSanityClient(): SanityClient | null {
+  const token = sanityApiReadToken()
+  if (!token) return null
+
+  if (cachedDraftClient) return cachedDraftClient
+
+  cachedDraftClient = createClient({
+    ...baseConfig(),
+    useCdn: false,
+    token,
+    perspective: 'drafts',
+    stega: {
+      enabled: true,
+      studioUrl: '/studio',
+    },
+  })
+
+  return cachedDraftClient
 }

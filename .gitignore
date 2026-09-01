@@ -29,6 +29,9 @@ next-env.d.ts
 # sanity
 /sanity/dist
 
+# lighthouse ci
+.lighthouseci
+
 # misc
 .DS_Store
 *.pem

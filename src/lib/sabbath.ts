@@ -44,6 +44,18 @@ export function getUpcomingSabbath(from: Date = new Date()): string {
 }
 
 /**
+ * The Saturday on or before a calendar date.
+ *
+ * Sabbath sermons are often uploaded on Sunday. The date on the Watch page is the
+ * day the message was preached, not the day the file reached YouTube.
+ */
+export function getMostRecentSabbath(plainDate: string): string {
+  const weekday = new Date(`${plainDate}T00:00:00Z`).getUTCDay()
+  const daysSinceSaturday = (weekday + 1) % 7
+  return addDays(plainDate, -daysSinceSaturday)
+}
+
+/**
  * Walks back a number of weeks from a `YYYY-MM-DD` date, staying on the same weekday.
  *
  * Arithmetic runs in UTC because a plain date is a calendar date, not an instant, and
@@ -59,4 +71,21 @@ export function addDays(plainDate: string, days: number): string {
   date.setUTCDate(date.getUTCDate() + days)
 
   return date.toISOString().slice(0, 10)
+}
+
+/**
+ * Parameters for GROQ queries that compare against "now".
+ *
+ * `$today` is a calendar date in Clairemont. Sabbath programs store a date, not an
+ * instant, so comparing them to UTC midnight would roll the day over at 4 or 5 PM
+ * Pacific — during the hours people actually check what time to arrive.
+ *
+ * `$now` is a real instant. Event datetimes are instants, so the current moment in
+ * ISO-8601 is the correct comparison; timezone conversion would be the bug.
+ */
+export function getChurchQueryParams(from: Date = new Date()): { today: string; now: string } {
+  return {
+    today: getChurchPlainDate(from),
+    now: from.toISOString(),
+  }
 }

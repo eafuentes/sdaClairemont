@@ -109,6 +109,7 @@ export function Invitation({ content, settings }: InvitationProps) {
             <MediaPlaceholder
               className="aspect-[4/3]"
               description={content.entrance.description}
+              image={content.entrance.image}
               tone="cool"
             />
             {/* A static map image linking out, never an embedded interactive map:

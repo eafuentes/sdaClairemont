@@ -47,3 +47,22 @@ export const supabaseSecretEnv = (() => {
     return cached
   }
 })()
+
+/**
+ * Viewer token for drafts and Presentation. Optional: published pages do not need it,
+ * and a missing value must not take down the public site. Draft mode and Visual
+ * Editing fail closed when it is absent.
+ */
+export function sanityApiReadToken(): string | undefined {
+  const token = process.env.SANITY_API_READ_TOKEN
+  return token && token.length > 0 ? token : undefined
+}
+
+/**
+ * Shared secret for the Sanity revalidation webhook. Optional until the webhook is
+ * configured; published fetches keep a short ISR window in that case.
+ */
+export function sanityRevalidateSecret(): string | undefined {
+  const secret = process.env.SANITY_REVALIDATE_SECRET
+  return secret && secret.length > 0 ? secret : undefined
+}

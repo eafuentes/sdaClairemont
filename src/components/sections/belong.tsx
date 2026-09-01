@@ -1,6 +1,8 @@
 import { Container } from '@/components/layout/container'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
+import { ParallaxMedia } from '@/components/motion/parallax-media'
 import { Reveal } from '@/components/motion/reveal'
+import { RevealText } from '@/components/motion/reveal-text'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import type { HomePageContent } from '@/types/content'
 
@@ -42,27 +44,33 @@ export function Belong({ content }: BelongProps) {
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
             {firstPlate ? (
               <Reveal className="lg:col-span-7 lg:col-start-1">
-                <MediaPlaceholder
-                  caption={firstPlate.caption}
-                  className="aspect-[3/2]"
-                  description={firstPlate.description}
-                  tone="neutral"
-                />
+                <ParallaxMedia rate={0.05} scaleTo={1.04}>
+                  <MediaPlaceholder
+                    caption={firstPlate.caption}
+                    className="aspect-[3/2]"
+                    description={firstPlate.description}
+                    image={firstPlate.image}
+                    tone="neutral"
+                  />
+                </ParallaxMedia>
               </Reveal>
             ) : null}
 
             {secondPlate ? (
-              <Reveal className="lg:col-span-4 lg:col-start-9 lg:pt-24" delay={0.12}>
-                <MediaPlaceholder
-                  caption={secondPlate.caption}
-                  className="aspect-[4/5]"
-                  description={secondPlate.description}
-                  tone="warm"
-                />
+              <Reveal className="lg:col-span-4 lg:col-start-9 lg:pt-24" delay={0.08}>
+                <ParallaxMedia rate={0.03} scaleTo={1.03}>
+                  <MediaPlaceholder
+                    caption={secondPlate.caption}
+                    className="aspect-[4/5]"
+                    description={secondPlate.description}
+                    image={secondPlate.image}
+                    tone="warm"
+                  />
+                </ParallaxMedia>
 
                 <figure className="mt-10 border-t border-rule pt-8">
                   <blockquote className="font-serif text-quote text-balance text-ink italic">
-                    {content.testimonial.quote}
+                    <RevealText text={content.testimonial.quote} />
                   </blockquote>
                   <figcaption className="mt-5 font-sans text-body-sm text-ink-soft">
                     <span className="text-ink">{content.testimonial.personName}</span>
@@ -74,13 +82,16 @@ export function Belong({ content }: BelongProps) {
             ) : null}
 
             {thirdPlate ? (
-              <Reveal className="lg:col-span-6 lg:col-start-2 lg:-mt-16">
-                <MediaPlaceholder
-                  caption={thirdPlate.caption}
-                  className="aspect-[16/9]"
-                  description={thirdPlate.description}
-                  tone="cool"
-                />
+              <Reveal className="lg:col-span-6 lg:col-start-2 lg:-mt-16" delay={0.16}>
+                <ParallaxMedia rate={0.06} scaleTo={1.04}>
+                  <MediaPlaceholder
+                    caption={thirdPlate.caption}
+                    className="aspect-[16/9]"
+                    description={thirdPlate.description}
+                    image={thirdPlate.image}
+                    tone="cool"
+                  />
+                </ParallaxMedia>
               </Reveal>
             ) : null}
           </div>

@@ -1,8 +1,18 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Deliberately empty. Sanity CDN image patterns, redirects and the Content
-  // Security Policy are added in the phases that need them.
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+      },
+    ],
+  },
 }
 
 export default nextConfig

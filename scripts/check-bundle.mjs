@@ -1,6 +1,6 @@
 /**
- * Measures the JavaScript a real browser downloads for the homepage, and fails when it
- * exceeds the budget.
+ * Measures the JavaScript a real browser downloads for the homepage and the prophecy
+ * page, and fails when either exceeds its budget.
  *
  * Counts only what a modern browser actually fetches. Next emits a core-js polyfill chunk
  * — around 39 KB gzipped — behind `nomodule`, which every browser this site targets skips
@@ -14,7 +14,28 @@
 import { readFileSync } from 'node:fs'
 import { gzipSync } from 'node:zlib'
 
-const DOCUMENT = '.next/server/app/index.html'
+const ROUTES = [
+  {
+    name: 'homepage',
+    /*
+     * Adding /prophecy reshuffled shared vendor chunks by about 0.6 KB. Same class of
+     * cost as mounting Studio: the homepage imports none of the new page, but the
+     * split changes. Recorded rather than fought.
+     */
+    budgetKb: 199,
+    documents: ['.next/server/app/index.html'],
+  },
+  {
+    name: 'prophecy',
+    /*
+     * This page is a document with CSS drawings. It must not import homepage motion
+     * islands. The budget is the layout floor plus a little room, recorded so a future
+     * WebGL temptation has to edit this line on purpose.
+     */
+    budgetKb: 180,
+    documents: ['.next/server/app/(site)/prophecy.html', '.next/server/app/prophecy.html'],
+  },
+]
 
 /*
  * Measured, not aspirational. The planning docs carried a 120 KB budget written before
@@ -32,7 +53,7 @@ const DOCUMENT = '.next/server/app/index.html'
  *   -------
  *   193.6 KB
  *
- * The last line is the surprising one and worth reading twice. None of Studio's code is
+ * The 6.6 KB line is the surprising one and worth reading twice. None of Studio's code is
  * on the homepage — no Sanity, no styled-components, verified by grepping the chunks.
  * Mounting a second large client application in the same Next app simply changes how
  * Turbopack splits shared vendor code, and the homepage ends up paying 6.6 KB for the
@@ -55,28 +76,13 @@ const DOCUMENT = '.next/server/app/index.html'
  * after it is close to free. Removing one reveal saves nothing. Removing the entrance
  * saves 7 KB and is a design decision, not a performance one.
  *
+ * Phase 3 adds about 2 KB on top of that 193.6: the ministry switcher island, parallax
+ * plates, line-split text, and the shared atmosphere listener. Those ride the engines
+ * already paid for. They are not a second animation library.
+ *
  * The headroom is deliberately small. Anything that moves this number should be a
  * decision someone made on purpose, which means it should have to edit this line.
  */
-const BUDGET_KB = 196
-
-let html
-try {
-  html = readFileSync(DOCUMENT, 'utf8')
-} catch {
-  console.error(`  ERROR  ${DOCUMENT} not found. Run \`pnpm build\` first.`)
-  process.exit(1)
-}
-
-const modern = []
-const skipped = []
-
-for (const tag of html.matchAll(/<script[^>]*\bsrc="([^"]+\.js)"[^>]*>/g)) {
-  const [element, src] = tag
-  const target = /\bnomodule\b/i.test(element) ? skipped : modern
-  if (!target.some((entry) => entry.src === src)) target.push({ src, element })
-}
-
 function measure(entries) {
   let total = 0
   const rows = []
@@ -94,23 +100,61 @@ function measure(entries) {
   return { total, rows: rows.sort((a, b) => b[0] - a[0]) }
 }
 
-const { total, rows } = measure(modern)
-const { total: skippedTotal } = measure(skipped)
+function scriptsFrom(html) {
+  const modern = []
+  const skipped = []
 
-for (const [bytes, src] of rows) {
-  console.log(`  ${String(bytes).padStart(7)}  ${src.replace('/_next/static/chunks/', '')}`)
+  for (const tag of html.matchAll(/<script[^>]*\bsrc="([^"]+\.js)"[^>]*>/g)) {
+    const [element, src] = tag
+    const target = /\bnomodule\b/i.test(element) ? skipped : modern
+    if (!target.some((entry) => entry.src === src)) target.push({ src, element })
+  }
+
+  return { modern, skipped }
 }
 
-const totalKb = total / 1024
-const overBudget = totalKb > BUDGET_KB
+function readFirst(paths) {
+  for (const path of paths) {
+    try {
+      return { path, html: readFileSync(path, 'utf8') }
+    } catch {
+      /* try the next candidate */
+    }
+  }
 
-console.log(
-  `\n  ${overBudget ? 'FAIL' : 'pass'}  homepage JavaScript ${totalKb.toFixed(1)} KB gzipped ` +
-    `(budget ${BUDGET_KB} KB)`,
-)
-console.log(
-  `        excluded ${(skippedTotal / 1024).toFixed(1)} KB of nomodule polyfills that ` +
-    `modern browsers never request`,
-)
+  return null
+}
 
-process.exit(overBudget ? 1 : 0)
+let failed = false
+
+for (const route of ROUTES) {
+  const document = readFirst(route.documents)
+  if (!document) {
+    console.error(`  ERROR  ${route.name} HTML not found. Run \`pnpm build\` first.`)
+    failed = true
+    continue
+  }
+
+  const { modern, skipped } = scriptsFrom(document.html)
+  const { total, rows } = measure(modern)
+  const { total: skippedTotal } = measure(skipped)
+  const totalKb = total / 1024
+  const overBudget = totalKb > route.budgetKb
+  if (overBudget) failed = true
+
+  console.log(`\n  ${route.name}  (${document.path})`)
+  for (const [bytes, src] of rows) {
+    console.log(`  ${String(bytes).padStart(7)}  ${src.replace('/_next/static/chunks/', '')}`)
+  }
+
+  console.log(
+    `\n  ${overBudget ? 'FAIL' : 'pass'}  ${route.name} JavaScript ${totalKb.toFixed(1)} KB gzipped ` +
+      `(budget ${route.budgetKb} KB)`,
+  )
+  console.log(
+    `        excluded ${(skippedTotal / 1024).toFixed(1)} KB of nomodule polyfills that ` +
+      `modern browsers never request`,
+  )
+}
+
+process.exit(failed ? 1 : 0)
