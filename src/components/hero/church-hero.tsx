@@ -62,7 +62,7 @@ export function ChurchHero({ content, settings, media = 'photo' }: ChurchHeroPro
         <div className="max-w-[38rem] py-16 md:py-24">
           <Eyebrow>{settings.name}</Eyebrow>
           <h1
-            className="mt-6 max-w-[18ch] font-serif text-display-1 text-ink"
+            className="mt-6 max-w-[18ch] font-display text-display-1 text-ink"
             id="arrival-headline"
           >
             {content.headline}
@@ -79,7 +79,7 @@ export function ChurchHero({ content, settings, media = 'photo' }: ChurchHeroPro
             {primaryServices.map((service) => (
               <div key={service.label}>
                 <dt className="font-sans text-eyebrow text-ink-muted uppercase">{service.label}</dt>
-                <dd className="tabular mt-1 font-serif text-heading-2 text-ink">
+                <dd className="tabular mt-1 font-display text-heading-2 text-ink">
                   {service.startTime}
                 </dd>
               </div>

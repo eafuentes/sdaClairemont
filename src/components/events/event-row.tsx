@@ -24,12 +24,12 @@ export function EventRow({ event, headingLevel = 'h3' }: EventRowProps) {
     >
       <div className="flex shrink-0 items-baseline gap-3 sm:w-28 sm:flex-col sm:gap-0">
         <span className="font-sans text-eyebrow text-ink-muted uppercase">{weekday}</span>
-        <span className="tabular font-serif text-heading-1 leading-none text-ink">{day}</span>
+        <span className="tabular font-display text-heading-1 leading-none text-ink">{day}</span>
         <span className="font-sans text-eyebrow text-ink-muted uppercase">{month}</span>
       </div>
 
       <div className="flex-1">
-        <Title className="font-serif text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
+        <Title className="font-display text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
           {event.title}
         </Title>
         <p className="mt-2 max-w-measure font-sans text-body-sm text-ink-soft">

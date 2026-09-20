@@ -14,6 +14,7 @@ import { useEffect, useRef } from 'react'
 import { Container } from '@/components/layout/container'
 import { Button } from '@/components/ui/button'
 import { DURATION, EASE_OUT, HERO_CUE, SPRING } from '@/lib/motion'
+import { brandGradient } from '@/styles/palette'
 import type { HomePageContent, SiteSettings } from '@/types/content'
 
 interface ChurchScrollHeroProps {
@@ -152,18 +153,32 @@ export function ChurchScrollHero({ content, settings }: ChurchScrollHeroProps) {
             sizes="100vw"
             src={photograph.src}
           />
+          {prefersReducedMotion ? null : (
+            <video
+              aria-hidden="true"
+              autoPlay
+              className="absolute inset-0 h-full w-full object-cover"
+              loop
+              muted
+              playsInline
+              poster={photograph.src}
+              preload="metadata"
+            >
+              <source src="/video/AnimateChurchVideo.mp4" type="video/mp4" />
+            </video>
+          )}
         </m.div>
 
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-t from-dusk/95 via-dusk/85 via-70% to-dusk/20"
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/80 via-55% to-dawn/35"
         />
 
         <m.div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-dusk"
+          className={`absolute inset-0 -z-10 ${brandGradient.radial}`}
           data-motion="sunset"
-          style={prefersReducedMotion ? { opacity: 0.4 } : { opacity: duskOpacity }}
+          style={prefersReducedMotion ? { opacity: 0.35 } : { opacity: duskOpacity }}
         />
 
         <Container>
@@ -179,7 +194,7 @@ export function ChurchScrollHero({ content, settings }: ChurchScrollHeroProps) {
 
               <h1
                 aria-label={content.headline}
-                className="mt-6 max-w-[16ch] font-serif text-display-1 text-paper-on-dusk"
+                className="mt-6 max-w-[16ch] font-display text-display-1 text-paper-on-dusk"
                 id="arrival-headline"
               >
                 {prefersReducedMotion
@@ -231,7 +246,7 @@ export function ChurchScrollHero({ content, settings }: ChurchScrollHeroProps) {
                         <dt className="font-sans text-body-sm text-paper-on-dusk/75">
                           {service.label}
                         </dt>
-                        <dd className="tabular font-serif text-heading-2 text-paper-on-dusk">
+                        <dd className="tabular font-display text-heading-2 text-paper-on-dusk">
                           {service.startTime}
                         </dd>
                       </m.div>

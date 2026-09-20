@@ -29,16 +29,16 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
   const scripture = program.scripture[0]
 
   return (
-    <section aria-labelledby="sabbath-title" className="bg-paper py-section-lg" id="this-sabbath">
+    <section aria-labelledby="sabbath-title" className="bg-paper-bloom py-section-lg" id="this-sabbath">
       <Container>
         <Eyebrow index="02">This Sabbath</Eyebrow>
-        <p className="mt-6 font-serif text-heading-1 text-ink">
+        <p className="mt-6 font-display text-heading-1 text-ink">
           <time dateTime={program.date}>{formatPlainDate(program.date)}</time>
         </p>
 
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-6 lg:col-start-1">
-            <h2 className="font-serif text-heading-1 text-ink" id="sabbath-title">
+            <h2 className="font-display text-heading-1 text-ink" id="sabbath-title">
               {program.sermonTitle}
             </h2>
             <p className="mt-4 font-sans text-body-sm text-ink-soft">
@@ -79,7 +79,7 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
             </dl>
 
             <MediaPlaceholder
-              className="mt-8 aspect-[4/5] w-full"
+              className="mt-8 aspect-[4/5] w-full [&_img]:object-top"
               description="Portrait crop of this week's speaker, or the sanctuary in morning light."
               image={program.image}
               tone="neutral"
@@ -93,10 +93,10 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
 
 function ThisSabbathFallback({ settings }: { settings: SiteSettings }) {
   return (
-    <section className="bg-paper py-section-lg" id="this-sabbath">
+    <section className="bg-paper-bloom py-section-lg" id="this-sabbath">
       <Container>
         <Eyebrow index="02">This Sabbath</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-heading-1">
+        <h2 className="mt-6 max-w-measure-lead font-display text-heading-1">
           We gather every Saturday.
         </h2>
         <dl className="mt-10 max-w-measure divide-y divide-rule border-y border-rule">

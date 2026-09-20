@@ -23,12 +23,12 @@ export function Invitation({ content, settings }: InvitationProps) {
   return (
     <section
       aria-labelledby="invitation-title"
-      className="bg-gradient-to-b from-dawn/12 to-paper py-section-lg"
+      className="bg-paper-bloom py-section-lg"
       id="visit"
     >
       <Container>
-        <Eyebrow index="10">Come and see</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id="invitation-title">
+        <Eyebrow index="04">Come and see</Eyebrow>
+        <h2 className="mt-6 max-w-measure-lead font-display text-display-2" id="invitation-title">
           {content.headline}
         </h2>
 

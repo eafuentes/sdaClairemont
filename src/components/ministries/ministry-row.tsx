@@ -38,23 +38,25 @@ export function MinistryRow({ ministry, headingLevel = 'h3' }: MinistryRowProps)
       href={`/ministries/${ministry.slug}`}
     >
       <Container>
-        <div className="grid grid-cols-1 items-center gap-8 py-12 lg:grid-cols-12 lg:gap-8 lg:py-16">
-          <div className="lg:col-span-5 lg:col-start-1">
-            <Title className="font-serif text-display-2 text-ink underline decoration-transparent decoration-1 underline-offset-[0.15em] transition-colors duration-[var(--dur-quick)] ease-out group-hover:decoration-dawn">
+        <div className="grid grid-cols-1 items-center gap-6 py-8 md:grid-cols-12 md:gap-8 md:py-10">
+          <div className="md:col-span-5 md:col-start-1">
+            <Title className="font-display text-heading-1 text-ink underline decoration-transparent decoration-1 underline-offset-[0.15em] transition-colors duration-[var(--dur-quick)] ease-out group-hover:decoration-dawn">
               {ministry.name}
             </Title>
-            <p className="mt-5 max-w-measure font-sans text-body text-ink-soft">
+            <p className="mt-4 max-w-measure font-sans text-body text-ink-soft">
               {ministry.shortDescription}
             </p>
-            <p className="mt-5 font-sans text-eyebrow text-ink-muted uppercase">
+            <p className="mt-4 font-sans text-body-sm text-ink-muted">
               {ministry.ageRange}
-              <span aria-hidden="true"> · </span>
+              {ministry.ageRange && ministry.meetingSchedule ? (
+                <span aria-hidden="true"> · </span>
+              ) : null}
               {ministry.meetingSchedule}
             </p>
           </div>
 
           <MediaPlaceholder
-            className="aspect-[16/9] lg:col-span-6 lg:col-start-7"
+            className="aspect-[3/2] md:col-span-6 md:col-start-7"
             description={`Wide atmospheric frame for ${ministry.name}: the group in the middle of doing the thing, shot from a distance rather than posed.`}
             image={ministry.switcherImage}
             tone={placeholderTone[ministry.tone]}

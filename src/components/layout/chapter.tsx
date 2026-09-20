@@ -23,7 +23,7 @@ interface ChapterProps {
 }
 
 const registerClasses: Record<ChapterRegister, string> = {
-  paper: 'bg-paper',
+  paper: 'bg-paper-bloom',
   'paper-deep': 'bg-paper-deep',
   dusk: 'register-dusk',
 }
@@ -63,7 +63,7 @@ export function Chapter({
       </Reveal>
       {title ? (
         <Reveal delay={0.1}>
-          <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id={`${id}-title`}>
+          <h2 className="mt-6 max-w-measure-lead font-display text-display-2" id={`${id}-title`}>
             {title}
           </h2>
         </Reveal>

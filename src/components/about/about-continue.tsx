@@ -25,7 +25,7 @@ export function AboutContinue() {
             description="Pastor Robert Berry and Pastor London L. Lee standing together in the sanctuary."
             image={pastoralTeamPhoto}
           />
-          <p className="mt-5 font-serif text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
+          <p className="mt-5 font-display text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
             Meet our pastors
           </p>
           <p className="mt-2 max-w-measure font-sans text-body-sm text-ink-soft">
@@ -36,11 +36,11 @@ export function AboutContinue() {
 
         <Link className="group block md:pt-0" href="/about/beliefs">
           <div className="flex aspect-[4/5] max-w-md items-end bg-paper-warm p-8">
-            <p className="max-w-[16ch] font-serif text-heading-1 text-ink">
+            <p className="max-w-[16ch] font-display text-heading-1 text-ink">
               What we believe, in our own words.
             </p>
           </div>
-          <p className="mt-5 font-serif text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
+          <p className="mt-5 font-display text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
             What we believe
           </p>
           <p className="mt-2 max-w-measure font-sans text-body-sm text-ink-soft">

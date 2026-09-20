@@ -23,7 +23,7 @@ export default async function EventsPage() {
         title="Come and be part of it."
         intro="Fellowship lunches, Pathfinder nights, food distributions, and the weekly rhythm of Sabbath."
       />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           {upcoming.length > 0 ? (
             <ul>
@@ -35,11 +35,11 @@ export default async function EventsPage() {
             </ul>
           ) : (
             <section>
-              <h2 className="font-serif text-heading-1 text-ink">Every week, like this.</h2>
+              <h2 className="font-display text-heading-1 text-ink">Every week, like this.</h2>
               <ul className="mt-8 max-w-measure">
                 {settings.serviceTimes.map((service) => (
                   <li className="border-t border-rule py-6" key={service.label}>
-                    <p className="font-serif text-heading-2 text-ink">{service.label}</p>
+                    <p className="font-display text-heading-2 text-ink">{service.label}</p>
                     <p className="tabular mt-1 font-sans text-body-sm text-ink-soft">
                       {service.day} {service.startTime}
                       {service.endTime ? `–${service.endTime}` : ''}
@@ -52,7 +52,7 @@ export default async function EventsPage() {
 
           {past.length > 0 ? (
             <section className="mt-20">
-              <h2 className="font-serif text-heading-1 text-ink">Recently</h2>
+              <h2 className="font-display text-heading-1 text-ink">Recently</h2>
               <ul className="mt-8">
                 {past.map((event) => (
                   <li className="border-t border-rule" key={event.slug}>

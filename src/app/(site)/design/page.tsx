@@ -19,7 +19,7 @@ export const metadata: Metadata = {
  * review surface, and hand-copied hex values are the most reliable way to get there.
  * Safe as a Server Component: this runs once during the build, never in the browser.
  */
-const themeSource = readFileSync('src/styles/globals.css', 'utf8')
+const themeSource = readFileSync('src/styles/palette.css', 'utf8')
 
 /*
  * The class name is spelled out rather than built as `bg-${name}`. Tailwind resolves
@@ -49,6 +49,21 @@ const accentTokens = [
   swatch('dawn', 'bg-dawn'),
   swatch('dawn-soft', 'bg-dawn-soft'),
   swatch('dawn-glow', 'bg-dawn-glow'),
+  swatch('dawn-deep', 'bg-dawn-deep'),
+  swatch('dawn-shade', 'bg-dawn-shade'),
+]
+
+const gradientTokens = [
+  { name: 'ember', className: 'bg-grad-ember' },
+  { name: 'horizon', className: 'bg-grad-horizon' },
+  { name: 'void', className: 'bg-grad-void' },
+  { name: 'radial', className: 'bg-grad-radial' },
+  { name: 'wash', className: 'bg-grad-wash' },
+  { name: 'flare', className: 'bg-grad-flare' },
+  { name: 'rise', className: 'bg-grad-rise' },
+  { name: 'band', className: 'bg-grad-band' },
+  { name: 'cta', className: 'bg-grad-cta' },
+  { name: 'bloom', className: 'bg-paper-bloom' },
 ]
 
 const duskTokens = [
@@ -113,34 +128,42 @@ export default function DesignSystemPage() {
       <Container>
         <header className="pt-section pb-section-sm">
           <Eyebrow>Internal reference</Eyebrow>
-          <h1 className="mt-6 font-serif text-display-2">Morning Light</h1>
+          <h1 className="mt-6 text-display-2">Clairemont</h1>
           <p className="mt-6 max-w-measure-lead font-sans text-body-lg text-ink-soft">
-            The design system for San Diego Clairemont Seventh-day Adventist Church. Warm paper,
-            editorial serif, hairline structure, photography carrying the emotion.
+            The design system for San Diego Clairemont Seventh-day Adventist Church. White, black,
+            and crimson. Condensed display type, editorial serif, photography carrying the emotion.
+          </p>
+          <p className="mt-4 font-sans text-body-sm text-ink-soft">
+            Two living palette options are on{' '}
+            <a className="underline decoration-dawn underline-offset-4" href="/design/palettes">
+              /design/palettes
+            </a>
+            . They do not change this page.
           </p>
           <p className="mt-4 max-w-measure font-sans text-body-sm text-ink-soft">
-            The palette is sampled from the church&rsquo;s own exterior at golden hour: warm
-            neutrals, the sun and tile roof as <code>dawn</code>, the cool top of that same sky as{' '}
-            <code>dusk</code>. Two hues, and everything else is a tint of them over paper.
+            Hex lives only in <code>src/styles/palette.css</code>. Semantic names stay (
+            <code>paper</code>, <code>ink</code>, <code>dawn</code>, <code>dusk</code>) so a
+            rebrand is a file change, not a rewrite. Gradients are named utilities that read those
+            tokens.
           </p>
         </header>
 
         <Section index="01" title="Colour">
           <div className="space-y-10">
             <div>
-              <h2 className="font-sans text-heading-3">Paper</h2>
+              <h2 className="font-display text-heading-3">Paper</h2>
               <div className="mt-4">
                 <Swatches tokens={paperTokens} />
               </div>
             </div>
             <div>
-              <h2 className="font-sans text-heading-3">Ink</h2>
+              <h2 className="font-display text-heading-3">Ink</h2>
               <div className="mt-4">
                 <Swatches tokens={inkTokens} />
               </div>
             </div>
             <div>
-              <h2 className="font-sans text-heading-3">Dawn</h2>
+              <h2 className="font-display text-heading-3">Dawn</h2>
               <div className="mt-4">
                 <Swatches tokens={accentTokens} />
               </div>
@@ -152,10 +175,27 @@ export default function DesignSystemPage() {
               </p>
             </div>
             <div>
-              <h2 className="font-sans text-heading-3">Dusk</h2>
+              <h2 className="font-display text-heading-3">Dusk</h2>
               <div className="mt-4">
                 <Swatches tokens={duskTokens} />
               </div>
+            </div>
+            <div>
+              <h2 className="font-display text-heading-3">Gradients</h2>
+              <ul className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                {gradientTokens.map((token) => (
+                  <li key={token.name}>
+                    <div className={`h-24 w-full border border-rule ${token.className}`} />
+                    <p className="mt-2 font-sans text-body-sm text-ink">{token.name}</p>
+                    <p className="font-sans text-body-sm text-ink-muted">{token.className}</p>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 max-w-measure font-sans text-body-sm text-ink-soft">
+                Change a stop in <code>palette.css</code> and every section that uses{' '}
+                <code>brandGradient</code> follows. Class names are spelled here in full so Tailwind
+                can see them.
+              </p>
             </div>
           </div>
         </Section>
@@ -163,11 +203,11 @@ export default function DesignSystemPage() {
         <Section index="02" title="Type scale">
           <div className="space-y-10">
             {[
-              { token: 'display-1', className: 'font-serif text-display-1' },
-              { token: 'display-2', className: 'font-serif text-display-2' },
-              { token: 'heading-1', className: 'font-serif text-heading-1' },
-              { token: 'heading-2', className: 'font-serif text-heading-2' },
-              { token: 'heading-3', className: 'font-sans text-heading-3' },
+              { token: 'display-1', className: 'font-display text-display-1' },
+              { token: 'display-2', className: 'font-display text-display-2' },
+              { token: 'heading-1', className: 'font-display text-heading-1' },
+              { token: 'heading-2', className: 'font-display text-heading-2' },
+              { token: 'heading-3', className: 'font-display text-heading-3' },
               { token: 'body-lg', className: 'font-sans text-body-lg' },
               { token: 'body', className: 'font-sans text-body' },
               { token: 'body-sm', className: 'font-sans text-body-sm text-ink-soft' },
@@ -234,8 +274,9 @@ export default function DesignSystemPage() {
             </Button>
           </div>
           <p className="mt-6 max-w-measure font-sans text-body-sm text-ink-soft">
-            Tab through these. Focus is a 2px dawn ring at 2px offset, never removed and never
-            replaced by a colour change alone. No variant lifts, scales, or gains a shadow on hover.
+            Tab through these. Filled buttons are pills on the CTA gradient from{' '}
+            <code>palette.css</code>. Focus is a 2px dawn ring at 2px offset. Hover shifts the
+            gradient; nothing lifts or scales.
           </p>
         </Section>
 
@@ -258,13 +299,19 @@ export default function DesignSystemPage() {
             <div>
               <div className="h-20 w-20 rounded-xs bg-ink" />
               <p className="mt-2 font-sans text-body-sm text-ink-soft">
-                rounded-xs · 2px · controls
+                rounded-xs · 2px · marks
               </p>
             </div>
             <div>
               <div className="h-20 w-20 rounded-sm bg-ink" />
               <p className="mt-2 font-sans text-body-sm text-ink-soft">
-                rounded-sm · 4px · maximum
+                rounded-sm · 4px · insets
+              </p>
+            </div>
+            <div>
+              <div className="bg-grad-cta h-12 w-36 rounded-full" />
+              <p className="mt-2 font-sans text-body-sm text-ink-soft">
+                rounded-full · pills · buttons
               </p>
             </div>
             <div>
@@ -275,8 +322,8 @@ export default function DesignSystemPage() {
             </div>
           </div>
           <p className="mt-6 max-w-measure font-sans text-body-sm text-ink-soft">
-            The radius scale is reset in the theme, so larger radii do not exist as utilities. There
-            are no rounded cards because there are almost no cards.
+            Cards stay square. Buttons are the one place the shape goes fully round, so a CTA reads
+            as a lockup rather than a slab.
           </p>
         </Section>
       </Container>
@@ -286,7 +333,7 @@ export default function DesignSystemPage() {
           <Eyebrow index="08" className="text-dawn-soft">
             The dusk register
           </Eyebrow>
-          <h2 className="mt-6 max-w-measure-lead font-serif text-display-2 font-light">
+          <h2 className="mt-6 max-w-measure-lead font-display text-display-2">
             Is something heavy right now?
           </h2>
           <p className="mt-6 max-w-measure font-sans text-body text-paper-on-dusk/70">

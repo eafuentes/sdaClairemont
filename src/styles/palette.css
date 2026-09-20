@@ -1,0 +1,112 @@
+/*
+ * Brand palette — the only file that contains hex.
+ *
+ * Change a colour here and every gradient, button, and section that uses
+ * `var(--color-*)` or `var(--grad-*)` follows. Semantic names (paper, ink, dawn, dusk)
+ * stay so existing components do not need a rewrite.
+ *
+ *   paper / ink     white and black
+ *   dawn            crimson, from the 2026 SERMONIC lockup
+ *   dusk            the black register (prayer, hope, footer, prophecy stage)
+ */
+
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-paper: #ffffff;
+  --color-paper-deep: #f4f4f4;
+  --color-paper-warm: #f8f0f1;
+
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #3d3d3d;
+  --color-ink-muted: #5c5c5c;
+
+  --color-rule: #0a0a0a1a;
+
+  --color-dawn: #b01018;
+  --color-dawn-soft: #e85a64;
+  --color-dawn-glow: #f4a0a6;
+  --color-dawn-deep: #22080b;
+  --color-dawn-shade: #3a070c;
+
+  --color-dusk: #0a0a0a;
+  --color-dusk-raised: #161616;
+  --color-paper-on-dusk: #ffffff;
+}
+
+:root {
+  --grad-ember: linear-gradient(
+    155deg,
+    var(--color-ink) 0%,
+    var(--color-dusk-raised) 28%,
+    var(--color-dawn-deep) 58%,
+    var(--color-dawn) 100%
+  );
+  --grad-horizon: linear-gradient(90deg, var(--color-dawn) 0%, var(--color-ink) 100%);
+  --grad-void: linear-gradient(
+    165deg,
+    var(--color-ink) 0%,
+    var(--color-dusk-raised) 48%,
+    var(--color-dawn-deep) 100%
+  );
+  --grad-radial: radial-gradient(
+    ellipse 80% 70% at 80% 0%,
+    var(--color-dawn) 0%,
+    var(--color-dawn-shade) 42%,
+    var(--color-ink) 100%
+  );
+  --grad-wash: linear-gradient(180deg, var(--color-paper-warm) 0%, var(--color-paper) 100%);
+  --grad-flare: linear-gradient(
+    115deg,
+    var(--color-dawn-shade) 0%,
+    var(--color-dawn) 46%,
+    var(--color-dawn-soft) 100%
+  );
+  --grad-rise: linear-gradient(
+    155deg,
+    var(--color-dawn) 0%,
+    var(--color-dawn-deep) 48%,
+    var(--color-ink) 100%
+  );
+  --grad-band: linear-gradient(
+    90deg,
+    var(--color-dawn-deep) 0%,
+    var(--color-dawn) 42%,
+    var(--color-ink) 100%
+  );
+  --grad-cta: linear-gradient(
+    90deg,
+    var(--color-dawn) 0%,
+    var(--color-dawn-shade) 58%,
+    var(--color-ink) 100%
+  );
+  --grad-cta-hover: linear-gradient(
+    90deg,
+    var(--color-dawn-shade) 0%,
+    var(--color-dawn) 42%,
+    var(--color-ink) 100%
+  );
+  --shadow-cta: 0 8px 20px color-mix(in srgb, var(--color-dawn) 28%, transparent);
+  /*
+   * Paper bloom — a soft orb of dawn on the right, paper on the left.
+   * The This Sabbath / editorial atmosphere. Not a flat wash.
+   */
+  --grad-bloom:
+    radial-gradient(
+      ellipse 70% 80% at 92% 10%,
+      color-mix(in srgb, var(--color-dawn-glow) 52%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 48% 58% at 80% 88%,
+      color-mix(in srgb, var(--color-dawn-soft) 16%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 40% 36% at 4% 100%,
+      color-mix(in srgb, var(--color-paper-warm) 100%, transparent),
+      transparent 52%
+    );
+}

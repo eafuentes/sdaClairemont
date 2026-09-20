@@ -34,7 +34,7 @@ export default async function EventPage({ params }: EventPageProps) {
   return (
     <>
       <PageHeader eyebrow="Events" title={event.title} intro={event.shortDescription} />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-7">

@@ -1,3 +1,4 @@
+import { PathwayTiles } from '@/components/brand/pathway-tiles'
 import { Container } from '@/components/layout/container'
 import { PageHeader } from '@/components/layout/page-header'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
@@ -6,6 +7,7 @@ import { ScriptureQuote } from '@/components/ui/scripture-quote'
 import { SermonPoster } from '@/components/watch/sermon-poster'
 import { formatPlainDate } from '@/lib/datetime'
 import { pageMetadata } from '@/lib/page-metadata'
+import { sabbathPathways } from '@/content/pathways'
 import { getSabbathProgram, getSermons, getSiteSettings } from '@/sanity/lib/load'
 
 export async function generateMetadata() {
@@ -37,11 +39,11 @@ export default async function ThisSabbathPage() {
             : undefined
         }
       />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-7">
-              <p className="font-serif text-heading-2 text-ink">
+              <p className="font-display text-heading-2 text-ink">
                 <time dateTime={program.date}>{formatPlainDate(program.date)}</time>
               </p>
               <p className="mt-3 font-sans text-body-sm text-ink-soft">
@@ -71,7 +73,7 @@ export default async function ThisSabbathPage() {
 
               {program.specialMusic && program.specialMusic.length > 0 ? (
                 <section className="mt-12">
-                  <h2 className="font-serif text-heading-2 text-ink">Special music</h2>
+                  <h2 className="font-display text-heading-2 text-ink">Special music</h2>
                   <ul className="mt-5 divide-y divide-rule border-y border-rule">
                     {program.specialMusic.map((entry) => (
                       <li className="py-4 font-sans text-body text-ink-soft" key={entry.title}>
@@ -87,11 +89,11 @@ export default async function ThisSabbathPage() {
 
               {program.announcements && program.announcements.length > 0 ? (
                 <section className="mt-12">
-                  <h2 className="font-serif text-heading-2 text-ink">Announcements</h2>
+                  <h2 className="font-display text-heading-2 text-ink">Announcements</h2>
                   <ul className="mt-5 space-y-8">
                     {program.announcements.map((item) => (
                       <li key={item.title}>
-                        <h3 className="font-serif text-heading-3 text-ink">{item.title}</h3>
+                        <h3 className="font-display text-heading-3 text-ink">{item.title}</h3>
                         {item.body.map((paragraph, index) => (
                           <p
                             className="mt-3 max-w-measure font-sans text-body text-ink-soft"
@@ -137,7 +139,7 @@ export default async function ThisSabbathPage() {
                 </div>
               </dl>
               <MediaPlaceholder
-                className="mt-8 aspect-[4/5] w-full"
+                className="mt-8 aspect-[4/5] w-full [&_img]:object-top"
                 description="Portrait crop of this week's speaker, or the sanctuary in morning light."
                 image={program.image}
               />
@@ -155,6 +157,7 @@ export default async function ThisSabbathPage() {
           </div>
         </Container>
       </div>
+      <PathwayTiles label="Next steps" tiles={sabbathPathways} />
     </>
   )
 }

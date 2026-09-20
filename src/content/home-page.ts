@@ -1,6 +1,6 @@
 import { addDays, getUpcomingSabbath, subtractWeeks } from '@/lib/sabbath'
 import { flagshipPhotos } from '@/content/flagship'
-import type { ChurchEvent, HomePageContent, Ministry, SabbathProgram } from '@/types/content'
+import type { ChurchEvent, ContentImage, HomePageContent, Ministry, SabbathProgram } from '@/types/content'
 
 /**
  * Phase 1 fixtures for the homepage.
@@ -17,6 +17,14 @@ import type { ChurchEvent, HomePageContent, Ministry, SabbathProgram } from '@/t
 
 const upcomingSabbath = getUpcomingSabbath()
 
+export const sabbathSpeakerPortrait: ContentImage = {
+  src: '/images/sabbath/speaker-portrait.webp',
+  alt: 'Pastor London L. Lee preaching from the pulpit in the Clairemont sanctuary, arms open, in a grey suit.',
+  width: 546,
+  height: 682,
+  provenance: 'church-photo',
+}
+
 export const sabbathProgram: SabbathProgram = {
   date: upcomingSabbath,
   sermonTitle: 'The Long Way Home',
@@ -27,7 +35,7 @@ export const sabbathProgram: SabbathProgram = {
     'The son who left assumed there was a version of himself his father could no longer welcome. He was wrong about that, and most of us are wrong about it too. A look at what the father was doing while the son was gone.',
   sabbathSchoolTime: '9:30 AM',
   worshipTime: '10:45 AM',
-  image: undefined,
+  image: sabbathSpeakerPortrait,
 }
 
 export const ministries: Ministry[] = [
@@ -172,18 +180,37 @@ export const homePage: HomePageContent = {
     plates: [
       {
         description:
-          'Two members talking in the foyer after the service, mid-conversation, shot from the side at a respectful distance.',
-        caption: 'After the service, in the foyer.',
+          'The foyer bulletin boards and the communion table with an open Bible, photographed after worship.',
+        caption: 'In the foyer.',
+        image: {
+          src: '/images/life/foyer-welcome.webp',
+          alt: 'The Clairemont foyer: three bulletin boards on a brick wall, a Welcome To Church sign, and an open Bible on a carved wooden table.',
+          width: 1024,
+          height: 682,
+          provenance: 'church-photo',
+        },
       },
       {
-        description:
-          'An older member and a young child walking together down the aisle, photographed from behind.',
-        caption: 'Sabbath morning.',
+        description: 'An open Bible held during the service, photographed over the reader’s shoulder.',
+        caption: 'During the service.',
+        image: {
+          src: '/images/life/open-bible.webp',
+          alt: 'A study Bible open to Romans, held in the pew during worship.',
+          width: 768,
+          height: 1024,
+          provenance: 'church-photo',
+        },
       },
       {
-        description:
-          'A wide frame of the fellowship hall during lunch, tables full, warm light from the windows.',
-        caption: 'Fellowship lunch, first Sabbath of the month.',
+        description: 'Members gathered in the fellowship kitchen after worship.',
+        caption: 'Lunch after worship.',
+        image: {
+          src: '/images/life/fellowship-kitchen.webp',
+          alt: 'Clairemont members gathered around the fellowship kitchen island after the service.',
+          width: 1024,
+          height: 682,
+          provenance: 'church-photo',
+        },
       },
     ],
     testimonial: {
@@ -197,7 +224,14 @@ export const homePage: HomePageContent = {
   story: {
     plate: {
       description:
-        'The sanctuary photographed from the back, empty, in late afternoon light through the windows. Wide and horizontal.',
+        'The sanctuary during worship, photographed from the pews toward the platform.',
+      image: {
+        src: '/images/life/sanctuary-service.webp',
+        alt: 'Pastor London L. Lee preaching from the platform in the Clairemont sanctuary, the congregation in the pews in the foreground.',
+        width: 1024,
+        height: 682,
+        provenance: 'church-photo',
+      },
     },
     paragraphs: [
       'We are a Seventh-day Adventist congregation of about 274 people in Clairemont, and we have been meeting on Hathaway Street, across from the elementary school, for decades.',
@@ -297,7 +331,14 @@ export const homePage: HomePageContent = {
     parking: 'Free parking in the lot off Hathaway Street, with additional street parking.',
     entrance: {
       description:
-        'The church entrance with a greeter holding the door open, warm morning light, shot from the approach so a visitor recognises what they will see.',
+        'The congregation seated in the pews during worship, photographed from behind.',
+      image: {
+        src: '/images/life/congregation.webp',
+        alt: 'The Clairemont congregation seated in the pews during the service, photographed from behind.',
+        width: 1024,
+        height: 682,
+        provenance: 'church-photo',
+      },
     },
   },
 }

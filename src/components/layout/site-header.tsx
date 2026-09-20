@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { Container } from '@/components/layout/container'
 import { MobileNavSheet } from '@/components/layout/mobile-nav-sheet'
-import { NavLink } from '@/components/layout/nav-link'
+import { PrimaryNav } from '@/components/layout/primary-nav'
 import type { SiteSettings } from '@/types/content'
 
 interface SiteHeaderProps {
@@ -10,22 +10,18 @@ interface SiteHeaderProps {
 }
 
 /**
- * The site header: wordmark, primary navigation, and a single clear call to action.
+ * The site header: wordmark, centered primary navigation, and one call to action.
  *
- * A Server Component. Only the two leaves that genuinely need the browser — the
- * current-page marker and the mobile sheet — cross the client boundary.
- *
- * Phase 1 renders the header in its resolved, opaque state. The transition where it
- * begins transparent over the hero and settles into paper as the page scrolls belongs
- * to the motion system and arrives in Phase 3.
+ * A Server Component. The current-page marker, the contents drawer, and the mobile
+ * sheet are the only leaves that need the browser.
  */
 export function SiteHeader({ settings }: SiteHeaderProps) {
   return (
-    <header className="site-header sticky top-0 z-40 border-b border-rule bg-paper">
+    <header className="site-header relative sticky top-0 z-40 border-b border-rule bg-paper">
       <Container>
-        <div className="flex min-h-16 items-center justify-between gap-8 lg:min-h-20">
-          <Link className="flex flex-col justify-center py-2" href="/">
-            <span className="site-header-wordmark font-serif text-heading-3 leading-none">
+        <div className="flex min-h-16 items-center justify-between gap-6 lg:min-h-20 lg:justify-start lg:gap-10">
+          <Link className="flex shrink-0 flex-col justify-center py-2" href="/">
+            <span className="site-header-wordmark font-display text-heading-3 leading-none uppercase">
               Clairemont
             </span>
             <span className="site-header-kicker mt-1 font-sans text-eyebrow text-ink-muted uppercase">
@@ -33,23 +29,11 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
             </span>
           </Link>
 
-          <nav aria-label="Primary" className="hidden lg:block">
-            <ul className="flex items-center gap-8">
-              {settings.primaryNav.map((item) => (
-                <li key={item.href}>
-                  <NavLink
-                    activeClassName="site-header-link text-ink decoration-dawn decoration-2"
-                    className="site-header-link font-sans text-body-sm text-ink-soft underline decoration-transparent decoration-1 underline-offset-8 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
-                    href={item.href}
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="hidden min-w-0 flex-1 justify-center lg:flex">
+            <PrimaryNav />
+          </div>
 
-          <div className="hidden items-center gap-6 lg:flex">
+          <div className="hidden shrink-0 items-center gap-6 lg:flex">
             {settings.isLive && settings.livestreamUrl ? (
               <a
                 className="inline-flex items-center gap-2 font-sans text-eyebrow text-dawn uppercase"
@@ -61,15 +45,8 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
                 Live now
               </a>
             ) : null}
-            <NavLink
-              activeClassName="site-header-link text-ink decoration-dawn"
-              className="site-header-link font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
-              href="/this-sabbath"
-            >
-              This Sabbath
-            </NavLink>
             <a
-              className="site-header-link font-sans text-body-sm text-ink-soft underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
+              className="site-header-link font-sans text-body-sm text-ink-soft underline decoration-transparent underline-offset-8 transition-colors duration-[var(--dur-instant)] ease-out hover:text-ink hover:decoration-dawn"
               href={settings.givingUrl}
               rel="noreferrer noopener"
               target="_blank"
@@ -77,7 +54,7 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
               Give
             </a>
             <Link
-              className="site-header-cta inline-flex min-h-11 items-center rounded-xs bg-ink px-5 font-sans text-body-sm font-medium text-paper transition-colors duration-[var(--dur-instant)] ease-out hover:bg-ink-soft"
+              className="site-header-cta bg-grad-cta hover:bg-grad-cta-hover inline-flex min-h-10 items-center rounded-full px-5 font-sans text-body-sm font-medium text-paper transition-[background-image] duration-[var(--dur-instant)] ease-out"
               href="/visit"
             >
               Plan Your Visit
@@ -85,7 +62,6 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
           </div>
 
           <MobileNavSheet
-            navItems={settings.primaryNav}
             settings={{
               givingUrl: settings.givingUrl,
               phone: settings.phone,

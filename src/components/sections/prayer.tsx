@@ -36,7 +36,7 @@ export function Prayer({ content }: PrayerProps) {
             Prayer
           </Eyebrow>
           <h2
-            className="mt-8 font-serif text-display-2 font-light text-paper-on-dusk"
+            className="mt-8 font-display text-display-2 text-paper-on-dusk"
             id="prayer-title"
           >
             {content.headline}

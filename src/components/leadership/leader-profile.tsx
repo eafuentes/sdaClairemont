@@ -34,7 +34,7 @@ export function LeaderProfile({ leader, index }: LeaderProfileProps) {
             reverse ? 'md:col-start-1 md:row-start-1' : 'md:col-start-7',
           )}
         >
-          <h2 className="font-serif text-heading-1 text-ink" id={`${leader.slug}-name`}>
+          <h2 className="font-display text-heading-1 text-ink" id={`${leader.slug}-name`}>
             {leader.name}
           </h2>
           <p className="mt-2 font-sans text-body-sm text-ink-soft">{leader.role}</p>

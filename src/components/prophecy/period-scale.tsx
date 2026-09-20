@@ -33,7 +33,7 @@ export function PeriodScale({ content }: PeriodScaleProps) {
     <section className="bg-paper-warm py-section" id="the-scale">
       <Container>
         <Eyebrow>To true scale</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-heading-1 text-ink">
+        <h2 className="mt-6 max-w-measure-lead font-display text-heading-1 text-ink">
           The 490 are cut from the start.
         </h2>
         <p className="mt-6 max-w-measure font-sans text-body text-ink-soft">

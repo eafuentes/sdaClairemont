@@ -25,7 +25,7 @@ export function Watch({ content, channelUrl }: WatchProps) {
     <section aria-labelledby="watch-title" className="bg-paper-deep py-section-lg" id="watch">
       <Container>
         <Eyebrow index="07">Watch</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id="watch-title">
+        <h2 className="mt-6 max-w-measure-lead font-display text-display-2" id="watch-title">
           {content.headline}
         </h2>
 
@@ -47,7 +47,7 @@ export function Watch({ content, channelUrl }: WatchProps) {
                     ▶
                   </span>
                 </div>
-                <h3 className="mt-6 font-serif text-heading-1 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
+                <h3 className="mt-6 font-display text-heading-1 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
                   {featured.title}
                 </h3>
               </Link>
@@ -81,7 +81,7 @@ export function Watch({ content, channelUrl }: WatchProps) {
                         className="group flex min-h-11 flex-col justify-center py-5"
                         href={`/watch/${sermon.slug}`}
                       >
-                        <h3 className="font-serif text-heading-3 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
+                        <h3 className="font-display text-heading-3 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
                           {sermon.title}
                         </h3>
                         <p className="mt-1 font-sans text-body-sm text-ink-muted">

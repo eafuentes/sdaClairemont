@@ -31,7 +31,7 @@ function Close({ content }: { content: ProphecyPageContent }) {
   return (
     <section className="register-dusk py-section-lg">
       <Container>
-        <h2 className="max-w-measure-lead font-serif text-heading-1 text-paper-on-dusk">
+        <h2 className="max-w-measure-lead font-display text-heading-1 text-paper-on-dusk">
           {content.close.headline}
         </h2>
         <p className="mt-6 max-w-measure font-sans text-body-lg text-paper-on-dusk/75">

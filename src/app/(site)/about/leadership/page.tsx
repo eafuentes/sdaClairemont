@@ -44,18 +44,14 @@ export default async function LeadershipPage() {
 
   return (
     <>
-      <div className="bg-paper pt-10">
-        <Container>
-          <AboutSubnav />
-        </Container>
-      </div>
+      <AboutSubnav />
       <LeadershipHero />
       <div className="bg-paper-warm pb-section">
         <Container>
           {groups.map((group) => (
             <section key={group.category} className="mb-8 last:mb-0">
               {groups.length > 1 ? (
-                <h2 className="pt-8 font-serif text-heading-2 text-ink">{group.label}</h2>
+                <h2 className="pt-8 font-display text-heading-2 text-ink">{group.label}</h2>
               ) : null}
               <ul className="divide-y divide-rule border-y border-rule">
                 {group.people.map((leader, index) => (

@@ -26,11 +26,11 @@ export function EditorialBody({ blocks }: EditorialBodyProps) {
             )
           case 'heading':
             return block.level === 2 ? (
-              <h2 key={block.key} className="max-w-measure-lead font-serif text-heading-1 text-ink">
+              <h2 key={block.key} className="max-w-measure-lead font-display text-heading-1 text-ink">
                 {block.text}
               </h2>
             ) : (
-              <h3 key={block.key} className="max-w-measure font-serif text-heading-2 text-ink">
+              <h3 key={block.key} className="max-w-measure font-display text-heading-2 text-ink">
                 {block.text}
               </h3>
             )
@@ -100,7 +100,7 @@ export function EditorialBody({ blocks }: EditorialBodyProps) {
             return (
               <div key={block.key}>
                 {block.heading ? (
-                  <h2 className="font-serif text-heading-2 text-ink">{block.heading}</h2>
+                  <h2 className="font-display text-heading-2 text-ink">{block.heading}</h2>
                 ) : null}
                 <ul className={block.heading ? 'mt-5 space-y-3' : 'space-y-3'}>
                   {block.links.map((link) => (
@@ -121,12 +121,12 @@ export function EditorialBody({ blocks }: EditorialBodyProps) {
             return (
               <div key={block.key} className="max-w-measure">
                 {block.heading ? (
-                  <h2 className="mb-6 font-serif text-heading-2 text-ink">{block.heading}</h2>
+                  <h2 className="mb-6 font-display text-heading-2 text-ink">{block.heading}</h2>
                 ) : null}
                 <div className="divide-y divide-rule border-y border-rule">
                   {block.items.map((item, index) => (
                     <details key={`${block.key}-${index}`} className="group py-5">
-                      <summary className="cursor-pointer font-serif text-heading-3 text-ink">
+                      <summary className="cursor-pointer font-display text-heading-3 text-ink">
                         {item.question}
                       </summary>
                       <div className="mt-4 space-y-4">

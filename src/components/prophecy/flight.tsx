@@ -82,7 +82,7 @@ function FlightRest({ content }: FlightProps) {
       />
       <div className="mx-auto w-full max-w-page px-5 md:px-8 lg:px-16">
         <p className="font-sans text-eyebrow text-dawn-soft uppercase">{content.eyebrow}</p>
-        <h1 className="mt-6 max-w-[16ch] font-serif text-display-2 text-pretty text-paper-on-dusk md:max-w-[18ch]">
+        <h1 className="mt-6 max-w-[16ch] font-display text-display-2 text-pretty text-paper-on-dusk md:max-w-[18ch]">
           {content.title}
         </h1>
         <p className="mt-8 max-w-measure font-sans text-body-lg text-paper-on-dusk/75">
@@ -110,10 +110,10 @@ function FlightRest({ content }: FlightProps) {
             <p className="font-sans text-eyebrow text-dawn-soft uppercase">
               <span className="tabular">{String(index + 1).padStart(2, '0')}</span>
             </p>
-            <p className="mt-3 font-serif text-heading-1 text-paper-on-dusk">
+            <p className="mt-3 font-display text-heading-1 text-paper-on-dusk">
               {event.date.display}
             </p>
-            <p className="mt-4 font-serif text-heading-3 text-paper-on-dusk">{event.title}</p>
+            <p className="mt-4 font-display text-heading-3 text-paper-on-dusk">{event.title}</p>
             <p className="mt-3 font-sans text-eyebrow text-paper-on-dusk/60 uppercase">
               {event.scripture.reference}
             </p>
@@ -451,7 +451,7 @@ function FlightActive({ content }: FlightProps) {
         {reading ? null : (
           <m.div className="prophecy-flight-intro" style={{ opacity: titleOpacity }}>
             <p className="font-sans text-eyebrow text-dawn-soft uppercase">{content.eyebrow}</p>
-            <p className="mt-5 max-w-[16ch] font-serif text-display-2 text-paper-on-dusk">
+            <p className="mt-5 max-w-[16ch] font-display text-display-2 text-paper-on-dusk">
               {content.title}
             </p>
             <p className="mt-6 max-w-[28rem] font-sans text-body text-paper-on-dusk/70">
@@ -465,7 +465,7 @@ function FlightActive({ content }: FlightProps) {
         </m.p>
 
         <div className="prophecy-flight-hud">
-          <p className="font-serif text-heading-2 text-paper-on-dusk">{ghost?.year}</p>
+          <p className="font-display text-heading-2 text-paper-on-dusk">{ghost?.year}</p>
           <p className="mt-2 max-w-[36rem] font-sans text-body-sm text-paper-on-dusk/70">
             {ghost?.title}
           </p>

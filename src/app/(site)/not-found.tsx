@@ -12,7 +12,7 @@ export default function NotFound() {
         title="That page is not here."
         intro="It may have moved, or the address may be mistyped. These are reliable ways back into the church."
       />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           <div className="flex flex-wrap gap-4">
             <Button href="/">Homepage</Button>

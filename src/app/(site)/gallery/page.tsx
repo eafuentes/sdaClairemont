@@ -19,7 +19,7 @@ export default function GalleryIndexPage() {
         title="Days the church actually lived."
         intro="Not a stock library. These are the club trips, the lawn, and the families in the room."
       />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           <ul className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
             {fixtureGalleries.map((gallery) => (
@@ -30,7 +30,7 @@ export default function GalleryIndexPage() {
                     description={gallery.description ?? gallery.title}
                     image={gallery.cover}
                   />
-                  <h2 className="mt-5 font-serif text-heading-2 text-ink underline decoration-transparent underline-offset-4 group-hover:decoration-dawn">
+                  <h2 className="mt-5 font-display text-heading-2 text-ink underline decoration-transparent underline-offset-4 group-hover:decoration-dawn">
                     {gallery.title}
                   </h2>
                   {gallery.description ? (

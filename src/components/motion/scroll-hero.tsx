@@ -69,8 +69,8 @@ function ScrollHeroRest({ image, eyebrow, title, lede, meta, children }: ScrollH
       </div>
       <div className="mx-auto w-full max-w-page px-5 pt-12 pb-4 md:px-8 lg:px-16">
         <p className="font-sans text-eyebrow text-ink-muted uppercase">{eyebrow}</p>
-        <h1 className="mt-5 font-serif text-display-2 text-ink">{title}</h1>
-        <p className="mt-6 max-w-measure font-serif text-heading-3 text-ink-soft">{lede}</p>
+        <h1 className="mt-5 font-display text-display-2 text-ink">{title}</h1>
+        <p className="mt-6 max-w-measure font-display text-heading-3 text-ink-soft">{lede}</p>
         <p className="mt-5 font-sans text-eyebrow text-ink-muted uppercase">{meta}</p>
         {children ? <div className="mt-8 flex flex-wrap gap-4">{children}</div> : null}
       </div>
@@ -194,7 +194,7 @@ function ScrollHeroActive({ image, eyebrow, title, lede, meta, children }: Scrol
                 {eyebrow}
               </m.span>
             </p>
-            <h1 className="relative mt-4 font-serif text-display-1">
+            <h1 className="relative mt-4 font-display text-display-1">
               <span className="sr-only">{title}</span>
               <m.span
                 aria-hidden="true"
@@ -213,7 +213,7 @@ function ScrollHeroActive({ image, eyebrow, title, lede, meta, children }: Scrol
             </h1>
           </div>
           <m.div style={{ opacity: ledeOpacity }}>
-            <p className="mt-6 max-w-[22ch] font-serif text-heading-2 text-paper-on-dusk/90">
+            <p className="mt-6 max-w-[22ch] font-display text-heading-2 text-paper-on-dusk/90">
               {lede}
             </p>
             <p className="mt-4 font-sans text-eyebrow text-paper-on-dusk/70 uppercase">{meta}</p>
@@ -237,7 +237,7 @@ export function FlagshipLockup({
   return (
     <div className={cn('sticky top-16 z-30 border-b border-rule bg-paper/95 lg:top-20', className)}>
       <div className="mx-auto flex w-full max-w-page items-baseline justify-between gap-6 px-5 py-3 md:px-8 lg:px-16">
-        <p className="font-serif text-heading-3 text-ink">{title}</p>
+        <p className="font-display text-heading-3 text-ink">{title}</p>
         <p className="hidden font-sans text-eyebrow text-ink-muted uppercase sm:block">{meta}</p>
       </div>
     </div>

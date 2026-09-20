@@ -17,5 +17,10 @@ export default async function BeliefsPage() {
   const page = await getPageBySlug(SLUG)
   if (!page) notFound()
 
-  return <EditorialPageView before={<AboutSubnav />} eyebrow={EYEBROW} page={page} />
+  return (
+    <>
+      <AboutSubnav />
+      <EditorialPageView eyebrow={EYEBROW} page={page} />
+    </>
+  )
 }

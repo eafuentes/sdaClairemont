@@ -17,7 +17,7 @@ export function Spine({ content }: SpineProps) {
     <section className="bg-paper py-section-lg" id="chronology">
       <Container>
         <Eyebrow>The spine</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-heading-1 text-ink">
+        <h2 className="mt-6 max-w-measure-lead font-display text-heading-1 text-ink">
           One thread, six dates.
         </h2>
         <p className="mt-6 max-w-measure font-sans text-body text-ink-soft">
@@ -42,7 +42,7 @@ export function Spine({ content }: SpineProps) {
 function Fold({ content }: { content: ProphecyPageContent }) {
   return (
     <aside className="prophecy-fold" aria-label={content.fold.label}>
-      <p className="font-serif text-heading-3 text-ink">{content.fold.label}</p>
+      <p className="font-display text-heading-3 text-ink">{content.fold.label}</p>
       <p className="mt-3 max-w-measure font-sans text-body-sm text-ink-soft">
         {content.fold.explanation}
       </p>
@@ -59,13 +59,13 @@ function EventBlock({ event, index }: { event: PropheticEvent; index: number }) 
         <p className="font-sans text-eyebrow text-ink-muted uppercase">
           <span className="tabular">{number}</span>
         </p>
-        <p className="mt-3 font-serif text-display-2 text-ink">
+        <p className="mt-3 font-display text-display-2 text-ink">
           <PropheticTime date={event.date} />
         </p>
       </header>
 
       <div className="prophecy-event-copy">
-        <h3 className="font-serif text-heading-2 text-ink">{event.title}</h3>
+        <h3 className="font-display text-heading-2 text-ink">{event.title}</h3>
         <p className="mt-3 font-sans text-eyebrow text-dawn uppercase">
           {event.scripture.reference}
         </p>
@@ -81,7 +81,7 @@ function EventBlock({ event, index }: { event: PropheticEvent; index: number }) 
 
         {event.objections?.map((objection) => (
           <details className="prophecy-objection group mt-10" key={objection.title}>
-            <summary className="cursor-pointer font-serif text-heading-3 text-ink">
+            <summary className="cursor-pointer font-display text-heading-3 text-ink">
               {objection.title}
             </summary>
             <div className="mt-4 space-y-4">

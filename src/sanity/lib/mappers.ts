@@ -14,6 +14,7 @@ import type {
   SiteSettings,
 } from '@/types/content'
 import { flagshipPhotos } from '@/content/flagship'
+import { sabbathSpeakerPortrait } from '@/content/home-page'
 import { withYouTubePoster } from '@/lib/youtube'
 
 import { mapImage, type ProjectedImage } from './image'
@@ -106,9 +107,8 @@ export function formatMeetingSchedule(
     .map((schedule) => {
       const frequency = FREQUENCY_LABEL[schedule.frequency] ?? schedule.frequency
       const day = weekdayLabel(schedule.day)
-      return [frequency, `${day}s at ${schedule.startTime}`, schedule.notes]
-        .filter(Boolean)
-        .join(' · ')
+      const when = `${frequency} on ${day}s at ${schedule.startTime}`
+      return schedule.notes ? `${when}. ${schedule.notes}` : when
     })
     .join('; ')
 }
@@ -209,7 +209,7 @@ function mapSabbathProgram(
     sermonSummary: program.sermonSummary ?? '',
     sabbathSchoolTime: program.sabbathSchoolTime ?? '9:30 AM',
     worshipTime: program.worshipTime ?? '10:45 AM',
-    image: mapImage(program.image),
+    image: mapImage(program.image) ?? sabbathSpeakerPortrait,
     isSpecialService: program.isSpecialService ?? undefined,
     specialServiceLabel: program.specialServiceLabel ?? undefined,
   }
@@ -285,11 +285,12 @@ export function mapHomePage(
   const heroImage = mapImage(data.arrival?.heroImage)
   const belongPlates =
     data.belong?.plates && data.belong.plates.length > 0
-      ? data.belong.plates.map((plate) => {
-          const image = mapImage(plate)
+      ? data.belong.plates.map((plate, index) => {
+          const fallbackPlate = fallback.content.belong.plates[index]
+          const image = mapImage(plate) ?? fallbackPlate?.image
           return {
-            description: image?.alt ?? plate.alt,
-            caption: image?.caption ?? plate.caption ?? undefined,
+            description: image?.alt ?? plate.alt ?? fallbackPlate?.description ?? '',
+            caption: image?.caption ?? plate.caption ?? fallbackPlate?.caption,
             image,
           }
         })

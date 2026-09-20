@@ -1,38 +1,20 @@
 @import 'tailwindcss';
+@import './palette.css';
 
 /*
  * Design tokens for San Diego Clairemont SDA Church.
  *
- * The direction is "Morning Light": warm paper, editorial serif, hairline structure,
- * photography carrying the emotion. See docs/DESIGN-SYSTEM.md.
- *
- * The palette is sampled from the church's own exterior photograph at golden hour
- * rather than invented. Measured off that image, the building sits in warm cream and
- * terracotta with deep olive shadow, and its single cool note is a desaturated slate
- * in the upper sky (#54616F) — far less blue than a synthetic "sky" scale would
- * assume. So the system carries warm neutrals plus exactly two hues:
- *
- *   dawn   the sun and the tile roof
- *   dusk   the shadow side of that same sky
+ * Colour lives in `src/styles/palette.css` — the only file that contains hex.
+ * Change a brand colour there and every gradient and component follows.
  *
  * Three namespaces are deliberately RESET below rather than extended:
  *
  *   --color-*   Tailwind's default palette is removed, so `bg-red-500` and friends
- *               simply do not exist. Components can only reach for semantic tokens,
- *               which is what keeps a bespoke palette from drifting into defaults.
+ *               simply do not exist. Components can only reach for semantic tokens.
  *
  *   --text-*    Reset so `text-3xl` does not exist alongside `text-heading-1`.
- *               Two parallel type scales is how a considered scale stops being used.
  *
- *   --radius-*  Reset so the scale stops at 4px and `rounded-xl` does not exist,
- *               because this design has almost no cards and no rounded ones.
- *               `rounded-full` survives the reset — it is a static utility in
- *               Tailwind rather than a scale value — and that is fine: genuinely
- *               circular elements such as the live-stream indicator dot need it.
- *
- * Enforcing this at the token level means the design system is upheld by the build
- * rather than by review discipline. Verified by compiling the forbidden classes and
- * confirming no rule is emitted.
+ *   --radius-*  Reset so the scale stops at 4px and `rounded-xl` does not exist.
  */
 
 @theme {
@@ -40,88 +22,42 @@
   /*
    * Wired to the next/font variables declared in src/app/layout.tsx.
    *
-   * Newsreader carries the voice: it is a text-first serif with an optical-size
-   * axis, so it holds warmth at 64px in a headline and stays readable at 20px in
-   * a scripture pull. Instrument Sans handles wayfinding — navigation, labels,
-   * dates — where the serif would feel dressed up for no reason.
+   * Oswald is the voice at title size — the 2026 SERMONIC lockup, condensed and
+   * uppercase. Newsreader is reserved for scripture and quotes. Instrument Sans
+   * handles body, navigation, labels, and dates.
    */
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
-
-  /* --- Colour ------------------------------------------------------------- */
-  --color-*: initial;
-
-  --color-transparent: transparent;
-  --color-current: currentColor;
-
-  /*
-   * Paper — the light register, sampled from the lit cloud band in the photograph
-   * and desaturated to hold body copy. Three surfaces, no more: a page ground, a
-   * recessed band, and a warm band for sections that should feel sunlit.
-   */
-  --color-paper: #faf7f1;
-  --color-paper-deep: #f1ebe0;
-  --color-paper-warm: #efe7da;
-
-  /*
-   * Ink — never pure black. Sampled from the deep foliage shadow, which is a warm
-   * olive-black rather than the blue-black most systems default to. Against warm
-   * paper that difference is the whole reason the page reads as daylight.
-   *
-   * Both subordinate tiers clear 4.5:1 on all three paper surfaces, so metadata is
-   * legible everywhere it can land rather than only on the page ground.
-   */
-  --color-ink: #171410;
-  --color-ink-soft: #5b5854;
-  --color-ink-muted: #66635f;
-
-  /* The single border weight in this system is 1px, in this colour. */
-  --color-rule: #1714101a;
-
-  /*
-   * Dawn — the accent, and the only warm hue. Drawn from where the sun meets the
-   * tile roof. Dark enough to clear 4.5:1 on every paper surface, which means it
-   * can carry links and small text rather than being decoration that has to be
-   * paired with ink to stay readable.
-   */
-  --color-dawn: #8f5624;
-  --color-dawn-soft: #e0a566;
-  --color-dawn-glow: #f2cf9e;
-
-  /*
-   * Dusk — the vespers register, from the cool slate at the top of the sky. Scoped
-   * to full-bleed sections (Prayer, Hope, the footer), never to a card on a light
-   * page. Sunset is when Sabbath begins, so this is a literal reference.
-   */
-  --color-dusk: #2a333c;
-  --color-dusk-raised: #39434e;
-  --color-paper-on-dusk: #f0ece5;
+  /* Condensed display — the SERMONIC lockup: tall, athletic, uppercase. */
+  --font-display: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
 
   /* --- Type scale --------------------------------------------------------- */
   /* Fluid, so mobile is composed rather than merely shrunk. */
   --text-*: initial;
 
   --text-display-1: clamp(3.5rem, 2rem + 6vw, 7rem);
-  --text-display-1--line-height: 1.02;
-  --text-display-1--letter-spacing: -0.02em;
-  --text-display-1--font-weight: 300;
+  --text-display-1--line-height: 0.95;
+  --text-display-1--letter-spacing: -0.03em;
+  --text-display-1--font-weight: 600;
 
   --text-display-2: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
-  --text-display-2--line-height: 1.08;
-  --text-display-2--letter-spacing: -0.015em;
-  --text-display-2--font-weight: 400;
+  --text-display-2--line-height: 1;
+  --text-display-2--letter-spacing: -0.025em;
+  --text-display-2--font-weight: 600;
 
   --text-heading-1: clamp(2rem, 1.5rem + 2vw, 3rem);
-  --text-heading-1--line-height: 1.15;
-  --text-heading-1--letter-spacing: -0.01em;
-  --text-heading-1--font-weight: 400;
+  --text-heading-1--line-height: 1.05;
+  --text-heading-1--letter-spacing: -0.02em;
+  --text-heading-1--font-weight: 600;
 
   --text-heading-2: clamp(1.5rem, 1.25rem + 1vw, 2rem);
-  --text-heading-2--line-height: 1.2;
-  --text-heading-2--font-weight: 500;
+  --text-heading-2--line-height: 1.1;
+  --text-heading-2--letter-spacing: -0.015em;
+  --text-heading-2--font-weight: 600;
 
   --text-heading-3: clamp(1.25rem, 1.125rem + 0.5vw, 1.5rem);
-  --text-heading-3--line-height: 1.3;
+  --text-heading-3--line-height: 1.15;
+  --text-heading-3--letter-spacing: -0.01em;
   --text-heading-3--font-weight: 600;
 
   --text-body-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
@@ -231,9 +167,8 @@
   }
 
   :is(h1, h2, h3, h4, h5, h6) {
-    font-family: var(--font-serif);
-    /* Newsreader carries an optical-size axis; large display type tightens correctly. */
-    font-optical-sizing: auto;
+    font-family: var(--font-display);
+    text-transform: uppercase;
     text-wrap: balance;
   }
 
@@ -253,7 +188,79 @@
  */
 @utility register-dusk {
   background-color: var(--color-dusk);
+  background-image: var(--grad-void);
   color: var(--color-paper-on-dusk);
+}
+
+@utility bg-grad-ember {
+  background-image: var(--grad-ember);
+}
+
+@utility bg-grad-horizon {
+  background-image: var(--grad-horizon);
+}
+
+@utility bg-grad-void {
+  background-image: var(--grad-void);
+}
+
+@utility bg-grad-radial {
+  background-image: var(--grad-radial);
+}
+
+@utility bg-grad-wash {
+  background-image: var(--grad-wash);
+}
+
+@utility bg-grad-flare {
+  background-image: var(--grad-flare);
+}
+
+@utility bg-grad-rise {
+  background-image: var(--grad-rise);
+}
+
+@utility bg-grad-band {
+  background-image: var(--grad-band);
+}
+
+@utility bg-grad-cta {
+  background-image: var(--grad-cta);
+}
+
+@utility bg-grad-cta-hover {
+  background-image: var(--grad-cta-hover);
+}
+
+@utility shadow-cta {
+  box-shadow: var(--shadow-cta);
+}
+
+@utility bg-paper-bloom {
+  background-color: var(--color-paper);
+  background-image: var(--grad-bloom);
+}
+
+@utility bg-brand-gradient {
+  background-image: var(--grad-ember);
+}
+
+@utility bg-brand-radial {
+  background-image: var(--grad-radial);
+}
+
+/*
+ * The 2026 SERMONIC lockup: Oswald, condensed, uppercase. Display and heading
+ * sizes both wear it — including titles set on <p> and <span>. Scripture and
+ * quotes stay Newsreader via font-serif + text-quote.
+ */
+.text-display-1,
+.text-display-2,
+.text-heading-1,
+.text-heading-2,
+.text-heading-3 {
+  font-family: var(--font-display), ui-sans-serif, sans-serif;
+  text-transform: uppercase;
 }
 
 /*
@@ -308,6 +315,10 @@
   :root {
     --overlay-strength: 1;
   }
+
+  .bg-paper-bloom {
+    background-image: none;
+  }
 }
 
 /* Hairlines darken when the user asks for more contrast. */
@@ -318,27 +329,18 @@
 }
 
 /*
- * Ministries: stacked rows are the default. The pointer switcher is a desktop
- * enhancement for fine pointers only, so a phone never pays for a hover scene and
- * JavaScript-off still shows every ministry as a real link.
+ * Ministries: stacked rows are the default. The pointer switcher is an enhancement
+ * for fine pointers from the tablet breakpoint up — a phone never pays for a hover
+ * scene, and JavaScript-off still shows every ministry as a real link. The switcher
+ * is a compact split, not a sticky scroll theater.
  */
 .ministry-switcher {
   display: none;
 }
 
-@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
   .ministry-switcher {
     display: block;
-  }
-
-  .ministry-switcher-scene {
-    height: 150vh;
-    margin-top: 4rem;
-  }
-
-  .ministry-switcher-sticky {
-    position: sticky;
-    top: 0;
   }
 
   .ministry-stack {
@@ -424,16 +426,13 @@ html.header-over-media .site-header-link[aria-current='page'] {
 }
 
 html.header-over-media .site-header-cta {
-  background-color: var(--header-cta-bg);
-  color: var(--header-cta-fg);
+  background-color: var(--color-dawn);
+  background-image: var(--grad-cta);
+  color: var(--color-paper);
 }
 
 html.header-over-media .site-header-cta:hover {
-  background-color: color-mix(
-    in srgb,
-    var(--color-ink-soft) calc(var(--hero-lock) * 100%),
-    var(--color-paper)
-  );
+  background-image: var(--grad-cta-hover);
 }
 
 html.header-over-media .site-header-menu {
@@ -442,6 +441,39 @@ html.header-over-media .site-header-menu {
 
 html.header-over-media .site-header-menu-bar {
   background-color: var(--header-ink);
+}
+
+html.nav-drawer-open.header-over-media .site-header {
+  background-color: var(--color-paper);
+  border-bottom-color: var(--color-rule);
+  color: var(--color-ink);
+}
+
+html.nav-drawer-open.header-over-media .site-header::before {
+  opacity: 0;
+}
+
+html.nav-drawer-open.header-over-media .site-header-wordmark,
+html.nav-drawer-open.header-over-media .site-header-link,
+html.nav-drawer-open.header-over-media .site-header-kicker {
+  color: var(--color-ink);
+}
+
+html.nav-drawer-open.header-over-media .site-header-kicker,
+html.nav-drawer-open.header-over-media .site-header-link {
+  color: var(--color-ink-muted);
+}
+
+html.nav-drawer-open.header-over-media .site-header-link:hover,
+html.nav-drawer-open.header-over-media .site-header-link[aria-current='page'],
+html.nav-drawer-open.header-over-media .site-header-link[aria-expanded='true'] {
+  color: var(--color-ink);
+}
+
+html.nav-drawer-open.header-over-media .site-header-cta {
+  background-color: var(--color-dawn);
+  background-image: var(--grad-cta);
+  color: var(--color-paper);
 }
 
 html.header-over-media .site-header :focus-visible {

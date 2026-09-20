@@ -110,8 +110,8 @@ export function StarReadingPanel({ reading, onClose }: StarReadingPanelProps) {
 
   return (
     <aside aria-labelledby="prophecy-reading-title" className="prophecy-star-reading" role="region">
-      <p className="font-serif text-heading-2 text-paper-on-dusk">{reading.year}</p>
-      <h2 className="mt-3 font-serif text-heading-3 text-paper-on-dusk" id="prophecy-reading-title">
+      <p className="font-display text-heading-2 text-paper-on-dusk">{reading.year}</p>
+      <h2 className="mt-3 font-display text-heading-3 text-paper-on-dusk" id="prophecy-reading-title">
         {reading.title}
       </h2>
       {reading.kicker ? (

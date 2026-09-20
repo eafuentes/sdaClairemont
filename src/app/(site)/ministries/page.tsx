@@ -19,7 +19,7 @@ export default async function MinistriesPage() {
         title="There is somewhere here for your whole family."
         intro="Not a directory of programs. These are the groups of people you would actually join."
       />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <ul>
           {ordered.map((ministry) => (
             <li key={ministry.slug}>

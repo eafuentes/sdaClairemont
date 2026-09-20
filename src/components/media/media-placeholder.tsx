@@ -43,13 +43,14 @@ export function MediaPlaceholder({
   caption,
   image,
 }: MediaPlaceholderProps) {
-  const shownCaption = image?.caption ?? caption
+  const shownCaption = caption || undefined
 
   return (
-    <figure className={cn('flex flex-col', className)}>
+    <figure className={cn('flex flex-col', shownCaption ? undefined : className)}>
       <div
         className={cn(
-          'relative flex h-full w-full items-end overflow-hidden',
+          'relative overflow-hidden',
+          shownCaption ? cn('w-full', className) : 'h-full w-full',
           image ? 'bg-paper-deep' : toneClasses[tone],
         )}
         role={image ? undefined : 'img'}
@@ -62,13 +63,15 @@ export function MediaPlaceholder({
             className="object-cover"
             fill
             placeholder={image.lqip ? 'blur' : 'empty'}
-            sizes="(min-width: 1024px) 50vw, 100vw"
+            sizes="(min-width: 768px) 50vw, 100vw"
             src={image.src}
           />
         ) : (
-          <div className="w-full p-5 md:p-6">
-            <p className="font-sans text-eyebrow uppercase opacity-70">Photograph needed</p>
-            <p className="mt-2 max-w-measure font-sans text-body-sm">{description}</p>
+          <div className="flex h-full w-full items-end p-5 md:p-6">
+            <div>
+              <p className="font-sans text-eyebrow uppercase opacity-70">Photograph needed</p>
+              <p className="mt-2 max-w-measure font-sans text-body-sm">{description}</p>
+            </div>
           </div>
         )}
       </div>

@@ -38,7 +38,7 @@ export default async function MinistryPage({ params }: MinistryPageProps) {
   return (
     <>
       <PageHeader eyebrow="Ministries" title={ministry.name} intro={ministry.shortDescription} />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           <p className="font-sans text-eyebrow text-ink-muted uppercase">
             {ministry.ageRange}
@@ -71,11 +71,11 @@ export default async function MinistryPage({ params }: MinistryPageProps) {
 
               {ministry.leaders && ministry.leaders.length > 0 ? (
                 <section className="mt-14">
-                  <h2 className="font-serif text-heading-2 text-ink">Who leads this</h2>
+                  <h2 className="font-display text-heading-2 text-ink">Who leads this</h2>
                   <ul className="mt-6 divide-y divide-rule border-y border-rule">
                     {ministry.leaders.map((leader) => (
                       <li className="py-5" key={leader.slug}>
-                        <p className="font-serif text-heading-3 text-ink">{leader.name}</p>
+                        <p className="font-display text-heading-3 text-ink">{leader.name}</p>
                         <p className="mt-1 font-sans text-body-sm text-ink-soft">{leader.role}</p>
                       </li>
                     ))}
@@ -85,7 +85,7 @@ export default async function MinistryPage({ params }: MinistryPageProps) {
 
               {ministry.resources && ministry.resources.length > 0 ? (
                 <section className="mt-14">
-                  <h2 className="font-serif text-heading-2 text-ink">Resources</h2>
+                  <h2 className="font-display text-heading-2 text-ink">Resources</h2>
                   <ul className="mt-6 space-y-3">
                     {ministry.resources.map((resource) => (
                       <li key={resource.href}>
@@ -109,11 +109,11 @@ export default async function MinistryPage({ params }: MinistryPageProps) {
 
               {ministry.classes && ministry.classes.length > 0 ? (
                 <section className="mt-14">
-                  <h2 className="font-serif text-heading-2 text-ink">Classes</h2>
+                  <h2 className="font-display text-heading-2 text-ink">Classes</h2>
                   <ul className="mt-6 divide-y divide-rule border-y border-rule">
                     {ministry.classes.map((entry) => (
                       <li className="py-5" key={entry.name}>
-                        <p className="font-serif text-heading-3 text-ink">{entry.name}</p>
+                        <p className="font-display text-heading-3 text-ink">{entry.name}</p>
                         <p className="mt-1 font-sans text-eyebrow text-ink-muted uppercase">
                           {entry.ageRange}
                         </p>
@@ -130,14 +130,14 @@ export default async function MinistryPage({ params }: MinistryPageProps) {
 
               {ministry.statistics && ministry.statistics.length > 0 ? (
                 <section className="mt-14">
-                  <h2 className="font-serif text-heading-2 text-ink">At a glance</h2>
+                  <h2 className="font-display text-heading-2 text-ink">At a glance</h2>
                   <dl className="mt-6 grid grid-cols-2 gap-8 sm:grid-cols-3">
                     {ministry.statistics.map((stat) => (
                       <div key={stat.label}>
                         <dt className="font-sans text-eyebrow text-ink-muted uppercase">
                           {stat.label}
                         </dt>
-                        <dd className="mt-2 font-serif text-heading-1 text-ink">{stat.value}</dd>
+                        <dd className="mt-2 font-display text-heading-1 text-ink">{stat.value}</dd>
                         {stat.description ? (
                           <p className="mt-2 font-sans text-body-sm text-ink-muted">
                             {stat.description}

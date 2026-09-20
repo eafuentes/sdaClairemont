@@ -26,7 +26,7 @@ export default async function WatchPage() {
         title="If you cannot be here, be here anyway."
         intro="The latest Sabbath message plays here. The player loads only when you ask for it."
       />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           {settings.isLive && settings.livestreamUrl ? (
             <p className="mb-12">
@@ -45,7 +45,7 @@ export default async function WatchPage() {
                     title={featured.title}
                     videoId={featuredVideoId}
                   />
-                  <h2 className="mt-6 font-serif text-heading-1 text-ink">{featured.title}</h2>
+                  <h2 className="mt-6 font-display text-heading-1 text-ink">{featured.title}</h2>
                   <p className="mt-3 font-sans text-body-sm text-ink-soft">
                     {featured.speakerName}
                     <span aria-hidden="true"> · </span>
@@ -103,7 +103,7 @@ export default async function WatchPage() {
             </p>
           )}
           <aside className="mt-16 max-w-measure border-t border-rule pt-10">
-            <h2 className="font-serif text-heading-3 text-ink">If a message left you in Daniel</h2>
+            <h2 className="font-display text-heading-3 text-ink">If a message left you in Daniel</h2>
             <p className="mt-4 font-sans text-body-sm text-ink-soft">
               The dates are drawn to scale, from a Persian king&rsquo;s decree to 1844.
             </p>

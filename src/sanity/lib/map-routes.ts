@@ -25,6 +25,7 @@ import type {
 } from '@/types/content'
 
 import { flagshipPhotos } from '@/content/flagship'
+import { sabbathSpeakerPortrait } from '@/content/home-page'
 
 import { mapImage, type ProjectedImage } from './image'
 import { formatMeetingSchedule, mapScripture, mapSermon, portableTextToParagraphs } from './mappers'
@@ -209,7 +210,7 @@ export function mapSabbathDetail(
     sermonSummary: program.sermonSummary ?? '',
     sabbathSchoolTime: program.sabbathSchoolTime ?? '9:30 AM',
     worshipTime: program.worshipTime ?? '10:45 AM',
-    image: mapImage(program.image),
+    image: mapImage(program.image) ?? sabbathSpeakerPortrait,
     bulletinUrl: program.bulletinUrl ?? undefined,
     livestreamUrl: program.livestreamUrl ?? undefined,
     isSpecialService: program.isSpecialService ?? undefined,

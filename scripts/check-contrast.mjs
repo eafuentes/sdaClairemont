@@ -1,9 +1,9 @@
 /**
  * Verifies the colour palette against WCAG contrast floors.
  *
- * Token values are read out of src/styles/globals.css rather than duplicated here, so
+ * Token values are read out of src/styles/palette.css rather than duplicated here, so
  * this check cannot drift from the design system it is checking. Adjusting a colour in
- * the theme re-runs against the real value.
+ * the palette re-runs against the real value.
  *
  * Translucent foregrounds used in the dusk register are composited over their background
  * before measurement, because `text-paper-on-dusk/50` is not the contrast of
@@ -13,7 +13,7 @@
  */
 import { readFileSync } from 'node:fs'
 
-const THEME_PATH = 'src/styles/globals.css'
+const THEME_PATH = 'src/styles/palette.css'
 
 function readTokens() {
   const css = readFileSync(THEME_PATH, 'utf8')
@@ -80,6 +80,7 @@ const warmWash = composite(t.dawn, t.paper, 0.25)
 const coolWash = composite(t.dusk, t.paper, 0.2)
 const ministryCoolWash = composite(t.dusk, t.paper, 0.07)
 const invitationWash = composite(t.dawn, t.paper, 0.12)
+const bloomWash = composite(t['dawn-glow'], t.paper, 0.35)
 
 // `min` follows WCAG: 4.5 for text under ~24px, 3 for large text and non-text boundaries.
 const pairs = [
@@ -105,6 +106,8 @@ const pairs = [
   ['ink-muted on ministry cool wash', t['ink-muted'], ministryCoolWash, 4.5],
   ['ink-muted on invitation wash', t['ink-muted'], invitationWash, 4.5],
   ['dawn tag on invitation wash', t.dawn, invitationWash, 4.5],
+  ['ink-soft on paper bloom', t['ink-soft'], bloomWash, 4.5],
+  ['ink on paper bloom', t.ink, bloomWash, 4.5],
 
   // The dusk register.
   ['paper-on-dusk on dusk', t['paper-on-dusk'], t.dusk, 4.5],
@@ -129,6 +132,7 @@ const pairs = [
   ['dawn focus ring against paper-warm', t.dawn, t['paper-warm'], 3],
   ['dawn-soft focus ring against dusk', t['dawn-soft'], t.dusk, 3],
   ['paper glyph on dawn', t.paper, t.dawn, 3],
+  ['paper on dawn (statement band)', t.paper, t.dawn, 4.5],
   [
     'on-dusk-quiet button border over hero scrim',
     composite(t['paper-on-dusk'], heroScrimFloor, 0.7),

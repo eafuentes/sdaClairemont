@@ -48,7 +48,7 @@ export function SermonPoster({
         </span>
       </div>
       {showTitle ? (
-        <Title className="mt-6 font-serif text-heading-1 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
+        <Title className="mt-6 font-display text-heading-1 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
           {sermon.title}
         </Title>
       ) : null}

@@ -31,14 +31,14 @@ export function LeadershipHero() {
     <section
       ref={sectionRef}
       aria-labelledby="leadership-headline"
-      className="overflow-hidden bg-paper pb-section"
+      className="overflow-hidden bg-paper-bloom pb-section"
     >
       <Container>
         <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5 lg:pb-6">
             <Eyebrow>About</Eyebrow>
             <h1
-              className="mt-6 max-w-[12ch] font-serif text-display-2 text-ink"
+              className="mt-6 max-w-[12ch] font-display text-display-2 text-ink"
               id="leadership-headline"
             >
               Our leadership

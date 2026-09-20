@@ -4,6 +4,7 @@ import { Container } from '@/components/layout/container'
 import { MinistryRow } from '@/components/ministries/ministry-row'
 import { MinistrySwitcher } from '@/components/ministries/ministry-switcher'
 import { Reveal } from '@/components/motion/reveal'
+import { RevealText } from '@/components/motion/reveal-text'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import type { Ministry } from '@/types/content'
 
@@ -14,48 +15,45 @@ interface MinistriesProps {
 /**
  * Chapter 04 — Ministries. Explicitly not a grid of cards.
  *
- * The stacked rows are the design on touch, on small screens, without JavaScript, and
- * with reduced-width viewports. The pointer switcher is layered on top for fine
- * pointers at desktop width — hover is enhancement, every name is already a link.
+ * The stacked rows are the design on touch and without a fine pointer. The switcher
+ * is the same chapter on desktop: names beside one plate, hover and focus cross-fade
+ * the photograph.
  */
 export function Ministries({ ministries }: MinistriesProps) {
   const ordered = [...ministries].sort((first, second) => first.order - second.order)
 
   return (
-    <section aria-labelledby="ministries-title" className="bg-paper" id="ministries">
-      <Container className="pt-section-lg">
+    <section aria-labelledby="ministries-title" className="bg-paper-bloom py-section" id="ministries">
+      <Container>
         <Reveal>
           <Eyebrow index="04">Ministries</Eyebrow>
         </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id="ministries-title">
-            There is somewhere here for your whole family.
-          </h2>
-        </Reveal>
+        <h2 className="mt-4 max-w-measure-lead font-display text-heading-1" id="ministries-title">
+          <RevealText text="There is somewhere here for your whole family." />
+        </h2>
       </Container>
 
-      <div className="ministry-switcher-scene">
-        <div className="ministry-switcher-sticky">
-          <MinistrySwitcher ministries={ordered} />
-        </div>
+      <div className="ministry-switcher-scene mt-8">
+        <MinistrySwitcher ministries={ordered} />
       </div>
 
-      <ul className="ministry-stack mt-16">
-        {ordered.map((ministry) => (
-          <Reveal key={ministry.slug} as="li">
-            <MinistryRow ministry={ministry} />
-          </Reveal>
-        ))}
-      </ul>
-
-      <Container className="pb-section-lg">
-        <Link
-          className="mt-12 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-          href="/ministries"
-        >
-          All ministries
-        </Link>
-      </Container>
+      <div className="ministry-stack mt-8">
+        <ul>
+          {ordered.map((ministry) => (
+            <Reveal key={ministry.slug} as="li">
+              <MinistryRow ministry={ministry} />
+            </Reveal>
+          ))}
+        </ul>
+        <Container>
+          <Link
+            className="mt-8 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
+            href="/ministries"
+          >
+            All ministries
+          </Link>
+        </Container>
+      </div>
     </section>
   )
 }

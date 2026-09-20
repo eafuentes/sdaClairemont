@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
-import type { NavItem, SiteSettings } from '@/types/content'
+import { primaryNav } from '@/content/navigation'
+import type { SiteSettings } from '@/types/content'
 
 interface MobileNavSheetProps {
-  navItems: NavItem[]
   settings: Pick<SiteSettings, 'givingUrl' | 'phone' | 'address'>
 }
 
@@ -23,7 +23,7 @@ interface MobileNavSheetProps {
  * Deliberately unanimated in Phase 1. The sheet's slide and the staggered link reveal
  * arrive with the motion system in Phase 3.
  */
-export function MobileNavSheet({ navItems, settings }: MobileNavSheetProps) {
+export function MobileNavSheet({ settings }: MobileNavSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
@@ -73,7 +73,7 @@ export function MobileNavSheet({ navItems, settings }: MobileNavSheetProps) {
       >
         <div className="flex h-full flex-col px-5 py-6">
           <div className="flex items-center justify-between">
-            <p className="font-serif text-heading-3">Clairemont</p>
+            <p className="font-display text-heading-3 uppercase">Clairemont</p>
             <button
               className="-mr-2 inline-flex min-h-11 items-center rounded-xs px-2 font-sans text-eyebrow text-ink uppercase"
               onClick={() => dialogRef.current?.close()}
@@ -83,23 +83,45 @@ export function MobileNavSheet({ navItems, settings }: MobileNavSheetProps) {
             </button>
           </div>
 
-          <nav aria-label="Primary" className="mt-12 flex-1">
+          <nav aria-label="Primary" className="mt-12 flex-1 overflow-y-auto">
             <ul className="flex flex-col">
-              {navItems.map((item) => {
-                const isCurrent = pathname === item.href || pathname.startsWith(`${item.href}/`)
+              {primaryNav.map((section) => {
+                const isCurrent =
+                  pathname === section.href || pathname.startsWith(`${section.href}/`)
 
                 return (
-                  <li key={item.href} className="border-t border-rule">
+                  <li key={section.href} className="border-t border-rule">
                     <Link
-                      aria-current={isCurrent ? 'page' : undefined}
-                      className="flex min-h-14 items-center font-serif text-heading-1"
-                      href={item.href}
+                      aria-current={isCurrent && pathname === section.href ? 'page' : undefined}
+                      className="flex min-h-14 items-center font-display text-heading-2"
+                      href={section.href}
                     >
-                      {item.label}
+                      {section.label}
                       {isCurrent ? (
                         <span aria-hidden="true" className="ml-3 h-1 w-1 rounded-full bg-dawn" />
                       ) : null}
                     </Link>
+                    {section.links.length > 0 ? (
+                      <ul className="mb-4 flex flex-col">
+                        {section.links.map((link) => {
+                          const childCurrent = pathname === link.href
+                          return (
+                            <li key={`${link.href}-${link.label}`}>
+                              <Link
+                                aria-current={childCurrent ? 'page' : undefined}
+                                className="flex min-h-11 cursor-pointer flex-col justify-center py-2 font-sans text-body-sm text-ink-soft"
+                                href={link.href}
+                              >
+                                <span>{link.label}</span>
+                                {link.hint ? (
+                                  <span className="mt-0.5 text-ink-muted">{link.hint}</span>
+                                ) : null}
+                              </Link>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    ) : null}
                   </li>
                 )
               })}
@@ -114,7 +136,7 @@ export function MobileNavSheet({ navItems, settings }: MobileNavSheetProps) {
               This Sabbath
             </Link>
             <Link
-              className="inline-flex min-h-11 w-full items-center justify-center rounded-xs bg-ink px-6 font-sans text-body-sm font-medium text-paper"
+              className="bg-grad-cta inline-flex min-h-11 w-full items-center justify-center rounded-full px-6 font-sans text-body-sm font-medium text-paper shadow-cta"
               href="/visit"
             >
               Plan Your Visit

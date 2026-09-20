@@ -22,7 +22,7 @@ export function EmpireLanes({ content }: EmpireLanesProps) {
     <section className="bg-paper-deep py-section-lg" id="the-lanes">
       <Container>
         <Eyebrow>The lanes</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-heading-1 text-ink">
+        <h2 className="mt-6 max-w-measure-lead font-display text-heading-1 text-ink">
           Four vocabularies. One sequence.
         </h2>
         <p className="mt-6 max-w-measure font-sans text-body text-ink-soft">
@@ -49,7 +49,7 @@ export function EmpireLanes({ content }: EmpireLanesProps) {
               {content.empires.map((empire) => (
                 <tr key={empire.empire}>
                   <th scope="row">
-                    <span className="block font-serif text-heading-3 text-ink">
+                    <span className="block font-display text-heading-3 text-ink">
                       {empire.empire}
                     </span>
                     <span className="mt-1 block font-sans text-eyebrow text-ink-muted uppercase">
@@ -66,7 +66,7 @@ export function EmpireLanes({ content }: EmpireLanesProps) {
         </div>
 
         <details className="prophecy-lanes-more mt-14">
-          <summary className="cursor-pointer font-serif text-heading-3 text-ink">
+          <summary className="cursor-pointer font-display text-heading-3 text-ink">
             Open the parallel chart
           </summary>
 

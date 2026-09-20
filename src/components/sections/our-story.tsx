@@ -23,7 +23,7 @@ interface OurStoryProps {
  */
 export function OurStory({ content, settings }: OurStoryProps) {
   return (
-    <section aria-labelledby="story-title" className="bg-paper py-section-lg" id="our-story">
+    <section aria-labelledby="story-title" className="bg-paper-bloom py-section-lg" id="our-story">
       <div className="relative">
         <ParallaxMedia className="h-[50vh] w-full lg:h-[70vh]" rate={0.1} scaleTo={1.04}>
           <MediaPlaceholder
@@ -35,7 +35,7 @@ export function OurStory({ content, settings }: OurStoryProps) {
         </ParallaxMedia>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden lg:block">
           <Container>
-            <p className="max-w-[24ch] bg-paper/85 p-8 font-serif text-display-2 text-ink">
+            <p className="max-w-[24ch] bg-paper/85 p-8 font-display text-display-2 text-ink">
               <RevealText stagger={0.06} text={settings.tagline} />
             </p>
           </Container>
@@ -43,7 +43,7 @@ export function OurStory({ content, settings }: OurStoryProps) {
       </div>
 
       <Container>
-        <p className="mt-10 max-w-measure-lead font-serif text-heading-1 text-ink lg:hidden">
+        <p className="mt-10 max-w-measure-lead font-display text-heading-1 text-ink lg:hidden">
           <RevealText stagger={0.06} text={settings.tagline} />
         </p>
 
@@ -79,7 +79,7 @@ export function OurStory({ content, settings }: OurStoryProps) {
                 image={content.pastorPortrait.image}
                 tone="neutral"
               />
-              <p className="mt-4 font-serif text-heading-3 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
+              <p className="mt-4 font-display text-heading-3 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
                 {content.pastor.name}
               </p>
               <p className="font-sans text-body-sm text-ink-muted">{content.pastor.role}</p>

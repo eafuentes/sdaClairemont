@@ -126,7 +126,7 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
 
         <div className="flex items-end justify-between gap-6 px-5 py-6 md:px-8">
           <div>
-            {current?.title ? <p className="font-serif text-heading-3">{current.title}</p> : null}
+            {current?.title ? <p className="font-display text-heading-3">{current.title}</p> : null}
             {current?.date ? (
               <p className="mt-1 font-sans text-eyebrow text-dawn-soft uppercase">{current.date}</p>
             ) : null}

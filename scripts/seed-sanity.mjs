@@ -361,6 +361,10 @@ const assetId = await uploadChurchPhoto()
 const hero = churchPhoto(assetId, photoAlt)
 const londonPortraitId = await uploadNamedPhoto('pastor-portrait-London-2.webp')
 const berryPortraitId = await uploadNamedPhoto('pastor-portrait-Berry-2.webp')
+const speakerPortraitId = await uploadNamedPhoto(
+  'speaker-portrait.webp',
+  'public/images/sabbath',
+)
 
 const documents = [
   {
@@ -510,6 +514,10 @@ const documents = [
     sermonSummary:
       'The son who left assumed there was a version of himself his father could no longer welcome. He was wrong about that, and most of us are wrong about it too. A look at what the father was doing while the son was gone.',
     isSpecialService: false,
+    image: portraitPhoto(
+      speakerPortraitId,
+      'Pastor London L. Lee preaching from the pulpit in the Clairemont sanctuary, arms open, in a grey suit.',
+    ),
   },
   {
     _id: 'page-visit',

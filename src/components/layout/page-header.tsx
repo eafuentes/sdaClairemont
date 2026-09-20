@@ -15,10 +15,10 @@ interface PageHeaderProps {
  */
 export function PageHeader({ eyebrow, title, intro }: PageHeaderProps) {
   return (
-    <header className="bg-paper pt-section pb-12">
+    <header className="bg-paper-bloom pt-section pb-12">
       <Container>
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <h1 className="mt-6 max-w-measure-lead font-serif text-display-2 text-ink">{title}</h1>
+        <Eyebrow className="text-dawn">{eyebrow}</Eyebrow>
+        <h1 className="mt-6 max-w-measure-lead text-display-2 text-ink">{title}</h1>
         {intro ? (
           <p className="mt-8 max-w-measure font-sans text-body-lg text-ink-soft">{intro}</p>
         ) : null}

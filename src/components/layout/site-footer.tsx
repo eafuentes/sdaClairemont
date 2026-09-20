@@ -36,7 +36,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
       <Container>
         <div className="grid gap-12 py-section md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="lg:col-span-1">
-            <p className="font-serif text-heading-2 leading-tight">
+            <p className="font-display text-heading-2 leading-tight uppercase">
               Clairemont
               <span className="block font-sans text-eyebrow text-paper-on-dusk/60 uppercase">
                 Seventh-day Adventist Church

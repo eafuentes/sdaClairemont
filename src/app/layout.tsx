@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Instrument_Sans, Newsreader } from 'next/font/google'
+import { Instrument_Sans, Newsreader, Oswald } from 'next/font/google'
 
 import { DraftPreview } from '@/components/sanity/draft-preview'
 import { siteConfig } from '@/config/site'
@@ -8,7 +8,7 @@ import { appEnv } from '@/env'
 import '@/styles/globals.css'
 
 /**
- * Editorial serif. Carries display type, headings, and scripture in italic.
+ * Editorial serif. Scripture, testimonials, and pull quotes — not titles.
  * The optical-size axis is requested explicitly so the same family sets correctly
  * at both caption and display sizes.
  */
@@ -25,6 +25,14 @@ const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-instrument-sans',
+})
+
+/** Condensed display. The 2026 SERMONIC lockup — tall, athletic, uppercase. */
+const oswald = Oswald({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  display: 'swap',
+  variable: '--font-oswald',
 })
 
 export const metadata: Metadata = {
@@ -45,7 +53,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${instrumentSans.variable}`}>
+    <html lang="en" className={`${newsreader.variable} ${instrumentSans.variable} ${oswald.variable}`}>
       <body>
         {children}
         <DraftPreview />

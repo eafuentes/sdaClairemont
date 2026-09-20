@@ -40,7 +40,7 @@ export default async function SermonPage({ params }: SermonPageProps) {
   return (
     <>
       <PageHeader eyebrow="Watch" title={sermon.title} />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-8">

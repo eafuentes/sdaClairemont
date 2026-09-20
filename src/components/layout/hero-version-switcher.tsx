@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const VERSIONS = [
-  { href: '/', label: 'Photograph' },
+  { href: '/', label: 'Home' },
   { href: '/home-photo', label: 'Layers' },
   { href: '/home-video', label: 'Video' },
 ] as const
 
-const HERO_PATHS = new Set(VERSIONS.map((version) => version.href))
+const HERO_PATHS: ReadonlySet<string> = new Set(['/home-photo', '/home-video'])
 
 /**
  * A temporary compare control so homepage heroes can be judged side by side.

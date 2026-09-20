@@ -28,7 +28,7 @@ export default async function PrayerPage() {
   return (
     <EditorialPageView eyebrow={EYEBROW} page={page}>
       <aside className="mt-16 max-w-measure border-t border-rule pt-10">
-        <h2 className="font-serif text-heading-2 text-ink">Reach the prayer team</h2>
+        <h2 className="font-display text-heading-2 text-ink">Reach the prayer team</h2>
         <p className="mt-5 font-sans text-body text-ink-soft">
           A short message is enough. If you would rather speak than write, call.
         </p>

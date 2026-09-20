@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { brandGradient } from '@/styles/palette'
 import { cn } from '@/lib/utils'
 
 type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'on-dusk' | 'on-dusk-quiet'
@@ -28,22 +29,15 @@ type ButtonProps = ButtonAsLinkProps | ButtonAsButtonProps
 /**
  * One size, five variants, 44px minimum touch target.
  *
- * The two `on-dusk` variants exist because the light-register primary is `bg-ink`, which
- * over the dusk register is dark on dark and effectively disappears. Rather than letting
- * call sites patch that with one-off className overrides, the inversion is a named
- * variant that carries its own verified contrast.
- *
- * Notably absent: hover lift, scale, and shadow bloom. Feedback is a colour or underline
- * change — quick enough to read as a response rather than as an animation. Radius is
- * 2px, because this system's shape scale stops at 4px.
+ * Filled variants are pills on the brand CTA gradient (crimson into black). Outline
+ * variants share the pill so a row of buttons reads as one family. Tertiary stays a
+ * text link. Hover swaps the gradient; nothing lifts or scales.
  */
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-ink text-paper hover:bg-ink-soft',
+  primary: `${brandGradient.cta} text-paper shadow-cta hover:bg-grad-cta-hover`,
   secondary: 'border border-ink/25 text-ink hover:border-ink hover:bg-ink/5',
   tertiary: 'text-ink underline decoration-dawn decoration-1 underline-offset-4 hover:decoration-2',
-  'on-dusk': 'bg-paper-on-dusk text-dusk hover:bg-paper',
-  // The border is /70 rather than a subtler /40 because this variant sits over
-  // photography, where a control outline still has to clear 3:1 against a highlight.
+  'on-dusk': `${brandGradient.cta} text-paper shadow-cta hover:bg-grad-cta-hover`,
   'on-dusk-quiet':
     'border border-paper-on-dusk/70 text-paper-on-dusk hover:border-paper-on-dusk hover:bg-paper-on-dusk/10',
 }
@@ -55,19 +49,19 @@ const variantClasses: Record<ButtonVariant, string> = {
  * pressing, `--dur-quick` releasing. That asymmetry is what physical objects do, and it
  * is the difference between a button that acknowledges a press and one that animates.
  *
- * Still absent: hover lift, scale, and shadow bloom. Nothing moves before it is touched.
+ * Still absent: hover lift and scale. The gradient shift is the hover response.
  */
 const baseClasses =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-xs px-6 font-sans ' +
-  'text-body-sm font-medium transition-[background-color,border-color,transform,text-decoration-color] ' +
+  'inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-7 font-sans ' +
+  'text-body-sm font-medium transition-[background-color,background-image,border-color,transform,text-decoration-color] ' +
   'duration-[var(--dur-quick)] ease-out active:translate-y-px active:duration-[var(--dur-instant)]'
 
 export function Button({ children, variant = 'primary', className, ...rest }: ButtonProps) {
   const classes = cn(
     baseClasses,
     variantClasses[variant],
-    // Tertiary reads as a link, so it drops the button padding and height.
-    variant === 'tertiary' && 'min-h-0 px-0',
+    // Tertiary reads as a link, so it drops the button padding, height, and pill.
+    variant === 'tertiary' && 'min-h-0 rounded-none px-0 shadow-none',
     className,
   )
 

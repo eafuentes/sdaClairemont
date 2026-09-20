@@ -31,7 +31,7 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
   return (
     <>
       <PageHeader eyebrow="Photographs" title={gallery.title} intro={gallery.description} />
-      <div className="bg-paper pb-section">
+      <div className="bg-paper-bloom pb-section">
         {gallery.date ? (
           <Container>
             <p className="mb-12 font-sans text-eyebrow text-ink-muted uppercase">

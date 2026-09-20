@@ -1,11 +1,10 @@
 import { notFound } from 'next/navigation'
 
-import { EditorialPageView } from '@/components/content/editorial-page-view'
+import { GiveView } from '@/components/give/give-view'
 import { pageMetadata } from '@/lib/page-metadata'
-import { getPageBySlug } from '@/sanity/lib/load'
+import { getPageBySlug, getSiteSettings } from '@/sanity/lib/load'
 
 const SLUG = 'give'
-const EYEBROW = 'Give'
 
 export async function generateMetadata() {
   const page = await getPageBySlug(SLUG)
@@ -13,8 +12,8 @@ export async function generateMetadata() {
 }
 
 export default async function GivePage() {
-  const page = await getPageBySlug(SLUG)
+  const [page, settings] = await Promise.all([getPageBySlug(SLUG), getSiteSettings()])
   if (!page) notFound()
 
-  return <EditorialPageView eyebrow={EYEBROW} page={page} />
+  return <GiveView page={page} settings={settings} />
 }

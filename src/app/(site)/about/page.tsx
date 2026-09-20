@@ -19,8 +19,11 @@ export default async function AboutPage() {
   if (!page) notFound()
 
   return (
-    <EditorialPageView before={<AboutSubnav />} eyebrow={EYEBROW} page={page}>
-      <AboutContinue />
-    </EditorialPageView>
+    <>
+      <AboutSubnav />
+      <EditorialPageView eyebrow={EYEBROW} page={page}>
+        <AboutContinue />
+      </EditorialPageView>
+    </>
   )
 }

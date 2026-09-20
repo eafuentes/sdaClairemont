@@ -33,7 +33,7 @@ export function UpcomingEvents({ events, settings }: UpcomingEventsProps) {
           <Eyebrow index="05">What&rsquo;s coming</Eyebrow>
         </Reveal>
         <Reveal delay={0.1}>
-          <h2 className="mt-6 max-w-measure-lead font-serif text-display-2" id="events-title">
+          <h2 className="mt-6 max-w-measure-lead font-display text-display-2" id="events-title">
             Come and be part of it.
           </h2>
         </Reveal>
@@ -74,13 +74,13 @@ function WeeklyRhythmFallback({ settings }: { settings: SiteSettings }) {
     <section className="bg-paper-deep py-section-lg" id="events">
       <Container>
         <Eyebrow index="05">What&rsquo;s coming</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-serif text-display-2">
+        <h2 className="mt-6 max-w-measure-lead font-display text-display-2">
           Every week, like this.
         </h2>
         <ul className="mt-12 max-w-measure">
           {settings.serviceTimes.map((service) => (
             <li key={service.label} className="border-t border-rule py-6">
-              <p className="font-serif text-heading-2 text-ink">{service.label}</p>
+              <p className="font-display text-heading-2 text-ink">{service.label}</p>
               <p className="tabular mt-1 font-sans text-body-sm text-ink-soft">
                 {service.day} {service.startTime}
                 {service.endTime ? `–${service.endTime}` : ''}

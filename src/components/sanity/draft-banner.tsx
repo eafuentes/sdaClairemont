@@ -21,7 +21,7 @@ async function DraftBannerInner() {
   if (!(await isSanityDraftPreview())) return null
 
   return (
-    <p className="bg-dawn px-5 py-3 text-center font-sans text-body-sm text-ink">
+    <p className="bg-dawn px-5 py-3 text-center font-sans text-body-sm text-paper">
       You are previewing unpublished changes.{' '}
       {/* Full document navigation so the disable route can set the cookie, then redirect. */}
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- API route must run as a document request, not a client transition. */}

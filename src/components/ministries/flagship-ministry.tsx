@@ -72,7 +72,7 @@ export function FlagshipMinistry({ ministry, kind, events = [] }: FlagshipMinist
 
 function Mission({ copy }: { copy: FlagshipCopy }) {
   return (
-    <section className="bg-paper py-section-lg">
+    <section className="bg-paper-bloom py-section-lg">
       <Container>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-6 lg:col-start-2">
@@ -119,7 +119,7 @@ function Adventures({
       <Container>
         <Reveal>
           <Eyebrow>Where we have been</Eyebrow>
-          <h2 className="mt-6 max-w-measure-lead font-serif text-display-2 text-ink">
+          <h2 className="mt-6 max-w-measure-lead font-display text-display-2 text-ink">
             {kind === 'pathfinders' ? 'The club actually goes places.' : 'Sundays, together.'}
           </h2>
         </Reveal>
@@ -145,11 +145,11 @@ function Adventures({
 
 function ClubCalendar({ events }: { events: ChurchEvent[] }) {
   return (
-    <section className="bg-paper py-section-lg">
+    <section className="bg-paper-bloom py-section-lg">
       <Container>
         <Reveal>
           <Eyebrow>Coming up</Eyebrow>
-          <h2 className="mt-6 max-w-measure-lead font-serif text-heading-1 text-ink">
+          <h2 className="mt-6 max-w-measure-lead font-display text-heading-1 text-ink">
             The next time the club gathers.
           </h2>
         </Reveal>
@@ -173,11 +173,11 @@ function ClassProgression({
   kind: 'pathfinders' | 'adventurers'
 }) {
   return (
-    <section className="bg-paper py-section-lg">
+    <section className="bg-paper-bloom py-section-lg">
       <Container>
         <Reveal>
           <Eyebrow>{kind === 'pathfinders' ? 'The eight classes' : 'The classes'}</Eyebrow>
-          <h2 className="mt-6 max-w-measure-lead font-serif text-heading-1 text-ink">
+          <h2 className="mt-6 max-w-measure-lead font-display text-heading-1 text-ink">
             A progression, not eight identical cards.
           </h2>
         </Reveal>
@@ -189,7 +189,7 @@ function ClassProgression({
                 <p className="font-sans text-eyebrow text-ink-muted uppercase lg:col-span-2">
                   <span className="tabular">{String(index + 1).padStart(2, '0')}</span>
                 </p>
-                <p className="font-serif text-heading-2 text-ink lg:col-span-4">{entry.name}</p>
+                <p className="font-display text-heading-2 text-ink lg:col-span-4">{entry.name}</p>
                 <p className="font-sans text-eyebrow text-ink-muted uppercase lg:col-span-2">
                   {entry.ageRange}
                 </p>
@@ -214,7 +214,7 @@ function Safety({ ministry, paragraphs }: { ministry: MinistryDetail; paragraphs
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-6 lg:col-start-2">
             <Eyebrow>Leadership and safety</Eyebrow>
-            <h2 className="mt-6 font-serif text-heading-1 text-ink">Who is in the room.</h2>
+            <h2 className="mt-6 font-display text-heading-1 text-ink">Who is in the room.</h2>
             <div className="mt-8 space-y-5">
               {paragraphs.map((paragraph) => (
                 <p
@@ -232,7 +232,7 @@ function Safety({ ministry, paragraphs }: { ministry: MinistryDetail; paragraphs
               <ul className="divide-y divide-rule border-y border-rule">
                 {ministry.leaders.map((leader) => (
                   <li className="py-5" key={leader.slug}>
-                    <p className="font-serif text-heading-3 text-ink">{leader.name}</p>
+                    <p className="font-display text-heading-3 text-ink">{leader.name}</p>
                     <p className="mt-1 font-sans text-body-sm text-ink-soft">{leader.role}</p>
                   </li>
                 ))}
@@ -247,10 +247,10 @@ function Safety({ ministry, paragraphs }: { ministry: MinistryDetail; paragraphs
 
 function Close({ registrationUrl }: { registrationUrl?: string }) {
   return (
-    <section className="bg-paper py-section-lg">
+    <section className="bg-paper-bloom py-section-lg">
       <Container>
         <Reveal>
-          <h2 className="max-w-measure-lead font-serif text-display-2 text-ink">
+          <h2 className="max-w-measure-lead font-display text-display-2 text-ink">
             If this is your kid, come on a Sunday.
           </h2>
           <div className="mt-10 flex flex-wrap gap-4">

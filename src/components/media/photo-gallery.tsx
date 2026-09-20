@@ -130,7 +130,7 @@ function GalleryTile({
       </button>
       {item.title || item.date || item.sentence ? (
         <figcaption className="mt-4">
-          {item.title ? <p className="font-serif text-heading-3 text-ink">{item.title}</p> : null}
+          {item.title ? <p className="font-display text-heading-3 text-ink">{item.title}</p> : null}
           {item.date ? (
             <p className="mt-1 font-sans text-eyebrow text-ink-muted uppercase">{item.date}</p>
           ) : null}
