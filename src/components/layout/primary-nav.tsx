@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useId, useRef, useState } from 'react'
 
 import { Container } from '@/components/layout/container'
+import { Icon } from '@/components/ui/icon'
 import { primaryNav, type NavLinkItem, type NavSection } from '@/content/navigation'
 import { brandGradient } from '@/styles/palette'
 import { DURATION, EASE_OUT, SPRING } from '@/lib/motion'
@@ -238,12 +239,10 @@ function NavDrawerLink({ link, current }: { link: NavLinkItem; current: boolean 
               {link.hint}
             </span>
           ) : null}
-          <span
-            aria-hidden="true"
-            className="font-sans text-body-sm text-paper opacity-0 transition-[opacity,transform] duration-[var(--dur-quick)] ease-out group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:opacity-100 -translate-x-1"
-          >
-            →
-          </span>
+          <Icon
+            className="self-center text-body text-paper opacity-0 transition-[opacity,transform] duration-[var(--dur-quick)] ease-out -translate-x-1 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+            name={link.external ? 'arrow-up-right' : 'arrow-right'}
+          />
         </span>
       </Link>
     </li>

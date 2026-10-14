@@ -74,7 +74,7 @@ export function Chapter({
   return (
     <section
       aria-labelledby={title ? `${id}-title` : undefined}
-      className={cn('py-section-lg', registerClasses[register], className)}
+      className={cn('py-section md:py-section-lg', registerClasses[register], className)}
       id={id}
     >
       {bleed ? (

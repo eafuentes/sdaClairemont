@@ -8,6 +8,7 @@ import { Container } from '@/components/layout/container'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
 import { PointerParallax } from '@/components/motion/pointer-parallax'
 import { Reveal } from '@/components/motion/reveal'
+import { Button } from '@/components/ui/button'
 import { DURATION, EASE_OUT, POINTER } from '@/lib/motion'
 import { cn } from '@/lib/utils'
 import type { Ministry } from '@/types/content'
@@ -88,12 +89,9 @@ export function MinistrySwitcher({ ministries }: MinistrySwitcherProps) {
             )}
           </div>
 
-          <Link
-            className="mt-6 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-            href="/ministries"
-          >
+          <Button className="mt-4" href="/ministries" variant="tertiary">
             All ministries
-          </Link>
+          </Button>
         </div>
 
         <div className="col-span-6 col-start-7">

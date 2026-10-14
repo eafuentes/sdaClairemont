@@ -50,6 +50,7 @@ export function MediaPlaceholder({
       <div
         className={cn(
           'relative overflow-hidden',
+          image && 'media-plate',
           shownCaption ? cn('w-full', className) : 'h-full w-full',
           image ? 'bg-paper-deep' : toneClasses[tone],
         )}

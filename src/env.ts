@@ -23,6 +23,29 @@ import { z } from 'zod'
 
 const DEV_SITE_URL = 'http://localhost:3000'
 
+/**
+ * Dashboard pastes often include quotes, a trailing slash, or a host with no
+ * scheme. Treat those as the same intent so Vercel builds do not fail Phase 0.
+ */
+function asOrigin(value: string | undefined): string | undefined {
+  if (typeof value !== 'string') return undefined
+
+  const trimmed = value.trim().replace(/^["']|["']$/g, '').replace(/\/$/, '')
+  if (!trimmed) return undefined
+  if (/^https?:\/\//i.test(trimmed)) return trimmed
+
+  return `https://${trimmed}`
+}
+
+function siteUrl(): string {
+  return (
+    asOrigin(process.env.NEXT_PUBLIC_SITE_URL) ??
+    asOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+    asOrigin(process.env.VERCEL_URL) ??
+    DEV_SITE_URL
+  )
+}
+
 /** Sanity project IDs are lowercase alphanumeric, typically 8 characters. */
 const sanityProjectIdPattern = /^[a-z0-9]+$/
 
@@ -75,9 +98,10 @@ function defineEnv<Schema extends z.ZodType>(
 }
 
 /**
- * Always available. Falls back to localhost so that `pnpm build` and CI succeed
- * without configuration; deployments must set NEXT_PUBLIC_SITE_URL explicitly or
- * canonical URLs, sitemaps and social images will point at localhost.
+ * Always available. Prefers NEXT_PUBLIC_SITE_URL, then Vercel's production /
+ * deployment host, then localhost so `pnpm build` and CI succeed without
+ * configuration. Set NEXT_PUBLIC_SITE_URL on the church Vercel project to the
+ * public origin (https, no trailing slash, no quotes).
  */
 export const appEnv = defineEnv(
   { label: 'application', requiredFrom: 'Phase 0' },
@@ -85,7 +109,7 @@ export const appEnv = defineEnv(
     NEXT_PUBLIC_SITE_URL: z.url(),
   }),
   () => ({
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? DEV_SITE_URL,
+    NEXT_PUBLIC_SITE_URL: siteUrl(),
   }),
 )
 

@@ -1,5 +1,6 @@
 import { Container } from '@/components/layout/container'
 import { Eyebrow } from '@/components/ui/eyebrow'
+import { Rule } from '@/components/ui/rule'
 
 interface PageHeaderProps {
   eyebrow: string
@@ -15,13 +16,14 @@ interface PageHeaderProps {
  */
 export function PageHeader({ eyebrow, title, intro }: PageHeaderProps) {
   return (
-    <header className="bg-paper-bloom pt-section pb-12">
+    <header className="bg-paper-bloom pt-12 pb-10 md:pt-section md:pb-12">
       <Container>
         <Eyebrow className="text-dawn">{eyebrow}</Eyebrow>
-        <h1 className="mt-6 max-w-measure-lead text-display-2 text-ink">{title}</h1>
+        <h1 className="mt-5 max-w-measure-lead text-display-2 text-ink md:mt-6">{title}</h1>
         {intro ? (
-          <p className="mt-8 max-w-measure font-sans text-body-lg text-ink-soft">{intro}</p>
+          <p className="mt-6 max-w-measure font-sans text-body-lg text-ink-soft md:mt-8">{intro}</p>
         ) : null}
+        <Rule className="mt-10 max-w-measure-lead" mark />
       </Container>
     </header>
   )

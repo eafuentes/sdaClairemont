@@ -1,10 +1,9 @@
-import Link from 'next/link'
-
 import { Container } from '@/components/layout/container'
 import { MinistryRow } from '@/components/ministries/ministry-row'
 import { MinistrySwitcher } from '@/components/ministries/ministry-switcher'
 import { Reveal } from '@/components/motion/reveal'
 import { RevealText } from '@/components/motion/reveal-text'
+import { Button } from '@/components/ui/button'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import type { Ministry } from '@/types/content'
 
@@ -46,12 +45,9 @@ export function Ministries({ ministries }: MinistriesProps) {
           ))}
         </ul>
         <Container>
-          <Link
-            className="mt-8 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-            href="/ministries"
-          >
+          <Button className="mt-6" href="/ministries" variant="tertiary">
             All ministries
-          </Link>
+          </Button>
         </Container>
       </div>
     </section>

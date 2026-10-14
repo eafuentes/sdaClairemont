@@ -20,14 +20,17 @@ interface EyebrowProps {
  */
 export function Eyebrow({ children, index, className }: EyebrowProps) {
   return (
-    <p className={cn('font-sans text-eyebrow text-ink-muted uppercase', className)}>
-      {index ? (
-        <>
-          <span className="tabular">{index}</span>
-          <span aria-hidden="true"> — </span>
-        </>
-      ) : null}
-      {children}
+    <p className={cn('flex items-center gap-3 font-sans text-eyebrow text-ink-muted uppercase', className)}>
+      <span aria-hidden="true" className="inline-block h-px w-5 shrink-0 bg-dawn" />
+      <span>
+        {index ? (
+          <>
+            <span className="tabular">{index}</span>
+            <span aria-hidden="true"> — </span>
+          </>
+        ) : null}
+        {children}
+      </span>
     </p>
   )
 }

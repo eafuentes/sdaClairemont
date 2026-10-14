@@ -1,7 +1,7 @@
-import Link from 'next/link'
-
 import { Container } from '@/components/layout/container'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
+import { Reveal } from '@/components/motion/reveal'
+import { Button } from '@/components/ui/button'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { ScriptureQuote } from '@/components/ui/scripture-quote'
 import { formatPlainDate } from '@/lib/datetime'
@@ -29,15 +29,17 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
   const scripture = program.scripture[0]
 
   return (
-    <section aria-labelledby="sabbath-title" className="bg-paper-bloom py-section-lg" id="this-sabbath">
+    <section aria-labelledby="sabbath-title" className="bg-paper-bloom py-section md:py-section-lg" id="this-sabbath">
       <Container>
-        <Eyebrow index="02">This Sabbath</Eyebrow>
-        <p className="mt-6 font-display text-heading-1 text-ink">
-          <time dateTime={program.date}>{formatPlainDate(program.date)}</time>
-        </p>
+        <Reveal>
+          <Eyebrow index="02">This Sabbath</Eyebrow>
+          <p className="mt-5 font-sans text-eyebrow text-ink-muted uppercase">
+            <time dateTime={program.date}>{formatPlainDate(program.date)}</time>
+          </p>
+        </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-6 lg:col-start-1">
+        <div className="mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-6 lg:col-start-1">
             <h2 className="font-display text-heading-1 text-ink" id="sabbath-title">
               {program.sermonTitle}
             </h2>
@@ -54,15 +56,12 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
               </div>
             ) : null}
 
-            <Link
-              className="mt-10 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-              href="/this-sabbath"
-            >
+            <Button className="mt-8" href="/this-sabbath" variant="tertiary">
               See the full program
-            </Link>
-          </div>
+            </Button>
+          </Reveal>
 
-          <div className="lg:col-span-4 lg:col-start-8">
+          <Reveal className="lg:col-span-4 lg:col-start-8" delay={0.08}>
             {/* Times sit above the photograph on mobile: someone checking on Friday
                 night wants the time before the picture. */}
             <dl className="divide-y divide-rule border-y border-rule lg:order-2">
@@ -84,7 +83,7 @@ export function ThisSabbath({ program, settings }: ThisSabbathProps) {
               image={program.image}
               tone="neutral"
             />
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

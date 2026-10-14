@@ -1,7 +1,9 @@
 import { Container } from '@/components/layout/container'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
+import { Reveal } from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { Eyebrow } from '@/components/ui/eyebrow'
+import { Icon } from '@/components/ui/icon'
 import type { HomePageContent, SiteSettings } from '@/types/content'
 
 interface InvitationProps {
@@ -23,20 +25,25 @@ export function Invitation({ content, settings }: InvitationProps) {
   return (
     <section
       aria-labelledby="invitation-title"
-      className="bg-paper-bloom py-section-lg"
+      className="bg-paper-bloom py-section md:py-section-lg"
       id="visit"
     >
       <Container>
-        <Eyebrow index="04">Come and see</Eyebrow>
-        <h2 className="mt-6 max-w-measure-lead font-display text-display-2" id="invitation-title">
-          {content.headline}
-        </h2>
+        <Reveal>
+          <Eyebrow index="04">Come and see</Eyebrow>
+          <h2 className="mt-6 max-w-measure-lead font-display text-display-2" id="invitation-title">
+            {content.headline}
+          </h2>
+        </Reveal>
 
-        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-6 lg:col-start-1">
+        <div className="mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-6 lg:col-start-1">
             <dl className="border-t border-rule">
               <div className="border-b border-rule py-6">
-                <dt className="font-sans text-eyebrow text-ink-muted uppercase">Saturdays</dt>
+                <dt className="flex items-center gap-2 font-sans text-eyebrow text-ink-muted uppercase">
+                  <Icon name="clock" />
+                  Saturdays
+                </dt>
                 <dd className="mt-3 space-y-1">
                   {settings.serviceTimes
                     .filter((service) => service.isPrimary)
@@ -51,7 +58,10 @@ export function Invitation({ content, settings }: InvitationProps) {
               </div>
 
               <div className="border-b border-rule py-6">
-                <dt className="font-sans text-eyebrow text-ink-muted uppercase">Where</dt>
+                <dt className="flex items-center gap-2 font-sans text-eyebrow text-ink-muted uppercase">
+                  <Icon name="map-pin" />
+                  Where
+                </dt>
                 <dd className="mt-3">
                   <a
                     className="font-sans text-body text-ink underline decoration-rule underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:decoration-dawn"
@@ -103,9 +113,9 @@ export function Invitation({ content, settings }: InvitationProps) {
                 {settings.email}
               </a>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-5 lg:col-start-8">
+          <Reveal className="lg:col-span-5 lg:col-start-8" delay={0.08}>
             <MediaPlaceholder
               className="aspect-[4/3]"
               description={content.entrance.description}
@@ -126,11 +136,12 @@ export function Invitation({ content, settings }: InvitationProps) {
                 description="Static map image of 4125 Hathaway Street, generated at build time and linking to Google Maps."
                 tone="warm"
               />
-              <span className="mt-3 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4">
+              <span className="mt-3 inline-flex items-center gap-2 font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4">
                 Get directions
+                <Icon name="arrow-up-right" />
               </span>
             </a>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

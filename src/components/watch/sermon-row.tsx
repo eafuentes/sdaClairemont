@@ -20,8 +20,8 @@ export function SermonRow({ sermon, headingLevel = 'h2' }: SermonRowProps) {
       className="group flex min-h-11 flex-col justify-center py-5"
       href={`/watch/${sermon.slug}`}
     >
-      <Title className="font-display text-heading-3 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
-        {sermon.title}
+      <Title className="font-display text-heading-3 text-ink">
+        <span className="link-draw">{sermon.title}</span>
       </Title>
       <p className="mt-1 font-sans text-body-sm text-ink-muted">
         {sermon.speakerName}

@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { Container } from '@/components/layout/container'
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
+import { Button } from '@/components/ui/button'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { formatPlainDate } from '@/lib/datetime'
 import type { HomePageContent } from '@/types/content'
@@ -100,13 +101,10 @@ export function Watch({ content, channelUrl }: WatchProps) {
                   Earlier messages will collect here as they are posted.
                 </p>
               )}
-              <div className="border-t border-rule pt-6">
-                <Link
-                  className="font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-                  href="/watch"
-                >
+              <div className="border-t border-rule pt-4">
+                <Button href="/watch" variant="tertiary">
                   All messages
-                </Link>
+                </Button>
               </div>
             </div>
           </div>

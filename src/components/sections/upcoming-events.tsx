@@ -1,8 +1,7 @@
-import Link from 'next/link'
-
 import { Container } from '@/components/layout/container'
 import { Reveal } from '@/components/motion/reveal'
 import { EventRow } from '@/components/events/event-row'
+import { Button } from '@/components/ui/button'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import type { ChurchEvent, SiteSettings } from '@/types/content'
 
@@ -56,13 +55,10 @@ export function UpcomingEvents({ events, settings }: UpcomingEventsProps) {
           ))}
         </ul>
 
-        <div className="border-t border-rule pt-8">
-          <Link
-            className="font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-            href="/events"
-          >
+        <div className="border-t border-rule pt-6">
+          <Button href="/events" variant="tertiary">
             See all events
-          </Link>
+          </Button>
         </div>
       </Container>
     </section>

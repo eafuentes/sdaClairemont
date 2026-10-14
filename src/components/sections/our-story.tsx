@@ -5,6 +5,7 @@ import { MediaPlaceholder } from '@/components/media/media-placeholder'
 import { ParallaxMedia } from '@/components/motion/parallax-media'
 import { Reveal } from '@/components/motion/reveal'
 import { RevealText } from '@/components/motion/reveal-text'
+import { Button } from '@/components/ui/button'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import type { HomePageContent, SiteSettings } from '@/types/content'
 
@@ -63,12 +64,9 @@ export function OurStory({ content, settings }: OurStoryProps) {
                 </p>
               ))}
             </div>
-            <Link
-              className="mt-10 inline-block font-sans text-body-sm text-ink underline decoration-dawn decoration-1 underline-offset-4 transition-all duration-[var(--dur-instant)] ease-out hover:decoration-2"
-              href="/about"
-            >
+            <Button className="mt-8" href="/about" variant="tertiary">
               More about us
-            </Link>
+            </Button>
           </Reveal>
 
           <Reveal className="lg:col-span-3 lg:col-start-9" delay={0.12}>

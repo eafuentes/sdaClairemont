@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { Container } from '@/components/layout/container'
 import { Eyebrow } from '@/components/ui/eyebrow'
+import { Icon } from '@/components/ui/icon'
 import type { SiteSettings } from '@/types/content'
 
 interface SiteFooterProps {
@@ -66,25 +67,30 @@ export function SiteFooter({ settings }: SiteFooterProps) {
             <Eyebrow className="text-dawn-soft">Find us</Eyebrow>
             <address className="mt-5 font-sans text-body-sm text-paper-on-dusk/70 not-italic">
               <a
-                className="block underline decoration-paper-on-dusk/25 underline-offset-4 hover:decoration-dawn-soft"
+                className="inline-flex min-h-11 items-start gap-3 underline decoration-paper-on-dusk/25 underline-offset-4 hover:decoration-dawn-soft"
                 href={settings.address.mapUrl}
                 rel="noreferrer noopener"
                 target="_blank"
               >
-                {settings.address.street}
-                <br />
-                {settings.address.city}, {settings.address.state} {settings.address.postalCode}
+                <Icon className="mt-0.5" name="map-pin" />
+                <span>
+                  {settings.address.street}
+                  <br />
+                  {settings.address.city}, {settings.address.state} {settings.address.postalCode}
+                </span>
               </a>
               <a
-                className="mt-4 block underline decoration-paper-on-dusk/25 underline-offset-4 hover:decoration-dawn-soft"
+                className="mt-2 inline-flex min-h-11 items-center gap-3 underline decoration-paper-on-dusk/25 underline-offset-4 hover:decoration-dawn-soft"
                 href={`tel:${settings.phone}`}
               >
+                <Icon name="phone" />
                 {settings.phone}
               </a>
               <a
-                className="mt-1 block underline decoration-paper-on-dusk/25 underline-offset-4 hover:decoration-dawn-soft"
+                className="inline-flex min-h-11 items-center gap-3 underline decoration-paper-on-dusk/25 underline-offset-4 hover:decoration-dawn-soft"
                 href={`mailto:${settings.email}`}
               >
+                <Icon name="mail" />
                 {settings.email}
               </a>
             </address>
@@ -92,11 +98,11 @@ export function SiteFooter({ settings }: SiteFooterProps) {
 
           <div>
             <Eyebrow className="text-dawn-soft">Explore</Eyebrow>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-5">
               {exploreLinks.map((link) => (
                 <li key={link.href}>
                   <Link
-                    className="font-sans text-body-sm text-paper-on-dusk/70 underline decoration-transparent underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-paper-on-dusk hover:decoration-dawn-soft"
+                    className="inline-flex min-h-11 items-center font-sans text-body-sm text-paper-on-dusk/70 underline decoration-transparent underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out hover:text-paper-on-dusk hover:decoration-dawn-soft"
                     href={link.href}
                   >
                     {link.label}
@@ -107,14 +113,14 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-paper-on-dusk/15 py-8 font-sans text-body-sm text-paper-on-dusk/60 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-paper-on-dusk/15 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] font-sans text-body-sm text-paper-on-dusk/60 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {settings.name}
           </p>
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center gap-x-6">
             {settings.facebookUrl ? (
               <a
-                className="underline decoration-transparent underline-offset-4 hover:text-paper-on-dusk hover:decoration-dawn-soft"
+                className="inline-flex min-h-11 items-center underline decoration-transparent underline-offset-4 hover:text-paper-on-dusk hover:decoration-dawn-soft"
                 href={settings.facebookUrl}
                 rel="noreferrer noopener"
                 target="_blank"
@@ -123,7 +129,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
               </a>
             ) : null}
             <a
-              className="underline decoration-transparent underline-offset-4 hover:text-paper-on-dusk hover:decoration-dawn-soft"
+              className="inline-flex min-h-11 items-center underline decoration-transparent underline-offset-4 hover:text-paper-on-dusk hover:decoration-dawn-soft"
               href={settings.givingUrl}
               rel="noreferrer noopener"
               target="_blank"

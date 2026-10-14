@@ -21,7 +21,7 @@ export function Belong({ content }: BelongProps) {
   const [foyerPlate, biblePlate, kitchenPlate] = content.plates
 
   return (
-    <section aria-labelledby="belong-title" className="bg-paper-bloom py-section" id="belong">
+    <section aria-labelledby="belong-title" className="bg-paper-bloom py-section md:py-section-lg" id="belong">
       <Container>
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-5">

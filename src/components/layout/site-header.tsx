@@ -17,14 +17,14 @@ interface SiteHeaderProps {
  */
 export function SiteHeader({ settings }: SiteHeaderProps) {
   return (
-    <header className="site-header relative sticky top-0 z-40 border-b border-rule bg-paper">
+    <header className="site-header relative sticky top-0 z-40 border-b border-rule bg-paper pt-[env(safe-area-inset-top)]">
       <Container>
-        <div className="flex min-h-16 items-center justify-between gap-6 lg:min-h-20 lg:justify-start lg:gap-10">
-          <Link className="flex shrink-0 flex-col justify-center py-2" href="/">
-            <span className="site-header-wordmark font-display text-heading-3 leading-none uppercase">
+        <div className="flex min-h-16 items-center justify-between gap-3 lg:min-h-20 lg:justify-start lg:gap-10">
+          <Link className="flex min-w-0 shrink flex-col justify-center py-2" href="/">
+            <span className="site-header-wordmark font-display text-[1.25rem] leading-none uppercase sm:text-heading-3">
               Clairemont
             </span>
-            <span className="site-header-kicker mt-1 font-sans text-eyebrow text-ink-muted uppercase">
+            <span className="site-header-kicker mt-1 max-w-[18ch] font-sans text-eyebrow tracking-[0.08em] text-ink-muted uppercase sm:max-w-none sm:tracking-[0.14em]">
               Seventh-day Adventist Church
             </span>
           </Link>

@@ -6,5 +6,5 @@ import { aboutPathways } from '@/content/pathways'
  * Leadership is never a dead end reached only from the homepage sidebar.
  */
 export function AboutSubnav() {
-  return <PathwayTiles label="About pages" tiles={aboutPathways} />
+  return <PathwayTiles density="contents" label="About pages" tiles={aboutPathways} />
 }

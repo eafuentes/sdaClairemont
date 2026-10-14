@@ -25,8 +25,8 @@ export function AboutContinue() {
             description="Pastor Robert Berry and Pastor London L. Lee standing together in the sanctuary."
             image={pastoralTeamPhoto}
           />
-          <p className="mt-5 font-display text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
-            Meet our pastors
+          <p className="mt-5 font-display text-heading-2 text-ink">
+            <span className="link-draw">Meet our pastors</span>
           </p>
           <p className="mt-2 max-w-measure font-sans text-body-sm text-ink-soft">
             Pastor London L. Lee and Pastor Robert Berry — who they are, and how they came to
@@ -40,8 +40,8 @@ export function AboutContinue() {
               What we believe, in our own words.
             </p>
           </div>
-          <p className="mt-5 font-display text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
-            What we believe
+          <p className="mt-5 font-display text-heading-2 text-ink">
+            <span className="link-draw">What we believe</span>
           </p>
           <p className="mt-2 max-w-measure font-sans text-body-sm text-ink-soft">
             The Sabbath, Scripture, and the hope that shapes a week here.

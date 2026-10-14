@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { Icon } from '@/components/ui/icon'
 import { formatDateParts, formatTime } from '@/lib/datetime'
 import type { ChurchEvent } from '@/types/content'
 
@@ -29,8 +30,8 @@ export function EventRow({ event, headingLevel = 'h3' }: EventRowProps) {
       </div>
 
       <div className="flex-1">
-        <Title className="font-display text-heading-2 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
-          {event.title}
+        <Title className="font-display text-heading-2 text-ink">
+          <span className="link-draw">{event.title}</span>
         </Title>
         <p className="mt-2 max-w-measure font-sans text-body-sm text-ink-soft">
           {event.shortDescription}
@@ -52,11 +53,15 @@ export function EventRow({ event, headingLevel = 'h3' }: EventRowProps) {
         </p>
       </div>
 
-      {event.ministryName ? (
-        <span className="font-sans text-eyebrow text-dawn uppercase sm:shrink-0">
-          {event.ministryName}
-        </span>
-      ) : null}
+      <span className="flex items-center gap-3 sm:shrink-0">
+        {event.ministryName ? (
+          <span className="font-sans text-eyebrow text-dawn uppercase">{event.ministryName}</span>
+        ) : null}
+        <Icon
+          className="hidden text-dawn opacity-0 transition-[opacity,transform] duration-[var(--dur-quick)] ease-out -translate-x-1 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:inline-block"
+          name="arrow-right"
+        />
+      </span>
     </Link>
   )
 }

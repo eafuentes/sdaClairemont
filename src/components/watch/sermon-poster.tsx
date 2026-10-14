@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { MediaPlaceholder } from '@/components/media/media-placeholder'
 import { Button } from '@/components/ui/button'
+import { Icon } from '@/components/ui/icon'
 import { formatPlainDate } from '@/lib/datetime'
 import type { Sermon } from '@/types/content'
 
@@ -42,14 +43,14 @@ export function SermonPoster({
         />
         <span
           aria-hidden="true"
-          className="absolute top-1/2 left-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-dawn text-paper"
+          className="absolute top-1/2 left-1/2 flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-dawn text-paper"
         >
-          ▶
+          <Icon className="text-[1.25rem]" name="play" />
         </span>
       </div>
       {showTitle ? (
-        <Title className="mt-6 font-display text-heading-1 text-ink underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-[var(--dur-instant)] ease-out group-hover:decoration-dawn">
-          {sermon.title}
+        <Title className="mt-6 font-display text-heading-1 text-ink">
+          <span className="link-draw">{sermon.title}</span>
         </Title>
       ) : null}
     </>

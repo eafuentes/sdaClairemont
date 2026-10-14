@@ -235,7 +235,7 @@ export function FlagshipLockup({
   className?: string
 }) {
   return (
-    <div className={cn('sticky top-16 z-30 border-b border-rule bg-paper/95 lg:top-20', className)}>
+    <div className={cn('border-b border-rule bg-paper/95 lg:sticky lg:top-20 lg:z-30', className)}>
       <div className="mx-auto flex w-full max-w-page items-baseline justify-between gap-6 px-5 py-3 md:px-8 lg:px-16">
         <p className="font-display text-heading-3 text-ink">{title}</p>
         <p className="hidden font-sans text-eyebrow text-ink-muted uppercase sm:block">{meta}</p>

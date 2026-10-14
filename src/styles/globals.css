@@ -35,17 +35,17 @@
   /* Fluid, so mobile is composed rather than merely shrunk. */
   --text-*: initial;
 
-  --text-display-1: clamp(3.5rem, 2rem + 6vw, 7rem);
+  --text-display-1: clamp(2.625rem, 1.15rem + 6.4vw, 7rem);
   --text-display-1--line-height: 0.95;
   --text-display-1--letter-spacing: -0.03em;
   --text-display-1--font-weight: 600;
 
-  --text-display-2: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
+  --text-display-2: clamp(2rem, 1.2rem + 3.4vw, 4.5rem);
   --text-display-2--line-height: 1;
   --text-display-2--letter-spacing: -0.025em;
   --text-display-2--font-weight: 600;
 
-  --text-heading-1: clamp(2rem, 1.5rem + 2vw, 3rem);
+  --text-heading-1: clamp(1.75rem, 1.35rem + 1.8vw, 3rem);
   --text-heading-1--line-height: 1.05;
   --text-heading-1--letter-spacing: -0.02em;
   --text-heading-1--font-weight: 600;
@@ -79,11 +79,11 @@
   --text-quote--font-weight: 300;
 
   /* --- Section rhythm ----------------------------------------------------- */
-  /* Generous vertical space is most of what makes a page feel intentional. */
-  --spacing-section-sm: 4rem;
-  --spacing-section: 6rem;
-  --spacing-section-lg: 8rem;
-  --spacing-section-xl: 12rem;
+  /* Generous, but composed for a phone first. Desktop keeps the journal scale. */
+  --spacing-section-sm: 3.5rem;
+  --spacing-section: 5rem;
+  --spacing-section-lg: 6.5rem;
+  --spacing-section-xl: 9rem;
 
   /* --- Measure and container --------------------------------------------- */
   --container-page: 88rem;
@@ -130,8 +130,33 @@
      * site — it fights keyboard paging and jump-link expectations.
      */
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
     --light-warmth: 0.22;
     --light-position: 0.15;
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-top: 6.5rem;
+    }
+
+    :root {
+      --spacing-section-sm: 4rem;
+      --spacing-section: 6rem;
+      --spacing-section-lg: 8rem;
+      --spacing-section-xl: 12rem;
+    }
+  }
+
+  ::selection {
+    background-color: var(--color-dusk);
+    color: var(--color-paper-on-dusk);
+  }
+
+  .icon path,
+  .icon circle,
+  .icon rect {
+    vector-effect: non-scaling-stroke;
   }
 
   body {
@@ -164,6 +189,11 @@
   .register-dusk :focus-visible {
     outline-color: var(--color-dawn-soft);
     box-shadow: 0 0 0 2px var(--color-dusk);
+  }
+
+  .register-dusk ::selection {
+    background-color: var(--color-dawn-soft);
+    color: var(--color-dusk);
   }
 
   :is(h1, h2, h3, h4, h5, h6) {
@@ -354,6 +384,59 @@
  */
 .hope-horizon {
   opacity: clamp(0.4, calc(var(--light-warmth) * 1.15), 1);
+}
+
+/*
+ * Photograph warmth. A dawn veil, not a scale or a filter — hover and focus only,
+ * and only on fine pointers. A phone never pays for a hover scene.
+ */
+.media-plate {
+  isolation: isolate;
+}
+
+.media-plate::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-dawn-glow);
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transition: opacity var(--dur-quick) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .media-plate:hover::after,
+  .group:hover .media-plate::after,
+  .media-plate:focus-within::after {
+    opacity: 0.22;
+  }
+}
+
+/*
+ * The growing underline. Used on editorial rows and tertiary actions so a hover
+ * does not lift, scale, or bloom — it simply finishes the line.
+ */
+.link-draw {
+  background-image: linear-gradient(var(--color-dawn), var(--color-dawn));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size var(--dur-quick) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-draw:hover,
+  .group:hover .link-draw {
+    background-size: 100% 1px;
+  }
+}
+
+.link-draw:focus-visible,
+.group:focus-visible .link-draw,
+.link-draw[aria-current='page'],
+.link-draw.is-current {
+  background-size: 100% 1px;
 }
 
 /*

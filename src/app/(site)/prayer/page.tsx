@@ -33,8 +33,10 @@ export default async function PrayerPage() {
           A short message is enough. If you would rather speak than write, call.
         </p>
         <p className="mt-8 flex flex-wrap gap-4">
-          <Button href={`tel:${settings.phone}`}>Call {settings.phone}</Button>
-          <Button href={mailHref} variant="secondary">
+          <Button href={`tel:${settings.phone}`} icon="phone">
+            Call {settings.phone}
+          </Button>
+          <Button href={mailHref} icon="mail" variant="secondary">
             Email a request
           </Button>
         </p>

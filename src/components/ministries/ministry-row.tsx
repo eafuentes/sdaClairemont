@@ -40,8 +40,8 @@ export function MinistryRow({ ministry, headingLevel = 'h3' }: MinistryRowProps)
       <Container>
         <div className="grid grid-cols-1 items-center gap-6 py-8 md:grid-cols-12 md:gap-8 md:py-10">
           <div className="md:col-span-5 md:col-start-1">
-            <Title className="font-display text-heading-1 text-ink underline decoration-transparent decoration-1 underline-offset-[0.15em] transition-colors duration-[var(--dur-quick)] ease-out group-hover:decoration-dawn">
-              {ministry.name}
+            <Title className="font-display text-heading-1 text-ink">
+              <span className="link-draw">{ministry.name}</span>
             </Title>
             <p className="mt-4 max-w-measure font-sans text-body text-ink-soft">
               {ministry.shortDescription}

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useCallback, useId, useRef, useState } from 'react'
 
 import { Lightbox } from '@/components/media/lightbox'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { GalleryEntry } from '@/types/content'
 
@@ -51,11 +52,12 @@ export function PhotoGallery({ items, layout, label }: PhotoGalleryProps) {
           </button>
           <button
             aria-controls={sequenceId}
-            className="inline-flex min-h-11 items-center border border-ink/25 px-4 font-sans text-eyebrow text-ink uppercase"
+            className="inline-flex min-h-11 items-center gap-2 border border-ink/25 px-4 font-sans text-eyebrow text-ink uppercase"
             onClick={() => scrollByPage(1)}
             type="button"
           >
             Next
+            <Icon name="arrow-right" />
           </button>
         </div>
       ) : null}

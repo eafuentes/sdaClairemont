@@ -24,6 +24,7 @@ export function ScriptureQuote({
 }: ScriptureQuoteProps) {
   return (
     <figure className={cn('max-w-measure', className)}>
+      <span aria-hidden="true" className="mb-5 block h-px w-6 bg-dawn" />
       <blockquote className="font-serif text-quote text-balance italic">{children}</blockquote>
       <figcaption className="mt-4 font-sans text-eyebrow text-ink-muted uppercase">
         {reference}
