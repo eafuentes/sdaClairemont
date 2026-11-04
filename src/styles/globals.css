@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './palette.css';
+@import './immersive.css';
 
 /*
  * Design tokens for San Diego Clairemont SDA Church.
@@ -30,6 +31,7 @@
   --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
   /* Condensed display — the SERMONIC lockup: tall, athletic, uppercase. */
   --font-display: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
+  --font-brush: var(--font-permanent-marker), var(--font-oswald), ui-sans-serif, sans-serif;
 
   /* --- Type scale --------------------------------------------------------- */
   /* Fluid, so mobile is composed rather than merely shrunk. */
@@ -516,14 +518,6 @@ html.header-over-media .site-header-cta {
 
 html.header-over-media .site-header-cta:hover {
   background-image: var(--grad-cta-hover);
-}
-
-html.header-over-media .site-header-menu {
-  color: var(--header-ink);
-}
-
-html.header-over-media .site-header-menu-bar {
-  background-color: var(--header-ink);
 }
 
 html.nav-drawer-open.header-over-media .site-header {

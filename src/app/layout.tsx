@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { Instrument_Sans, Newsreader, Oswald } from 'next/font/google'
+import { Instrument_Sans, Newsreader, Oswald, Permanent_Marker } from 'next/font/google'
 
+import { InlineScript } from '@/components/immersive/inline-script'
 import { DraftPreview } from '@/components/sanity/draft-preview'
 import { siteConfig } from '@/config/site'
 import { appEnv } from '@/env'
+import { DEFAULT_MOBILE_THEME, MOBILE_THEME_SCRIPT } from '@/lib/mobile-theme'
 
 import '@/styles/globals.css'
 
@@ -35,6 +37,18 @@ const oswald = Oswald({
   variable: '--font-oswald',
 })
 
+/**
+ * Hand-painted accent, from the pastor's slides. Two or three words at a time, mobile
+ * only. Not preloaded: desktop never renders it, so desktop never downloads it.
+ */
+const permanentMarker = Permanent_Marker({
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+  preload: false,
+  variable: '--font-permanent-marker',
+})
+
 export const metadata: Metadata = {
   metadataBase: new URL(appEnv().NEXT_PUBLIC_SITE_URL),
   title: {
@@ -54,7 +68,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${instrumentSans.variable} ${oswald.variable}`}>
+    <html
+      className={`${newsreader.variable} ${instrumentSans.variable} ${oswald.variable} ${permanentMarker.variable}`}
+      data-mobile-theme={DEFAULT_MOBILE_THEME}
+      lang="en"
+      suppressHydrationWarning
+    >
+      <head>
+        <InlineScript html={MOBILE_THEME_SCRIPT} />
+      </head>
       <body>
         {children}
         <DraftPreview />

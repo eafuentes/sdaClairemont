@@ -126,6 +126,10 @@ const pairs = [
     4.5,
   ],
 
+  // Mobile immersive accents.
+  ['ink on lime (sticker, highlight box)', t.ink, t.lime, 4.5],
+  ['dusk on gold (Golden Hour active dock item)', t.dusk, t.gold, 4.5],
+
   // Non-text boundaries and marks.
   ['dawn focus ring against paper', t.dawn, t.paper, 3],
   ['dawn focus ring against paper-deep', t.dawn, t['paper-deep'], 3],

@@ -19,7 +19,7 @@ export function HeroVersionSwitcher() {
   if (!HERO_PATHS.has(pathname)) return null
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-4">
+    <div className="pointer-events-none fixed inset-x-0 bottom-[calc(var(--dock-clearance)+0.5rem)] z-50 flex justify-center px-4 lg:bottom-6">
       <nav
         aria-label="Homepage hero versions"
         className="pointer-events-auto flex items-center gap-1 rounded-xs border border-rule bg-paper/95 p-1 shadow-[0_8px_24px_rgb(20_24_26/0.12)]"

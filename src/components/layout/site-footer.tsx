@@ -113,7 +113,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-paper-on-dusk/15 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] font-sans text-body-sm text-paper-on-dusk/60 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-paper-on-dusk/15 py-8 pb-[calc(var(--dock-clearance)+1rem)] font-sans text-body-sm text-paper-on-dusk/60 sm:flex-row sm:items-center sm:justify-between lg:pb-[max(2rem,env(safe-area-inset-bottom))]">
           <p>
             © {new Date().getFullYear()} {settings.name}
           </p>

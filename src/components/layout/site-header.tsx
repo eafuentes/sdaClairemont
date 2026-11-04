@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
+import { ThemeToggle } from '@/components/immersive/theme-toggle'
 import { Container } from '@/components/layout/container'
-import { MobileNavSheet } from '@/components/layout/mobile-nav-sheet'
 import { PrimaryNav } from '@/components/layout/primary-nav'
 import type { SiteSettings } from '@/types/content'
 
@@ -12,12 +12,16 @@ interface SiteHeaderProps {
 /**
  * The site header: wordmark, centered primary navigation, and one call to action.
  *
- * A Server Component. The current-page marker, the contents drawer, and the mobile
- * sheet are the only leaves that need the browser.
+ * Below `lg` it is only the wordmark and the theme switch, and it scrolls away: the
+ * floating dock carries mobile navigation, and the homepage card stack needs the top
+ * of the screen.
+ *
+ * A Server Component. The current-page marker, the contents drawer, and the theme
+ * switch are the only leaves that need the browser.
  */
 export function SiteHeader({ settings }: SiteHeaderProps) {
   return (
-    <header className="site-header relative sticky top-0 z-40 border-b border-rule bg-paper pt-[env(safe-area-inset-top)]">
+    <header className="site-header relative z-40 border-b border-rule bg-paper pt-[env(safe-area-inset-top)] lg:sticky lg:top-0">
       <Container>
         <div className="flex min-h-16 items-center justify-between gap-3 lg:min-h-20 lg:justify-start lg:gap-10">
           <Link className="flex min-w-0 shrink flex-col justify-center py-2" href="/">
@@ -54,20 +58,14 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
               Give
             </a>
             <Link
-              className="site-header-cta bg-grad-cta hover:bg-grad-cta-hover inline-flex min-h-10 items-center rounded-full px-5 font-sans text-body-sm font-medium text-paper transition-[background-image] duration-[var(--dur-instant)] ease-out"
+              className="site-header-cta inline-flex min-h-10 items-center rounded-full bg-grad-cta px-5 font-sans text-body-sm font-medium text-paper transition-[background-image] duration-[var(--dur-instant)] ease-out hover:bg-grad-cta-hover"
               href="/visit"
             >
               Plan Your Visit
             </Link>
           </div>
 
-          <MobileNavSheet
-            settings={{
-              givingUrl: settings.givingUrl,
-              phone: settings.phone,
-              address: settings.address,
-            }}
-          />
+          <ThemeToggle className="-mr-2 shrink-0 px-2 lg:hidden" />
         </div>
       </Container>
     </header>

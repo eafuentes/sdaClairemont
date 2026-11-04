@@ -34,6 +34,15 @@
   --color-dusk: #0a0a0a;
   --color-dusk-raised: #161616;
   --color-paper-on-dusk: #ffffff;
+
+  /*
+   * Mobile-only accents, from the pastor's sermon slides.
+   * lime   a fill behind ink type (stickers, highlight boxes). Never a text colour on paper.
+   * gold   sunrise backlight. Light and glow only — never text, never a button.
+   */
+  --color-lime: #8fd41e;
+  --color-gold: #f2a845;
+  --color-gold-deep: #7a4a12;
 }
 
 :root {
