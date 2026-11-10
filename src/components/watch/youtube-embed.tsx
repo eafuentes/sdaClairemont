@@ -10,6 +10,10 @@ interface YouTubeEmbedProps {
   videoId: string
   title: string
   poster?: ContentImage
+  /** Set when this frame is the first thing on the page, so the poster is not lazy. */
+  priority?: boolean
+  /** The rendered width, for next/image. Defaults to the watch pages' wide column. */
+  sizes?: string
 }
 
 /**
@@ -19,7 +23,13 @@ interface YouTubeEmbedProps {
  * A listing of messages must not pay that cost twelve times, and the privacy default
  * is that `youtube-nocookie.com` is contacted only after a click or Enter.
  */
-export function YouTubeEmbed({ videoId, title, poster }: YouTubeEmbedProps) {
+export function YouTubeEmbed({
+  videoId,
+  title,
+  poster,
+  priority = false,
+  sizes = '(min-width: 1024px) 60vw, 100vw',
+}: YouTubeEmbedProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const frame = poster ?? youtubeThumbnail(videoId, title)
 
@@ -48,12 +58,13 @@ export function YouTubeEmbed({ videoId, title, poster }: YouTubeEmbedProps) {
         alt={frame.alt}
         className="object-cover"
         fill
-        sizes="(min-width: 1024px) 60vw, 100vw"
+        priority={priority}
+        sizes={sizes}
         src={frame.src}
       />
       <span
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-dawn text-paper"
+        className="sermon-frame-play absolute top-1/2 left-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-dawn text-paper"
       >
         ▶
       </span>

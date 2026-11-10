@@ -1,0 +1,1449 @@
+/*
+ * Homepage review designs. Paper and Ink & Brush share the card stack on phones
+ * and let go of it at desktop width. The review switch sits above the dock.
+ *
+ * Scoped under .home-paper and .home-ink so the Golden Hour theme, which restyles
+ * the older mobile stack, does not repaint this comparison.
+ */
+
+.home-slot {
+  display: none !important;
+}
+
+html:not([data-home-design]) .home-slot-paper,
+html[data-home-design='paper'] .home-slot-paper,
+html[data-home-design='ink'] .home-slot-ink,
+html[data-home-design='poster'] .home-slot-poster,
+html[data-home-design='harbor'] .home-slot-poster,
+html[data-home-design='current'] .home-slot-current,
+html[data-home-design='daylight'] .home-slot-current {
+  display: block !important;
+}
+
+@layer components {
+  .home-paper,
+  .home-ink,
+  .home-poster {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .home-paper .stack-card-face,
+  .home-ink .stack-card-face,
+  .home-poster .stack-card-face,
+  :root[data-mobile-theme] .home-poster .stack-card-face {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    border-radius: 0;
+    box-shadow: none;
+    transform-origin: 50% 0%;
+    transform: translate3d(0, calc(var(--peel, 0) * 1.25rem), 0)
+      scale(calc(1 - var(--peel, 0) * 0.06)) rotate(calc(var(--peel, 0) * -2.5deg));
+  }
+
+  .home-paper .home-chapter-message .stack-card-face,
+  .home-paper .home-chapter-mission .stack-card-face,
+  .home-ink .home-chapter-message .stack-card-face,
+  .home-ink .home-chapter-mission .stack-card-face {
+    background: var(--color-paper-warm);
+  }
+
+  .home-chapter-inner {
+    display: flex;
+    min-height: 100dvh;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 2.75rem;
+    padding-bottom: calc(var(--dock-clearance) + 5.5rem);
+  }
+
+  .home-chapter-vision .home-chapter-inner {
+    justify-content: flex-start;
+  }
+
+  .home-value-ink {
+    border: 2px solid var(--color-ink);
+    padding: 1.25rem;
+    background: var(--color-paper);
+    box-shadow: 4px 4px 0 var(--color-ink);
+  }
+
+  .home-design-switch {
+    position: fixed;
+    z-index: 60;
+    left: 50%;
+    bottom: calc(var(--dock-clearance) + 0.75rem);
+    transform: translateX(-50%);
+    max-width: calc(100vw - 1.5rem);
+  }
+
+  .home-design-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.25rem;
+    border: 2px solid var(--color-ink);
+    background: var(--color-paper);
+    box-shadow: 3px 3px 0 var(--color-ink);
+  }
+
+  .home-design-option {
+    min-height: 2.75rem;
+    padding-inline: 0.65rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    white-space: nowrap;
+  }
+
+  .home-design-option[aria-checked='true'] {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+/* The header pill switches the dock theme. On the homepage the review switch is the control. */
+html:has(.home-design-switch) .theme-toggle {
+  display: none !important;
+}
+
+html:not([data-home-design]) .home-design-option[data-design='paper'],
+html[data-home-design='paper'] .home-design-option[data-design='paper'],
+html[data-home-design='ink'] .home-design-option[data-design='ink'],
+html[data-home-design='poster'] .home-design-option[data-design='poster'],
+html[data-home-design='harbor'] .home-design-option[data-design='harbor'],
+html[data-home-design='current'] .home-design-option[data-design='current'],
+html[data-home-design='daylight'] .home-design-option[data-design='daylight'] {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* The first card is the page, so it keeps a straight edge. The rest tear. */
+html[data-mobile-theme] .home-paper .home-chapter-vision .stack-card-face,
+html[data-mobile-theme] .home-ink .home-chapter-vision .stack-card-face,
+.home-paper .home-chapter-vision .stack-card-face,
+.home-ink .home-chapter-vision .stack-card-face {
+  mask-image: none;
+}
+
+@media (min-width: 1024px) {
+  .home-paper .stack-card,
+  .home-ink .stack-card,
+  .home-poster .stack-card {
+    position: relative;
+    top: auto;
+    min-height: 0;
+  }
+
+  .home-paper .stack-card-face,
+  .home-ink .stack-card-face,
+  .home-poster .stack-card-face {
+    min-height: 0;
+    transform: none;
+    mask-image: none;
+  }
+
+  .home-paper .stack-card-shade,
+  .home-ink .stack-card-shade,
+  .home-poster .stack-card-shade {
+    display: none;
+  }
+
+  .home-chapter-inner {
+    display: block;
+    min-height: 0;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .home-design-switch {
+    bottom: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-paper .stack-card,
+  .home-ink .stack-card,
+  .home-poster .stack-card {
+    position: relative;
+    top: auto;
+  }
+
+  .home-paper .stack-card-face,
+  .home-ink .stack-card-face,
+  .home-poster .stack-card-face {
+    transform: none !important;
+  }
+
+  .home-paper .stack-card-shade,
+  .home-ink .stack-card-shade,
+  .home-poster .stack-card-shade {
+    display: none;
+  }
+}
+
+/*
+ * Poster: the vision is one composition, in the Ink & Brush voice.
+ *
+ * The 2819 technique: the black words are white type blended with `exclusion`
+ * inside an isolated stage painted with the page colour. On paper they read as ink;
+ * where a word crosses the photograph, the letters carry it in negative, so the
+ * picture shows through the word instead of covering it.
+ *
+ * Three things only: the vision, the latest message at its foot, and one quiet line
+ * beneath both with when we gather and the two ways in.
+ *
+ * Everything in the type is measured in em of the stage, so phone and desktop are
+ * the same composition at different sizes.
+ */
+.poster-hero-inner {
+  container-type: inline-size;
+  padding-top: 0.75rem;
+  padding-bottom: calc(var(--dock-clearance) + 5.5rem);
+}
+
+.poster-stage {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  background: var(--color-paper);
+  /* "disciples." is ~3.94em wide: on phones it runs the width of the screen. */
+  font-size: min(24cqi, calc((100svh - 8rem) / 3));
+}
+
+.poster-title {
+  display: contents;
+  font-size: 1em;
+}
+
+.poster-line {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  pointer-events: none;
+  color: #fff;
+  mix-blend-mode: exclusion;
+}
+
+.poster-to {
+  grid-row: 1;
+}
+
+/* TRUE stays solid and steps right, ending where "disciples." ends. */
+.poster-true {
+  z-index: 3;
+  grid-row: 2;
+  justify-self: end;
+  color: var(--color-dawn);
+  mix-blend-mode: normal;
+}
+
+.poster-disciples {
+  grid-row: 3;
+}
+
+.poster-brush {
+  position: absolute;
+  top: 0.9em;
+  right: -0.06em;
+  left: -0.04em;
+  height: 0.16em;
+}
+
+.poster-brush path {
+  stroke: var(--color-dawn);
+}
+
+.poster-brush .brush-stroke-main {
+  stroke-width: 0.075em;
+}
+
+.poster-brush .brush-stroke-bristle {
+  stroke-width: 0.014em;
+}
+
+/* One hard rectangle under the words: the congregation, in the notch TRUE leaves. */
+.poster-cut {
+  position: absolute;
+  z-index: 1;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.poster-cut img {
+  /* Light photographs invert to dark letters, so the words keep reading as ink. */
+  filter: grayscale(1) brightness(1.18) contrast(1.05);
+}
+
+.poster-cut-congregation {
+  top: 1.44em;
+  left: 0;
+  width: 1.9em;
+  height: 1.08em;
+}
+
+/* The one quiet line: when we gather, and the two ways in. */
+.poster-foot {
+  position: relative;
+  z-index: 1;
+  grid-row: 4;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-rule);
+  font-size: 1rem;
+}
+
+.poster-gather-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.poster-times {
+  margin-top: 0.3rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+.poster-slash {
+  color: var(--color-dawn);
+}
+
+.poster-gather-names {
+  margin-top: 0.3rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  color: var(--color-ink-soft);
+}
+
+.poster-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1rem;
+}
+
+/* The latest message: a picture and one line under it. */
+.poster-sermon {
+  position: relative;
+  z-index: 1;
+  grid-row: 5;
+  grid-column: 1;
+  margin: 2rem 0 0;
+  font-size: 1rem;
+}
+
+.poster-sermon .sermon-frame-caption {
+  position: static;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  padding: 0.7rem 0 0;
+  background: transparent;
+  color: var(--color-dawn);
+}
+
+.poster-sermon .sermon-frame-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ink-soft);
+}
+
+.sermon-frame {
+  margin: 0;
+  min-width: 0;
+}
+
+.sermon-frame-media {
+  position: relative;
+}
+
+.sermon-frame-caption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.45rem 0.7rem 0.55rem;
+  background: var(--color-ink);
+  pointer-events: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+}
+
+.sermon-frame-title {
+  font-family: var(--font-display);
+  font-size: var(--text-heading-3);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+}
+
+.sermon-frame-media:has(iframe) .sermon-frame-caption {
+  display: none;
+}
+
+/* Without blend support the white words would vanish, so they fall back to ink. */
+@supports not (mix-blend-mode: exclusion) {
+  .poster-line {
+    color: var(--color-ink);
+  }
+}
+
+@media (min-width: 640px) {
+  .poster-sermon {
+    max-width: 22rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .poster-hero-inner {
+    padding-top: 1.75rem;
+    padding-bottom: 3rem;
+  }
+
+  /*
+   * The type owns the left; the message stands at the bottom right, its foot on the
+   * baseline of "disciples.", with open white above it. The gathering line runs
+   * under both.
+   */
+  .poster-stage {
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 0.4em;
+    font-size: min(15.6cqi, calc((100svh - 19rem) / 3));
+  }
+
+  .poster-sermon {
+    grid-row: 1 / span 3;
+    grid-column: 2;
+    align-self: end;
+    justify-self: end;
+    width: 100%;
+    max-width: 26rem;
+    margin: 0;
+  }
+
+  .poster-sermon:has(iframe) {
+    max-width: 30rem;
+  }
+
+  .poster-foot {
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .poster-gather {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+  }
+
+  .poster-times {
+    margin-top: 0;
+  }
+
+  .poster-gather-names {
+    margin-top: 0;
+  }
+}
+
+/*
+ * Harbor: the Poster composition in a second palette, for the pastors to judge
+ * colour on its own. San Diego bay after sunset: deep navy page, warm sand type,
+ * a sunset-coral accent. Only tokens change, so the whole page — header, chapters,
+ * footer — follows. The blended words become sand on navy by themselves.
+ *
+ * Contrast on the navy page: sand 13.8:1, coral 6.5:1, soft sand 9.7:1, muted 7.1:1;
+ * navy type on the coral button 6.5:1.
+ */
+html[data-home-design='harbor']:has(.home-slot-poster) {
+  --color-paper: #0e2133;
+  --color-paper-deep: #132a40;
+  --color-paper-warm: #12273c;
+  --color-ink: #f3ebdd;
+  --color-ink-soft: #cfc6b6;
+  --color-ink-muted: #a3acb6;
+  --color-rule: #f3ebdd2e;
+  --color-dawn: #ff7d55;
+  --color-dawn-soft: #ffa184;
+  --color-dusk: #08141f;
+  --color-dusk-raised: #0e2133;
+  /* The footer's gradient starts from ink, which is sand here: start it from the night instead. */
+  --grad-void: linear-gradient(165deg, #08141f 0%, #0b1a29 55%, #3a1c1a 100%);
+  /* The site's crimson-into-black pills would carry navy type on black: make them solid coral. */
+  --grad-cta: linear-gradient(var(--color-dawn), var(--color-dawn));
+  --grad-cta-hover: linear-gradient(var(--color-dawn-soft), var(--color-dawn-soft));
+  color-scheme: dark;
+  background: var(--color-paper);
+}
+
+html[data-home-design='harbor']:has(.home-slot-poster) body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* The coral button carries navy type; the photograph stays grey so coral is the only warmth. */
+html[data-home-design='harbor']:has(.home-slot-poster) .ink-button-primary {
+  color: var(--color-paper);
+}
+
+/*
+ * Ink & Brush: the sermon-slide voice.
+ *
+ * The vision leads, large, with one red brush swipe under "disciples." Then the
+ * times, then two ways in drawn as hard ink buttons (2px border, offset shadow —
+ * the same mark as the value cards and the review switch, not the soft gradient
+ * pills from the older site). The latest message stands beside the vision in an
+ * ink frame, and the values band closes the hero instead of cutting through it.
+ */
+.home-ink .home-ink-words {
+  position: relative;
+}
+
+.home-ink-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 0.85rem;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 14vw, 7.5rem);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.home-ink-title-accent {
+  position: relative;
+  color: var(--color-dawn);
+}
+
+.home-ink-brush {
+  position: absolute;
+  top: 0.92em;
+  right: -0.05em;
+  left: -0.03em;
+  height: 0.16em;
+}
+
+.home-ink-brush path {
+  stroke: var(--color-dawn);
+}
+
+.home-ink-brush .brush-stroke-main {
+  stroke-width: 0.075em;
+}
+
+.home-ink-brush .brush-stroke-bristle {
+  stroke-width: 0.014em;
+}
+
+.home-ink-gather {
+  margin-top: 2.25rem;
+}
+
+.home-ink-times {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+.home-ink-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1rem;
+  margin-top: 1.5rem;
+}
+
+.ink-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 3rem;
+  padding-inline: 1.25rem;
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  box-shadow: 4px 4px 0 var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  transition:
+    transform var(--dur-instant, 120ms) ease-out,
+    box-shadow var(--dur-instant, 120ms) ease-out;
+}
+
+.ink-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 var(--color-ink);
+}
+
+.ink-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--color-ink);
+}
+
+.ink-button:focus-visible {
+  outline: 2px solid var(--color-dawn);
+  outline-offset: 4px;
+}
+
+.ink-button-primary {
+  background: var(--color-dawn);
+  color: var(--color-paper);
+}
+
+.home-ink-sermon {
+  margin-top: 2.25rem;
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  box-shadow: 5px 5px 0 var(--color-ink);
+}
+
+.home-ink-sermon .sermon-frame-caption {
+  position: static;
+  gap: 0.15rem;
+  padding: 0.6rem 0.8rem 0.7rem;
+  border-top: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  color: var(--color-dawn);
+}
+
+.home-ink-sermon .sermon-frame-caption > span:first-child {
+  font-family: var(--font-brush);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.home-ink-sermon .sermon-frame-title {
+  color: var(--color-ink);
+}
+
+.home-ink-gloss {
+  max-width: 36rem;
+  margin-top: 1.75rem;
+  font-family: var(--font-serif);
+  font-size: var(--text-body-lg);
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+/* On a phone the card has no room for the band; the values get their own card next. */
+.home-ink-band {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .home-ink .home-ink-vision {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 30rem);
+    grid-template-rows: auto auto auto 1fr;
+    align-items: start;
+    column-gap: 4rem;
+    padding-top: 4.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .home-ink-title {
+    font-size: clamp(5rem, 7.6vw, 8.25rem);
+  }
+
+  .home-ink-words,
+  .home-ink-gather,
+  .home-ink-actions,
+  .home-ink-gloss {
+    grid-column: 1;
+  }
+
+  .home-ink-gather {
+    margin-top: 3rem;
+  }
+
+  .home-ink-sermon {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    align-self: center;
+    margin-top: 0;
+    box-shadow: 8px 8px 0 var(--color-ink);
+  }
+
+  .home-ink-band {
+    display: block;
+  }
+}
+
+/* Ink header: the call to action takes the same hard ink mark as the hero buttons. */
+html[data-home-design='ink']:has(.home-ink) .site-header-cta,
+html[data-home-design='poster']:has(.home-poster) .site-header-cta,
+html[data-home-design='harbor']:has(.home-poster) .site-header-cta {
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+  background: var(--color-dawn) !important;
+  box-shadow: 3px 3px 0 var(--color-ink);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    transform var(--dur-instant, 120ms) ease-out,
+    box-shadow var(--dur-instant, 120ms) ease-out;
+}
+
+/*
+ * Poster and Harbor: the hero already has the red button, so the header's is an outline.
+ * The colour is !important because the open nav drawer (globals.css) repaints this
+ * button's type in paper for the red gradient, which on an outline is invisible.
+ */
+html[data-home-design='poster']:has(.home-poster) .site-header-cta,
+html[data-home-design='harbor']:has(.home-poster) .site-header-cta {
+  background: var(--color-paper) !important;
+  color: var(--color-ink) !important;
+}
+
+html[data-home-design='ink']:has(.home-ink) .site-header-cta:hover,
+html[data-home-design='poster']:has(.home-poster) .site-header-cta:hover,
+html[data-home-design='harbor']:has(.home-poster) .site-header-cta:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--color-ink);
+}
+
+/*
+ * Photographs in the chapters. Each one says the chapter's words again without
+ * words: the preacher beside the latest message, one picture per value, the church
+ * gathered beside why we exist. Ink & Brush gives them the hard ink edge.
+ */
+.home-message-photo,
+.home-mission-photo,
+.home-value-photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-paper-deep);
+}
+
+.home-message-photo {
+  aspect-ratio: 16 / 10;
+  margin-bottom: 1.75rem;
+}
+
+.home-message-photo img {
+  object-position: 50% 22%;
+}
+
+.home-mission-photo {
+  aspect-ratio: 16 / 9;
+  margin-bottom: 1.75rem;
+}
+
+/* On a phone the three values share one card, so each photograph is a small square beside its words. */
+.home-value {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  align-items: start;
+  column-gap: 1rem;
+}
+
+.home-value-photo {
+  aspect-ratio: 1;
+}
+
+.home-ink .home-message-photo,
+.home-ink .home-mission-photo {
+  border: 2px solid var(--color-ink);
+  box-shadow: 5px 5px 0 var(--color-ink);
+}
+
+.home-ink .home-value-photo {
+  border: 2px solid var(--color-ink);
+}
+
+@media (min-width: 1024px) {
+  .home-message {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+    align-items: center;
+    column-gap: 4rem;
+  }
+
+  .home-message-photo {
+    grid-column: 2;
+    grid-row: 1;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 0;
+  }
+
+  .home-message-words {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-mission {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 32rem);
+    align-items: center;
+    column-gap: 4rem;
+  }
+
+  .home-mission-photo {
+    grid-column: 2;
+    grid-row: 1;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 0;
+  }
+
+  .home-mission-words {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-value {
+    display: block;
+  }
+
+  .home-value-photo {
+    aspect-ratio: 4 / 3;
+    margin-bottom: 1.25rem;
+  }
+
+  .home-ink .home-message-photo,
+  .home-ink .home-mission-photo {
+    box-shadow: 8px 8px 0 var(--color-ink);
+  }
+}
+
+/*
+ * Paper hero: an editorial spread. The vision and its two doors on the left; on the
+ * right a tall plate of the congregation with a caption, and the latest message as
+ * one hairline row beneath it. The times close the left column on a hairline.
+ * On a phone the photograph follows the two doors as a short, wide plate.
+ */
+.home-paper-times {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  order: -1;
+  margin-bottom: 2.5rem;
+}
+
+.home-paper-plate {
+  margin: 2.25rem 0 0;
+}
+
+.home-paper-photo {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-paper-deep);
+}
+
+.home-paper-caption {
+  margin-top: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+/* On a phone the latest message is the very next card, so the plate carries only the photograph. */
+.home-paper-message {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .home-paper .home-paper-vision {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 30rem);
+    grid-template-rows: 1fr auto;
+    column-gap: 5rem;
+    min-height: calc(100svh - 5rem);
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .home-paper-words {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .home-paper-times {
+    order: 0;
+    grid-column: 1;
+    grid-row: 2;
+    flex-direction: row;
+    align-items: end;
+    gap: 3rem;
+    margin: 2.5rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .home-paper-times > p {
+    padding-bottom: 0.5rem;
+  }
+
+  .home-paper-plate {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  /* Tall, but never so tall that the times and the latest message leave the first screen. */
+  .home-paper-photo {
+    aspect-ratio: auto;
+    height: min(37.5rem, calc(100svh - 21rem));
+  }
+
+  .home-paper-photo img {
+    object-position: 45% 50%;
+  }
+
+  .home-paper-caption {
+    margin-top: 0.75rem;
+  }
+
+  .home-paper .home-paper-message {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-rule);
+    transition: color var(--dur-instant, 120ms) ease-out;
+  }
+
+  .home-paper-message:hover .text-ink {
+    color: var(--color-dawn);
+  }
+
+  .home-paper-message-thumb {
+    position: relative;
+    flex: none;
+    width: 6rem;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-paper-deep);
+  }
+}
+
+/*
+ * Ink Sheet: the Ink & Brush menu. Hidden everywhere else; on the homepage set to
+ * Ink & Brush, the header row of links and Give step aside for one MENU stamp.
+ */
+.ink-sheet-trigger {
+  display: none;
+}
+
+html[data-home-design='ink']:has(.home-ink) .site-header-nav,
+html[data-home-design='ink']:has(.home-ink) .site-header-link {
+  display: none !important;
+}
+
+html[data-home-design='ink']:has(.home-ink) .ink-sheet-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.5rem;
+  padding-inline: 1rem;
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  box-shadow: 3px 3px 0 var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    transform var(--dur-instant, 120ms) ease-out,
+    box-shadow var(--dur-instant, 120ms) ease-out;
+}
+
+html[data-home-design='ink']:has(.home-ink) .ink-sheet-trigger:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--color-ink);
+}
+
+.ink-sheet-trigger:focus-visible,
+.ink-sheet-close:focus-visible,
+.ink-sheet-word:focus-visible,
+.ink-sheet-link:focus-visible,
+.ink-sheet-give:focus-visible {
+  outline: 2px solid var(--color-dawn);
+  outline-offset: 4px;
+}
+
+.ink-sheet-trigger-bars {
+  display: grid;
+  gap: 4px;
+  width: 1.1rem;
+}
+
+.ink-sheet-trigger-bars > span {
+  height: 2px;
+  background: var(--color-ink);
+}
+
+.ink-sheet-trigger-bars > span:last-child {
+  width: 70%;
+  background: var(--color-dawn);
+}
+
+/* The sheet itself: full screen, paper, drops in like a slide. */
+.ink-sheet {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  overscroll-behavior: contain;
+}
+
+.ink-sheet::backdrop {
+  background: transparent;
+}
+
+.ink-sheet[open] {
+  animation: ink-sheet-in 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes ink-sheet-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-sheet[open] {
+    animation: none;
+  }
+}
+
+.ink-sheet-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--container-page, 88rem);
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 4rem 2rem;
+}
+
+.ink-sheet-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.ink-sheet-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+  padding-inline: 1rem;
+  border: 2px solid var(--color-ink);
+  background: var(--color-ink);
+  box-shadow: 3px 3px 0 var(--color-dawn);
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+  cursor: pointer;
+}
+
+.ink-sheet-body {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem);
+  align-items: center;
+  gap: 4rem;
+  padding-block: 1.5rem;
+}
+
+.ink-sheet-words {
+  display: flex;
+  flex-direction: column;
+}
+
+.ink-sheet-word {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-block: 0.1rem;
+  color: var(--color-ink);
+}
+
+.ink-sheet-index {
+  min-width: 2.25rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-muted);
+}
+
+.ink-sheet-label {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(3.25rem, min(8vw, 11svh), 7rem);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  transition:
+    color 160ms ease-out,
+    transform 160ms ease-out;
+}
+
+/* The others step back (still 5.8:1, still links) so the pointed-at word reads as the slide title. */
+.ink-sheet-words:has(.ink-sheet-word[data-active])
+  .ink-sheet-word:not([data-active])
+  .ink-sheet-label {
+  color: color-mix(in srgb, var(--color-ink) 62%, var(--color-paper));
+}
+
+.ink-sheet-word[data-active] .ink-sheet-label {
+  transform: translateX(0.12em);
+}
+
+.ink-sheet-word[data-active] .ink-sheet-index {
+  color: var(--color-dawn);
+}
+
+.ink-sheet-brush {
+  position: absolute;
+  top: 0.86em;
+  right: -0.05em;
+  left: -0.04em;
+  height: 0.16em;
+}
+
+.ink-sheet-brush path {
+  stroke: var(--color-dawn);
+}
+
+.ink-sheet-brush .brush-stroke-main {
+  stroke-width: 0.075em;
+}
+
+.ink-sheet-brush .brush-stroke-bristle {
+  stroke-width: 0.014em;
+}
+
+.ink-sheet-panel {
+  align-self: center;
+}
+
+.ink-sheet-photo {
+  position: relative;
+  /* Sized by the screen's height so the times and the visit button stay on the sheet. */
+  height: min(19.5rem, 34svh);
+  overflow: hidden;
+  border: 2px solid var(--color-ink);
+  box-shadow: 8px 8px 0 var(--color-ink);
+  background: var(--color-paper-deep);
+  animation: ink-sheet-photo-in 240ms ease-out;
+}
+
+@keyframes ink-sheet-photo-in {
+  from {
+    opacity: 0;
+    transform: translate(6px, 6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-sheet-photo {
+    animation: none;
+  }
+}
+
+.ink-sheet-intro {
+  margin-top: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: var(--text-body-lg);
+  line-height: 1.4;
+  color: var(--color-ink);
+}
+
+.ink-sheet-links {
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+.ink-sheet-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--color-rule);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.ink-sheet-link:hover > span:first-child {
+  color: var(--color-dawn);
+}
+
+.ink-sheet-hint {
+  font-weight: 400;
+  color: var(--color-ink-soft);
+}
+
+.ink-sheet-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid var(--color-ink);
+}
+
+.ink-sheet-times {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.ink-sheet-times-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.ink-sheet-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.ink-sheet-give {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-dawn);
+  text-underline-offset: 6px;
+}
+
+/* Short laptop screens: the sub-pages keep their names and drop the hint line, so the foot stays in view. */
+@media (max-height: 780px) {
+  .ink-sheet-hint {
+    display: none;
+  }
+}
+
+/* Ministries has six pages: two columns keep its panel the same height as the others. */
+.ink-sheet-links:has(> li:nth-child(5)) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.5rem;
+}
+
+/*
+ * Poster and Harbor menu: the same voice as the poster's own labels ("SATURDAYS",
+ * "LATEST MESSAGE") — small spaced capitals in ink, a red underline on hover and on
+ * the open or current section. Colour is !important because the dusk-header rules in
+ * globals.css repaint these links while the drawer is open.
+ */
+html[data-home-design='poster']:has(.home-poster) .site-header-link,
+html[data-home-design='harbor']:has(.home-poster) .site-header-link {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink) !important;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 10px;
+}
+
+html[data-home-design='poster']:has(.home-poster) .site-header-link:hover,
+html[data-home-design='harbor']:has(.home-poster) .site-header-link:hover {
+  text-decoration-color: var(--color-dawn);
+}
+
+html[data-home-design='poster']:has(.home-poster) .site-header-nav ul,
+html[data-home-design='harbor']:has(.home-poster) .site-header-nav ul {
+  gap: 2.25rem;
+}
+
+/*
+ * Daylight: Current, with its arrival in daylight. Only the hero changes; the scroll
+ * scene stays mounted for Current and is hidden here. The header is held in its
+ * paper state (--hero-lock 1) since nothing dark sits behind it.
+ */
+.home-arrival-daylight {
+  display: none;
+}
+
+html[data-home-design='daylight'] .home-arrival-dusk {
+  display: none;
+}
+
+html[data-home-design='daylight'] .home-arrival-daylight {
+  display: block;
+}
+
+html[data-home-design='daylight'] {
+  --hero-lock: 1 !important;
+}
+
+.daylight-hero {
+  background: var(--color-paper);
+}
+
+/* The photograph as it was taken: no scrim, no tint. */
+.daylight-photo {
+  position: relative;
+  height: clamp(20rem, 52svh, 38rem);
+  overflow: hidden;
+  background: var(--color-paper-deep);
+}
+
+.daylight-photo img,
+.daylight-photo video {
+  object-position: 50% 62%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daylight-photo video {
+    display: none;
+  }
+}
+
+.daylight-band {
+  display: grid;
+  gap: 2rem;
+  padding-top: 2.25rem;
+  padding-bottom: 3rem;
+}
+
+.daylight-headline {
+  max-width: 16ch;
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 4.4vw, 5rem);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+@media (min-width: 1024px) {
+  .daylight-band {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: end;
+    column-gap: 4rem;
+  }
+
+  .daylight-gather {
+    padding-left: 2.5rem;
+    border-left: 1px solid var(--color-rule);
+  }
+}
+
+/*
+ * Current, lighter: the scrim now darkens only the lower half, so the words that sit
+ * higher on the photograph get a soft shadow to hold them off the sky and roof.
+ */
+.arrival-scene h1,
+.arrival-scene p,
+.arrival-scene dt,
+.arrival-scene dd {
+  text-shadow: 0 1px 14px rgb(0 0 0 / 0.45);
+}
+
+/*
+ * Poster and Harbor: every photograph in black and white, like the one inside the
+ * words, so red (or coral) is the only colour on the page. Pointing at a picture, or
+ * tabbing to it, brings its colour back: the people are still warm up close.
+ */
+.home-poster :is(.sermon-frame, .home-message-photo, .home-mission-photo, .home-value-photo, .home-doors-photo) img {
+  filter: grayscale(1) contrast(1.05);
+}
+
+.home-poster :is(.sermon-frame, .home-message-photo, .home-mission-photo, .home-value-photo, .home-doors-photo):is(:hover, :focus-within) img {
+  filter: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-poster :is(.sermon-frame, .home-message-photo, .home-mission-photo, .home-value-photo, .home-doors-photo) img {
+    transition: filter 400ms ease-out;
+  }
+}

@@ -171,7 +171,7 @@ export function ChurchScrollHero({ content, settings }: ChurchScrollHeroProps) {
 
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/80 via-55% to-dawn/35"
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/90 from-5% via-ink/55 via-50% to-ink/10"
         />
 
         <m.div

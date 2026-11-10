@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { ThemeToggle } from '@/components/immersive/theme-toggle'
 import { Container } from '@/components/layout/container'
+import { InkSheet } from '@/components/layout/ink-sheet'
 import { PrimaryNav } from '@/components/layout/primary-nav'
 import type { SiteSettings } from '@/types/content'
 
@@ -33,11 +34,11 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
             </span>
           </Link>
 
-          <div className="hidden min-w-0 flex-1 justify-center lg:flex">
+          <div className="site-header-nav hidden min-w-0 flex-1 justify-center lg:flex">
             <PrimaryNav />
           </div>
 
-          <div className="hidden shrink-0 items-center gap-6 lg:flex">
+          <div className="site-header-actions hidden shrink-0 items-center gap-6 lg:ml-auto lg:flex">
             {settings.isLive && settings.livestreamUrl ? (
               <a
                 className="inline-flex items-center gap-2 font-sans text-eyebrow text-dawn uppercase"
@@ -57,6 +58,7 @@ export function SiteHeader({ settings }: SiteHeaderProps) {
             >
               Give
             </a>
+            <InkSheet givingUrl={settings.givingUrl} times={settings.serviceTimes} />
             <Link
               className="site-header-cta inline-flex min-h-10 items-center rounded-full bg-grad-cta px-5 font-sans text-body-sm font-medium text-paper transition-[background-image] duration-[var(--dur-instant)] ease-out hover:bg-grad-cta-hover"
               href="/visit"
